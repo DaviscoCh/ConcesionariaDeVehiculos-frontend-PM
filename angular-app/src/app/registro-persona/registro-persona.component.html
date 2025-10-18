@@ -1,0 +1,18 @@
+<div style="height: 65px;"></div>
+<form [formGroup]="personaForm" (ngSubmit)="registrar()">
+  <div> <label>Correo:</label> <input formControlName="correo" type="email"> </div>
+  <div> <label>Contraseña:</label> <input formControlName="password" type="password"> </div>
+  <div> <label>Nombres:</label> <input formControlName="nombres" type="text"> </div>
+  <div> <label>Apellidos:</label> <input formControlName="apellidos" type="text"> </div>
+  <div> <label>Tipo de documento:</label> <input formControlName="tipo_documento" type="text"> </div>
+  <div> <label>Número de documento:</label> <input formControlName="documento" type="text"> </div>
+  <div> <label>Dirección:</label> <input formControlName="direccion" type="text"> </div>
+  <div> <label>Teléfono:</label> <input formControlName="telefono" type="text"> </div>
+  <div> <label>Fecha de nacimiento:</label> <input formControlName="fecha_nacimiento" type="date"> </div> <button
+    type="submit" [disabled]="personaForm.invalid || cargando"> {{ cargando ? 'Registrando...' : 'Registrar' }}
+  </button>
+</form>
+<div *ngIf="respuesta">
+  <h3>Respuesta:</h3>
+  <pre>{{ respuesta | json }}</pre>
+</div>

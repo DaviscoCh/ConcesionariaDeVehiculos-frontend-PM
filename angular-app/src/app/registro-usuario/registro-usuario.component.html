@@ -1,0 +1,10 @@
+<div style="height: 55px;"></div>
+<form [formGroup]="loginForm" (ngSubmit)="login()">
+  <div> <label>Correo:</label> <input formControlName="correo" type="email"> </div>
+  <div> <label>Contraseña:</label> <input formControlName="password" type="password"> </div> <button type="submit"
+    [disabled]="loginForm.invalid || cargando"> {{ cargando ? 'Ingresando...' : 'Iniciar sesión' }} </button>
+</form>
+<div *ngIf="respuesta">
+  <h3>Respuesta:</h3>
+  <pre>{{ respuesta | json }}</pre>
+</div>
