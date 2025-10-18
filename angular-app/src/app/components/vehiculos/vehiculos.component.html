@@ -1,0 +1,14 @@
+<div style="height: 35px;"></div>
+<h2>Vehículos disponibles</h2>
+<div *ngIf="cargando">Cargando...</div>
+<div *ngIf="!cargando && vehiculos.length === 0">No hay vehículos disponibles.</div>
+<div *ngIf="!cargando && vehiculos.length > 0">
+    <div *ngFor="let v of vehiculos"
+        style="border:1px solid #ccc; margin:10px; padding:10px; display:flex; align-items:center; justify-content:space-between;">
+        <div style="display:flex; align-items:center;"> <img [src]="v.imagen_url" alt="imagen" width="120" height="80"
+                style="margin-right:15px;">
+            <div> <strong>{{ v.marca }} {{ v.modelo }}</strong> ({{ v.anio }})<br> Precio: ${{ v.precio }}<br> Estado:
+                {{ v.estado }} </div>
+        </div> <button [routerLink]="['/vehiculos-detalle', v.id_vehiculo]">Ver detalle</button>
+    </div>
+</div>

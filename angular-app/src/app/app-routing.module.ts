@@ -1,0 +1,27 @@
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { AppComponent } from './app.component';
+import { RegistroPersonaComponent } from './registro-persona/registro-persona.component';
+import { RegistroUsuarioComponent } from './registro-usuario/registro-usuario.component';
+import { VehiculosComponent } from './components/vehiculos/vehiculos.component';
+import { HomeComponent } from './components/home/home.component';
+import { VehiculosDetalleComponent } from './components/vehiculos-detalle/vehiculos-detalle.component';
+import { CotizadorComponent } from './components/cotizador/cotizador.component';
+import { PerfilComponent } from './components/perfil/perfil.component';
+
+const routes: Routes = [
+  { path: '', component: AppComponent }, // o tu componente principal
+  { path: 'registro', component: RegistroPersonaComponent },
+  { path: 'login', component: RegistroUsuarioComponent },
+  { path: 'vehiculos', component: VehiculosComponent },
+  { path: 'vehiculos-detalle/:id', component: VehiculosDetalleComponent },
+  { path: 'home', component: HomeComponent },
+  { path: 'cotizador/:marca-modelo', component: CotizadorComponent },
+  { path: 'perfil', component: PerfilComponent },
+  { path: '**', redirectTo: 'home' }
+];
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
+})
+export class AppRoutingModule { }

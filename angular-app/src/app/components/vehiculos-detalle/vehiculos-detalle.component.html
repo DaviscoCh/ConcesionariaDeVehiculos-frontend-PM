@@ -1,0 +1,20 @@
+<div class="espaciado"></div>
+
+<div class="vehiculo-detalle" *ngIf="vehiculo as v">
+    <div class="vehiculo-card">
+        <h2>{{ v.marca }} {{ v.modelo }} - {{ v.anio }}</h2>
+
+        <img [src]="vehiculo.imagen_url" width="300" height="200" loading="lazy" />
+        <ul class="vehiculo-info">
+            <li><strong>Color:</strong> {{ v.color }}</li>
+            <li><strong>Precio:</strong> ${{ v.precio | number:'1.2-2' }}</li>
+            <li><strong>Tipo:</strong> {{ v.tipo }}</li>
+            <li><strong>Estado:</strong> {{ v.estado }}</li>
+            <li><strong>Descripción:</strong> {{ v.descripcion }}</li>
+            <li><strong>Fecha de ingreso:</strong> {{ v.fecha_ingreso | date }}</li>
+            <li><strong>Stock:</strong> {{ v.stock }}</li>
+        </ul>
+
+        <button (click)="comprar()" class="btn-principal">Comprar / Cotizar</button>
+    </div>
+</div>

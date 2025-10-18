@@ -1,0 +1,12 @@
+<nav class="navbar">
+  <div class="logo"> <span>Concesionaria <strong>CarPremier</strong></span> </div>
+  <ul class="nav-links">
+    <li><a routerLink="/home" routerLinkActive="active">Inicio</a></li>
+    <li><a routerLink="/vehiculos" routerLinkActive="active">Vehículos</a></li>
+    <li *ngIf="!usuarioAutenticado"><a routerLink="/login" routerLinkActive="active">Iniciar sesión</a></li>
+    <li *ngIf="!usuarioAutenticado"><a routerLink="/registro" routerLinkActive="active">Registrar Persona</a></li>
+    <li *ngIf="usuarioAutenticado"><a routerLink="/perfil" routerLinkActive="active">Perfil</a> </li>
+    <li *ngIf="usuarioAutenticado"><a (click)="cerrarSesion()" routerLinkActive="active">Cerrar sesión</a></li>
+  </ul>
+  <div *ngIf="usuarioAutenticado" class="bienvenida"> ¡Bienvenido, {{ nombreUsuario }}! </div>
+</nav> <router-outlet></router-outlet>

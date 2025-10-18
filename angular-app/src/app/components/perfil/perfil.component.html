@@ -1,0 +1,10 @@
+<div style="height: 55px;"></div>
+<div *ngIf="!error; else errorBlock">
+    <h2>Bienvenido, {{ nombre }} {{ apellido }}</h2>
+    <p><strong>Correo:</strong> {{ correo }}</p>
+    <p><strong>Estado:</strong> {{ estado }}</p>
+</div>
+
+<ng-template #errorBlock>
+    <p class="error">{{ error }}</p>
+</ng-template>
