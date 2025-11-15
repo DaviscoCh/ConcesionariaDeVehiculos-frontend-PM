@@ -41,28 +41,33 @@ export class RegistroUsuarioComponent {
         console.log('✅ Respuesta del login:', res);
 
         const token = res.token;
-        if (!token) {
-          console.warn('⚠️ No se recibió token');
+        const rol = res.rol;
+
+        if (!token || !rol) {
+          //console.warn('⚠️ Token o rol no recibido');
           this.cargando = false;
           return;
         }
 
         localStorage.setItem('token', token);
-        console.log('🧠 Token guardado:', token);
+        localStorage.setItem('rol', rol);
 
         const usuario = res.usuario;
-        if (!usuario) {
-          console.warn('⚠️ No se recibió usuario');
-          this.cargando = false;
-          return;
+        if (usuario) {
+          localStorage.setItem('usuario', JSON.stringify(usuario)); // ✅ Guarda el objeto completo con id_usuario
+          localStorage.setItem('nombre', usuario.nombres ?? '');
+          localStorage.setItem('apellido', usuario.apellidos ?? '');
+          localStorage.setItem('correo', usuario.correo ?? '');
         }
 
-        localStorage.setItem('nombre', usuario.nombres ?? '');
-        localStorage.setItem('apellido', usuario.apellidos ?? '');
-        localStorage.setItem('correo', usuario.correo ?? '');
+        console.log(`🎉 Bienvenido ${usuario?.nombres ?? ''} (${rol})`);
 
-        console.log(`🎉 Bienvenido ${usuario.nombres} ${usuario.apellidos}`);
-        this.router.navigate(['/home']);
+        // 🔁 Redirección según el rol
+        if (rol === 'admin') {
+          window.location.href = 'http://localhost:3001/admin/dashboard';
+        } else {
+          this.router.navigate(['/home']);
+        }
 
         this.cargando = false;
         this.loginForm.reset();

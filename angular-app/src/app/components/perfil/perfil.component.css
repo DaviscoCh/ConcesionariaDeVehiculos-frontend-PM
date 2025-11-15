@@ -1,0 +1,41 @@
+.perfil-section {
+    min-height: 90vh;
+    background: #f9fafb;
+    font-family: 'Poppins', sans-serif;
+}
+
+.perfil-section .card {
+    border: none;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background-color: #ffffffcc;
+}
+
+.perfil-section .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* Tabs */
+.nav-tabs .nav-link {
+    font-weight: 500;
+    color: #374151;
+    transition: all 0.3s;
+}
+
+.nav-tabs .nav-link.active {
+    color: #0d6efd;
+    border-bottom: 3px solid #0d6efd;
+}
+
+/* Botones */
+.btn-outline-primary {
+    border-radius: 0.5rem;
+    font-weight: 500;
+    transition: all 0.3s;
+}
+
+.btn-outline-primary:hover {
+    background-color: #0d6efd;
+    color: white;
+    transform: translateY(-2px);
+}

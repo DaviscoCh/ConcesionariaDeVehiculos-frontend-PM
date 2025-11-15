@@ -1,9 +1,49 @@
-<div style="height: 65px;"></div>
-<div class="cotizador-container">
-  <h2>Cotización para: {{ marca }} {{ modelo }}</h2> <!-- Aquí puedes agregar el formulario de cotización -->
-  <form> <label for="nombre">Nombre:</label> <input id="nombre" type="text" name="nombre"><br><br> <label
-      for="email">Correo electrónico:</label> <input id="email" type="email" name="email"><br><br> <label
-      for="mensaje">Mensaje:</label><br> <textarea id="mensaje" name="mensaje" rows="4" cols="50"></textarea><br><br>
-    <button type="submit">Enviar cotización</button>
-  </form>
-</div>
+<div style="height: 75px;"></div>
+<section class="cotizador-section py-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-6 col-lg-5">
+        <div class="card shadow-lg p-4 rounded-4 cotizador-card">
+          <h2 class="text-center fw-bold mb-4">🛒 Cotización de Vehículo</h2>
+
+          <!-- Información del vehículo -->
+          <div *ngIf="vehiculo" class="mb-3">
+            <p><strong>Marca:</strong> {{ marca }}</p>
+            <p><strong>Modelo:</strong> {{ modelo }}</p>
+            <p><strong>Precio:</strong> <span class="text-primary fw-bold">\${{ vehiculo.precio | number:'1.2-2'
+                }}</span></p>
+          </div>
+
+          <hr />
+
+          <!-- Selección de tarjeta -->
+          <h5 class="fw-semibold mb-3">💳 Selecciona una tarjeta para pagar</h5>
+          <div *ngIf="tarjetas.length > 0; else sinTarjetas">
+            <select class="form-select mb-3" [(ngModel)]="id_tarjeta_seleccionada" name="id_tarjeta" required>
+              <option value="" disabled selected>-- Selecciona una tarjeta --</option>
+              <option *ngFor="let t of tarjetas" [value]="t.id_tarjeta">
+                {{ t.nombre }} - ****{{ t.numero.slice(-4) }} ({{ t.tipo }})
+              </option>
+            </select>
+          </div>
+          <ng-template #sinTarjetas>
+            <div class="alert alert-warning">
+              No tienes tarjetas registradas. Ve a tu perfil para agregar una.
+            </div>
+          </ng-template>
+
+          <hr />
+
+          <!-- Botón confirmar -->
+          <div class="d-grid mt-3">
+            <button (click)="comprarVehiculo()" [disabled]="!id_tarjeta_seleccionada || tarjetas.length === 0"
+              class="btn btn-primary btn-lg">
+              Confirmar compra
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

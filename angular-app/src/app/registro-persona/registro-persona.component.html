@@ -1,18 +1,85 @@
-<div style="height: 65px;"></div>
-<form [formGroup]="personaForm" (ngSubmit)="registrar()">
-  <div> <label>Correo:</label> <input formControlName="correo" type="email"> </div>
-  <div> <label>Contraseña:</label> <input formControlName="password" type="password"> </div>
-  <div> <label>Nombres:</label> <input formControlName="nombres" type="text"> </div>
-  <div> <label>Apellidos:</label> <input formControlName="apellidos" type="text"> </div>
-  <div> <label>Tipo de documento:</label> <input formControlName="tipo_documento" type="text"> </div>
-  <div> <label>Número de documento:</label> <input formControlName="documento" type="text"> </div>
-  <div> <label>Dirección:</label> <input formControlName="direccion" type="text"> </div>
-  <div> <label>Teléfono:</label> <input formControlName="telefono" type="text"> </div>
-  <div> <label>Fecha de nacimiento:</label> <input formControlName="fecha_nacimiento" type="date"> </div> <button
-    type="submit" [disabled]="personaForm.invalid || cargando"> {{ cargando ? 'Registrando...' : 'Registrar' }}
-  </button>
-</form>
-<div *ngIf="respuesta">
-  <h3>Respuesta:</h3>
-  <pre>{{ respuesta | json }}</pre>
-</div>
+<div style="height: 55px;"></div>
+<section class="registro-section d-flex align-items-center justify-content-center">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-6 col-lg-5">
+        <div class="card shadow-lg p-4 rounded-4">
+          <h2 class="text-center fw-bold mb-4">Registrar Persona</h2>
+
+          <form [formGroup]="personaForm" (ngSubmit)="registrar()">
+            <div class="row g-3">
+
+              <!-- Correo -->
+              <div class="col-12">
+                <label for="correo" class="form-label">Correo electrónico</label>
+                <input id="correo" type="email" class="form-control" formControlName="correo"
+                  [class.is-invalid]="personaForm.get('correo')?.invalid && personaForm.get('correo')?.touched">
+                <div class="invalid-feedback">Ingresa un correo válido.</div>
+              </div>
+
+              <!-- Contraseña -->
+              <div class="col-12">
+                <label for="password" class="form-label">Contraseña</label>
+                <input id="password" type="password" class="form-control" formControlName="password"
+                  [class.is-invalid]="personaForm.get('password')?.invalid && personaForm.get('password')?.touched">
+                <div class="invalid-feedback">La contraseña es requerida.</div>
+              </div>
+
+              <!-- Nombres y Apellidos -->
+              <div class="col-md-6">
+                <label for="nombres" class="form-label">Nombres</label>
+                <input id="nombres" type="text" class="form-control" formControlName="nombres">
+              </div>
+              <div class="col-md-6">
+                <label for="apellidos" class="form-label">Apellidos</label>
+                <input id="apellidos" type="text" class="form-control" formControlName="apellidos">
+              </div>
+
+              <!-- Documento -->
+              <div class="col-md-6">
+                <label for="tipo_documento" class="form-label">Tipo de documento</label>
+                <input id="tipo_documento" type="text" class="form-control" formControlName="tipo_documento">
+              </div>
+              <div class="col-md-6">
+                <label for="documento" class="form-label">Número de documento</label>
+                <input id="documento" type="text" class="form-control" formControlName="documento">
+              </div>
+
+              <!-- Dirección y Teléfono -->
+              <div class="col-md-6">
+                <label for="direccion" class="form-label">Dirección</label>
+                <input id="direccion" type="text" class="form-control" formControlName="direccion">
+              </div>
+              <div class="col-md-6">
+                <label for="telefono" class="form-label">Teléfono</label>
+                <input id="telefono" type="text" class="form-control" formControlName="telefono">
+              </div>
+
+              <!-- Fecha de nacimiento -->
+              <div class="col-12">
+                <label for="fecha_nacimiento" class="form-label">Fecha de nacimiento</label>
+                <input id="fecha_nacimiento" type="date" class="form-control" formControlName="fecha_nacimiento">
+              </div>
+
+              <!-- Botón -->
+              <div class="col-12 mt-3 d-grid">
+                <button type="submit" class="btn btn-primary btn-lg" [disabled]="personaForm.invalid || cargando">
+                  <i *ngIf="cargando" class="spinner-border spinner-border-sm me-2"></i>
+                  {{ cargando ? 'Registrando...' : 'Registrar' }}
+                </button>
+              </div>
+
+            </div>
+          </form>
+
+          <!-- Respuesta de prueba -->
+          <div *ngIf="respuesta" class="mt-4">
+            <h5>Respuesta:</h5>
+            <pre class="bg-light p-2 rounded">{{ respuesta | json }}</pre>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

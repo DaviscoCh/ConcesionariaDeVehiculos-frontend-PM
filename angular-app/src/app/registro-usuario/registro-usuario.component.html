@@ -1,10 +1,53 @@
 <div style="height: 55px;"></div>
-<form [formGroup]="loginForm" (ngSubmit)="login()">
-  <div> <label>Correo:</label> <input formControlName="correo" type="email"> </div>
-  <div> <label>Contraseña:</label> <input formControlName="password" type="password"> </div> <button type="submit"
-    [disabled]="loginForm.invalid || cargando"> {{ cargando ? 'Ingresando...' : 'Iniciar sesión' }} </button>
-</form>
-<div *ngIf="respuesta">
-  <h3>Respuesta:</h3>
-  <pre>{{ respuesta | json }}</pre>
-</div>
+<section class="login-section d-flex align-items-center justify-content-center">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-5 col-lg-4">
+        <div class="card shadow-lg p-4 rounded-4">
+          <h2 class="text-center fw-bold mb-4">Iniciar sesión</h2>
+
+          <form [formGroup]="loginForm" (ngSubmit)="login()">
+            <!-- Correo -->
+            <div class="mb-3">
+              <label for="correo" class="form-label">Correo electrónico</label>
+              <input id="correo" type="email" class="form-control" formControlName="correo"
+                [class.is-invalid]="loginForm.get('correo')?.invalid && loginForm.get('correo')?.touched">
+              <div class="invalid-feedback">
+                Por favor ingresa un correo válido.
+              </div>
+            </div>
+
+            <!-- Contraseña -->
+            <div class="mb-4">
+              <label for="password" class="form-label">Contraseña</label>
+              <input id="password" type="password" class="form-control" formControlName="password"
+                [class.is-invalid]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+              <div class="invalid-feedback">
+                La contraseña es requerida.
+              </div>
+            </div>
+
+            <!-- Botón -->
+            <div class="d-grid">
+              <button type="submit" class="btn btn-primary btn-lg" [disabled]="loginForm.invalid || cargando">
+                <i *ngIf="cargando" class="spinner-border spinner-border-sm me-2"></i>
+                {{ cargando ? 'Ingresando...' : 'Iniciar sesión' }}
+              </button>
+            </div>
+          </form>
+
+          <!-- Respuesta de prueba -->
+          <div *ngIf="respuesta" class="mt-4">
+            <h5>Respuesta:</h5>
+            <pre class="bg-light p-2 rounded">{{ respuesta | json }}</pre>
+          </div>
+
+          <!-- Enlace de registro -->
+          <div class="text-center mt-3">
+            <small>¿No tienes cuenta? <a routerLink="/registro">Regístrate aquí</a></small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

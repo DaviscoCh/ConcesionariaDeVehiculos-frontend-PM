@@ -1,0 +1,85 @@
+/* === Dashboard.css === */
+
+.dashboard-container {
+    flex: 1;
+    padding: 40px;
+    background-color: #f9fafc;
+    min-height: 100vh;
+    color: #111a2e;
+}
+
+.dashboard-container h2 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 25px;
+    color: #111a2e;
+}
+
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 24px;
+}
+
+/* === Tarjetas generales === */
+.card {
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(17, 26, 46, 0.1);
+    padding: 24px;
+    text-align: center;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 20px rgba(17, 26, 46, 0.15);
+}
+
+.card h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.card p {
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+/* === Colores personalizados === */
+.total {
+    background-color: #e3f6fd;
+}
+
+.disponibles {
+    background-color: #eafcf0;
+}
+
+.agotados {
+    background-color: #fdecec;
+}
+
+.marcas {
+    background-color: #f2ecfd;
+}
+
+.modelos {
+    background-color: #fff5e3;
+}
+
+/* === Responsividad === */
+@media (max-width: 768px) {
+    .dashboard-container {
+        padding: 20px;
+    }
+
+    .card-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .card {
+        padding: 20px;
+    }
+}

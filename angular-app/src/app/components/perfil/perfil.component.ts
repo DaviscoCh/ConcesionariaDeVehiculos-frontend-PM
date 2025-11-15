@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UsuarioService } from '../../services/usuario.service';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-perfil',
@@ -13,8 +14,11 @@ export class PerfilComponent implements OnInit {
   correo: string = '';
   estado: string = '';
   error: string = '';
+  tarjetas: any[] = [];
 
-  constructor(private usuarioService: UsuarioService) { }
+  constructor(private usuarioService: UsuarioService,
+    private http: HttpClient
+  ) { }
 
   ngOnInit(): void {
     this.usuarioService.getPerfil().subscribe({
@@ -23,6 +27,8 @@ export class PerfilComponent implements OnInit {
         this.apellido = data.apellidos;
         this.correo = data.correo;
         this.estado = data.estado;
+
+        this.cargarTarjetas(); // ✅ actualiza tarjetas al entrar
       },
       error: (err) => {
         console.error('❌ Error al cargar perfil:', err);
@@ -30,5 +36,16 @@ export class PerfilComponent implements OnInit {
       }
     });
   }
+
+  cargarTarjetas(): void {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    this.http.get<any>('http://localhost:3000/api/tarjetas', { headers }).subscribe({
+      next: (res: any) => this.tarjetas = res.tarjetas,
+      error: (err: any) => console.error('Error al cargar tarjetas:', err)
+    });
+  }
+
 }
 

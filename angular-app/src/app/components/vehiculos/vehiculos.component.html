@@ -1,14 +1,42 @@
-<div style="height: 35px;"></div>
-<h2>Vehículos disponibles</h2>
-<div *ngIf="cargando">Cargando...</div>
-<div *ngIf="!cargando && vehiculos.length === 0">No hay vehículos disponibles.</div>
-<div *ngIf="!cargando && vehiculos.length > 0">
-    <div *ngFor="let v of vehiculos"
-        style="border:1px solid #ccc; margin:10px; padding:10px; display:flex; align-items:center; justify-content:space-between;">
-        <div style="display:flex; align-items:center;"> <img [src]="v.imagen_url" alt="imagen" width="120" height="80"
-                style="margin-right:15px;">
-            <div> <strong>{{ v.marca }} {{ v.modelo }}</strong> ({{ v.anio }})<br> Precio: ${{ v.precio }}<br> Estado:
-                {{ v.estado }} </div>
-        </div> <button [routerLink]="['/vehiculos-detalle', v.id_vehiculo]">Ver detalle</button>
+<div style="height: 75px;"></div>
+<!-- Eliminamos el espacio blanco -->
+<section class="vehiculos py-5 bg-light">
+    <div class="container">
+        <h2 class="text-center fw-bold mb-5">Vehículos Disponibles</h2>
+
+        <!-- Indicadores de carga -->
+        <div *ngIf="cargando" class="text-center text-muted">
+            <div class="spinner-border text-primary" role="status"></div>
+            <p class="mt-2">Cargando vehículos...</p>
+        </div>
+
+        <div *ngIf="!cargando && vehiculos.length === 0" class="alert alert-warning text-center">
+            No hay vehículos disponibles en este momento.
+        </div>
+
+        <!-- Catálogo de vehículos -->
+        <div *ngIf="!cargando && vehiculos.length > 0" class="row g-4">
+            <div class="col-md-4 col-lg-3" *ngFor="let v of vehiculos">
+                <div class="card vehiculo-card shadow-sm h-100 border-0">
+                    <div class="vehiculo-img-container">
+                        <img [src]="v.imagen_url" alt="{{ v.marca }} {{ v.modelo }}" class="card-img-top vehiculo-img">
+                        <div class="vehiculo-overlay">
+                            <a [routerLink]="['/vehiculos-detalle', v.id_vehiculo]" class="btn btn-primary btn-sm">
+                                <i class="bi bi-eye"></i> Ver detalle
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="card-body text-center">
+                        <h5 class="card-title mb-1">{{ v.marca }} {{ v.modelo }}</h5>
+                        <p class="text-muted mb-2">{{ v.anio }}</p>
+                        <p class="fw-bold text-primary mb-1">\${{ v.precio | number }}</p>
+                        <span class="badge" [ngClass]="v.estado === 'Disponible' ? 'bg-success' : 'bg-secondary'">
+                            {{ v.estado }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
+</section>

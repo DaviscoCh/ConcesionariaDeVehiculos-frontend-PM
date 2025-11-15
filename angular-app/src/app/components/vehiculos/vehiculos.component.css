@@ -11,6 +11,82 @@
     padding: 40px 20px;
 }
 
+/* Contenedor principal */
+.vehiculos {
+    background-color: #f9fafb;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Tarjetas */
+.vehiculo-card {
+    transition: all 0.3s ease;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.vehiculo-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Imagen del vehículo */
+.vehiculo-img-container {
+    position: relative;
+    overflow: hidden;
+}
+
+.vehiculo-img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.vehiculo-card:hover .vehiculo-img {
+    transform: scale(1.1);
+}
+
+/* Overlay con botón */
+.vehiculo-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.4s ease;
+}
+
+.vehiculo-card:hover .vehiculo-overlay {
+    opacity: 1;
+}
+
+/* Botón en overlay */
+.vehiculo-overlay .btn {
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+}
+
+/* Títulos y texto */
+.card-title {
+    font-weight: 600;
+}
+
+.badge {
+    font-size: 0.85rem;
+    padding: 0.4rem 0.6rem;
+    border-radius: 8px;
+}
+
+/* Ajustes responsive */
+@media (max-width: 767px) {
+    .vehiculo-img {
+        height: 150px;
+    }
+}
+
 /* Título principal */
 .vehiculos-section h2 {
     color: #0a1f44;

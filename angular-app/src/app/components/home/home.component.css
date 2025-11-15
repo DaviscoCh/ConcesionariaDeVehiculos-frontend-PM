@@ -1,0 +1,39 @@
+/* HERO con imagen de fondo */
+.hero {
+    background: linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.55)),
+        url('https://images.unsplash.com/photo-1503736334956-4c8f8e92946d?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
+    height: 100vh;
+    color: #fff;
+}
+
+/* Animación ligera */
+@import 'https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css';
+
+/* Tarjetas */
+.hover-card {
+    transition: all 0.3s ease;
+}
+
+.hover-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* CTA */
+.cta {
+    background: linear-gradient(135deg, #0d6efd, #111827);
+}
+
+/* Ajustes generales */
+h1,
+h2 {
+    font-family: 'Poppins', sans-serif;
+}
+
+p {
+    font-family: 'Open Sans', sans-serif;
+}
+
+.card-title {
+    font-weight: 600;
+}

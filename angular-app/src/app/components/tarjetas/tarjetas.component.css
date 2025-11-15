@@ -1,0 +1,60 @@
+.tarjetas-section {
+    min-height: 90vh;
+    background: #f3f4f6;
+    font-family: 'Poppins', sans-serif;
+}
+
+.tarjetas-card {
+    background-color: #ffffffcc;
+    border: none;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.tarjetas-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* Tarjetas individuales */
+.tarjeta-item {
+    border-radius: 0.75rem;
+    background: linear-gradient(135deg, #e0f2fe, #bae6fd);
+    padding: 1rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.tarjeta-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* Inputs y select */
+.form-control,
+.form-select {
+    border-radius: 0.5rem;
+}
+
+/* Botones */
+.btn-primary {
+    background: linear-gradient(135deg, #0d6efd, #1e3a8a);
+    border: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+}
+
+.btn-outline-success {
+    border-radius: 0.5rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-outline-success:hover {
+    background-color: #22c55e;
+    color: white;
+    transform: translateY(-2px);
+}
