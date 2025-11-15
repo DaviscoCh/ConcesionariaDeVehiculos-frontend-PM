@@ -21,9 +21,15 @@ export class UsuarioService {
   }
 
   loginUsuario(datos: any): Observable<any> {
-    return this.http.post<{ token: string }>(`${this.apiUrl}/login`, datos).pipe(
+    return this.http.post<{ token: string; rol: string; usuario: any }>(`${this.apiUrl}/login`, datos).pipe(
       tap(response => {
-        localStorage.setItem('token', response.token);
+        if (isPlatformBrowser(this.platformId)) {
+          localStorage.setItem('token', response.token);
+          localStorage.setItem('rol', response.rol);
+          localStorage.setItem('nombre', response.usuario?.nombres ?? '');
+          localStorage.setItem('apellido', response.usuario?.apellidos ?? '');
+          localStorage.setItem('correo', response.usuario?.correo ?? '');
+        }
         this.autenticado.next(true);
       })
     );
@@ -46,7 +52,11 @@ export class UsuarioService {
 
   isAuthenticated(): boolean {
     if (isPlatformBrowser(this.platformId)) {
-      return !!localStorage.getItem('token');
+      const token = localStorage.getItem('token');
+      const rol = localStorage.getItem('rol');
+
+      // Solo considerar autenticado si hay token y rol válido
+      return !!token && (rol === 'usuario' || rol === 'admin');
     }
     return false;
   }
@@ -54,6 +64,7 @@ export class UsuarioService {
   logout(): void {
     if (isPlatformBrowser(this.platformId)) {
       localStorage.removeItem('token');
+      localStorage.removeItem('rol'); // ✅ esto es lo que faltaba
       localStorage.removeItem('nombre');
       localStorage.removeItem('apellido');
       localStorage.removeItem('correo');

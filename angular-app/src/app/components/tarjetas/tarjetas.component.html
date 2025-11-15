@@ -1,0 +1,94 @@
+<section class="tarjetas-section py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card shadow-lg p-4 rounded-4 tarjetas-card">
+                    <h2 class="fw-bold mb-4 text-center">💳 Mis Tarjetas</h2>
+
+                    <!-- Lista de tarjetas -->
+                    <div *ngIf="tarjetas.length > 0; else sinTarjetas">
+                        <div class="row row-cols-1 row-cols-md-2 g-3 mb-4">
+                            <div *ngFor="let t of tarjetas" class="col">
+                                <div class="card p-3 tarjeta-item shadow-sm">
+                                    <p><strong>Nombre:</strong> {{ t.nombre }}</p>
+                                    <p><strong>Número:</strong> **** **** **** {{ t.numero.slice(-4) }}</p>
+                                    <p><strong>Vencimiento:</strong> {{ t.vencimiento }}</p>
+                                    <p><strong>Tipo:</strong> {{ t.tipo | titlecase }}</p>
+                                    <!--
+                                    <p><strong>Saldo:</strong> <span class="text-success fw-bold">\${{ t.saldo |
+                                            number:'1.2-2' }}</span></p>
+                                            -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <ng-template #sinTarjetas>
+                        <div class="alert alert-warning mb-4">
+                            No tienes tarjetas registradas aún.
+                        </div>
+                    </ng-template>
+
+                    <hr />
+
+                    <!-- Agregar nueva tarjeta -->
+                    <h4 class="fw-semibold mb-3">➕ Agregar nueva tarjeta</h4>
+                    <form (ngSubmit)="agregarTarjeta()" class="row g-3 mb-4">
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" placeholder="Número de tarjeta"
+                                [(ngModel)]="nuevaTarjeta.numero" name="numero" required />
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" placeholder="Nombre en la tarjeta"
+                                [(ngModel)]="nuevaTarjeta.nombre" name="nombre" required />
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" placeholder="Vencimiento (MM/AA)"
+                                [(ngModel)]="nuevaTarjeta.vencimiento" name="vencimiento" required />
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" placeholder="CVV" [(ngModel)]="nuevaTarjeta.cvv"
+                                name="cvv" required />
+                        </div>
+                        <div class="col-md-4">
+                            <select class="form-select" [(ngModel)]="nuevaTarjeta.tipo" name="tipo">
+                                <option value="prepago">Prepago</option>
+                                <option value="credito">Crédito</option>
+                            </select>
+                        </div>
+                        <div class="col-12 d-grid">
+                            <button type="submit" class="btn btn-primary btn-lg">Registrar tarjeta</button>
+                        </div>
+                    </form>
+
+                    <hr />
+
+                    <!-- Recargar saldo
+                    <h4 class="fw-semibold mb-3">💰 Recargar saldo</h4>
+                    <form (ngSubmit)="recargarSaldo()" class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <select class="form-select" [(ngModel)]="recarga.id_tarjeta" name="id_tarjeta" required>
+                                <option value="" disabled selected>Selecciona tarjeta</option>
+                                <option *ngFor="let t of tarjetas" [value]="t.id_tarjeta">
+                                    {{ t.nombre }} - ****{{ t.numero.slice(-4) }}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="number" class="form-control" placeholder="Monto a recargar"
+                                [(ngModel)]="recarga.monto" name="monto" required />
+                        </div>
+                        <div class="col-12 d-grid">
+                            <button type="submit" class="btn btn-outline-success btn-lg">Recargar</button>
+                        </div>
+                    </form>
+
+                    <div *ngIf="mensaje" class="alert alert-success">{{ mensaje }}</div>
+                    <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+                    -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

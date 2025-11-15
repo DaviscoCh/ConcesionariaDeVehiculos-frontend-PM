@@ -1,10 +1,68 @@
-<div style="height: 55px;"></div>
-<div *ngIf="!error; else errorBlock">
-    <h2>Bienvenido, {{ nombre }} {{ apellido }}</h2>
-    <p><strong>Correo:</strong> {{ correo }}</p>
-    <p><strong>Estado:</strong> {{ estado }}</p>
-</div>
+<div style="height: 75px;"></div>
+<section class="perfil-section py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
 
-<ng-template #errorBlock>
-    <p class="error">{{ error }}</p>
-</ng-template>
+                <div class="card shadow-lg p-4 rounded-4">
+                    <h2 class="fw-bold mb-4 text-center">Mi Perfil</h2>
+
+                    <!-- Alertas de error -->
+                    <ng-container *ngIf="!error; else errorBlock">
+
+                        <!-- Pestañas -->
+                        <ul class="nav nav-tabs mb-4" id="perfilTabs" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="perfil-tab" data-bs-toggle="tab"
+                                    data-bs-target="#perfil" type="button" role="tab">Perfil</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="historial-tab" data-bs-toggle="tab"
+                                    data-bs-target="#historial" type="button" role="tab">Historial</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="tarjetas-tab" data-bs-toggle="tab"
+                                    data-bs-target="#tarjetas" type="button" role="tab">Tarjetas</button>
+                            </li>
+                        </ul>
+
+                        <!-- Contenido de pestañas -->
+                        <div class="tab-content" id="perfilTabsContent">
+
+                            <!-- PERFIL -->
+                            <div class="tab-pane fade show active" id="perfil" role="tabpanel">
+                                <div class="mb-3">
+                                    <h4>Bienvenido, {{ nombre }} {{ apellido }}</h4>
+                                    <p><strong>Correo:</strong> {{ correo }}</p>
+                                    <p><strong>Estado:</strong> {{ estado }}</p>
+                                </div>
+                                <div class="d-flex gap-2">
+                                    <button routerLink="/editar-perfil" class="btn btn-outline-primary">Editar
+                                        perfil</button>
+                                </div>
+                            </div>
+
+                            <!-- HISTORIAL -->
+                            <div class="tab-pane fade" id="historial" role="tabpanel">
+                                <app-historial-citas></app-historial-citas>
+                            </div>
+
+                            <!-- TARJETAS -->
+                            <div class="tab-pane fade" id="tarjetas" role="tabpanel">
+                                <app-tarjetas></app-tarjetas>
+                            </div>
+
+                        </div>
+
+                    </ng-container>
+
+                    <!-- ERROR -->
+                    <ng-template #errorBlock>
+                        <div class="alert alert-danger">{{ error }}</div>
+                    </ng-template>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

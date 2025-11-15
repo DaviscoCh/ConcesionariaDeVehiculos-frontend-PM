@@ -8,18 +8,21 @@ import { HomeComponent } from './components/home/home.component';
 import { VehiculosDetalleComponent } from './components/vehiculos-detalle/vehiculos-detalle.component';
 import { CotizadorComponent } from './components/cotizador/cotizador.component';
 import { PerfilComponent } from './components/perfil/perfil.component';
+import { AuthGuard } from './guards/auth.guard';
+import { ReservarCitaComponent } from './components/reservar-cita/reservar-cita.component';
 
 const routes: Routes = [
-  { path: '', component: AppComponent }, // o tu componente principal
   { path: 'registro', component: RegistroPersonaComponent },
   { path: 'login', component: RegistroUsuarioComponent },
   { path: 'vehiculos', component: VehiculosComponent },
   { path: 'vehiculos-detalle/:id', component: VehiculosDetalleComponent },
   { path: 'home', component: HomeComponent },
-  { path: 'cotizador/:marca-modelo', component: CotizadorComponent },
-  { path: 'perfil', component: PerfilComponent },
+  { path: 'cotizador/:marca-modelo', component: CotizadorComponent, canActivate: [AuthGuard] },
+  { path: 'perfil', component: PerfilComponent, canActivate: [AuthGuard] },
+  { path: 'reservar-cita', component: ReservarCitaComponent, canActivate: [AuthGuard] },
   { path: '**', redirectTo: 'home' }
 ];
+
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]

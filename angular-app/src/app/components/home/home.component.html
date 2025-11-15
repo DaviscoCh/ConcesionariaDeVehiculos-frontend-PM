@@ -1,2 +1,50 @@
-<div style="height: 35px;"></div>
-<p>home works!</p>
+<!-- ESPACIADOR para no tapar con el navbar -->
+<div style="height: 60px;"></div>
+
+<!-- HERO PRINCIPAL -->
+<section class="hero d-flex align-items-center text-center text-light">
+    <div class="container">
+        <h1 class="display-4 fw-bold mb-3 animate__animated animate__fadeInDown">
+            Bienvenido a <span class="text-primary">CarPremier</span>
+        </h1>
+        <p class="lead mb-4 animate__animated animate__fadeInUp">
+            Encuentra el vehículo de tus sueños con la mejor calidad, estilo y rendimiento.
+        </p>
+        <a routerLink="/vehiculos" class="btn btn-primary btn-lg shadow">
+            <i class="bi bi-car-front-fill me-2"></i> Ver Vehículos
+        </a>
+    </div>
+</section>
+
+<!-- SECCIÓN DE DESTACADOS -->
+<section class="py-5 bg-light text-center">
+    <div class="container">
+        <h2 class="fw-bold mb-5">Vehículos Destacados</h2>
+        <div class="row g-4">
+            <div class="col-md-4" *ngFor="let auto of autosDestacados">
+                <div class="card h-100 shadow-sm border-0 hover-card">
+                    <img [src]="auto.imagen" class="card-img-top" alt="{{ auto.nombre }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ auto.nombre }}</h5>
+                        <p class="card-text text-muted">{{ auto.descripcion }}</p>
+                        <p class="fw-bold text-primary mb-3">\${{ auto.precio | number }}</p>
+                        <a routerLink="/vehiculos" class="btn btn-outline-primary btn-sm">
+                            Ver más
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SECCIÓN LLAMADA A LA ACCIÓN -->
+<section class="cta text-light text-center py-5">
+    <div class="container">
+        <h2 class="fw-bold mb-3">¿Listo para conducir tu nuevo auto?</h2>
+        <p class="mb-4">Regístrate hoy y accede a ofertas exclusivas en CarPremier.</p>
+        <a routerLink="/registro" class="btn btn-light btn-lg text-dark fw-semibold">
+            <i class="bi bi-person-plus me-2"></i> Registrar Persona
+        </a>
+    </div>
+</section>

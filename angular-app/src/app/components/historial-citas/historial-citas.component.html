@@ -1,0 +1,42 @@
+<div style="height: 75px;"></div>
+<section class="historial-section py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card shadow-lg p-4 rounded-4 historial-card">
+                    <h2 class="fw-bold mb-4 text-center">📅 Historial de Citas</h2>
+
+                    <div *ngIf="citas.length > 0; else sinCitas">
+                        <div class="row row-cols-1 row-cols-md-2 g-3 mb-4">
+                            <div *ngFor="let c of citas" class="col">
+                                <div class="card p-3 compra-item shadow-sm">
+                                    <p><strong>Vehículo:</strong> {{ c.modelo }} - {{ c.anio }}</p>
+                                    <p><strong>Fecha:</strong> {{ c.fecha | date:'mediumDate' }}</p>
+                                    <p><strong>Hora:</strong> {{ c.hora }}</p>
+                                    <p><strong>Estado:</strong>
+                                        <span [ngClass]="{
+                      'text-warning': c.estado === 'Pendiente',
+                      'text-success': c.estado === 'Confirmada',
+                      'text-danger': c.estado === 'Cancelada'
+                    }">{{ c.estado }}</span>
+                                    </p>
+                                    <p><strong>Comentario:</strong> {{ c.comentario || '—' }}</p>
+                                    <p *ngIf="c.estado === 'Confirmada' && c.fecha < today"><strong>✔ Cumplida</strong>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <ng-template #sinCitas>
+                        <div class="alert alert-warning text-center mb-4">
+                            No tienes citas registradas aún.
+                        </div>
+                    </ng-template>
+
+                    <div *ngIf="error" class="alert alert-danger text-center">{{ error }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,96 @@
+/* === ModelosForm.css === */
+
+.modelos-form {
+    background-color: #ffffff;
+    padding: 1.5rem 2rem;
+    margin-top: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 600px;
+}
+
+/* === Campos === */
+.modelos-form select,
+.modelos-form input {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid #ccd2e3;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
+    box-sizing: border-box;
+}
+
+.modelos-form select:focus,
+.modelos-form input:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.15);
+    outline: none;
+}
+
+/* === Botones === */
+.modelos-form button {
+    border: none;
+    outline: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    flex: 1;
+}
+
+.modelos-form button[type="submit"] {
+    background-color: #28a745;
+    color: white;
+}
+
+.modelos-form button[type="submit"]:hover {
+    background-color: #218838;
+}
+
+.modelos-form button[type="button"] {
+    background-color: #6c757d;
+    color: white;
+}
+
+.modelos-form button[type="button"]:hover {
+    background-color: #5a6268;
+}
+
+/* Contenedor de los botones */
+.form-buttons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+/* === Mensaje de éxito === */
+.modelos-form .mensaje-exito {
+    background-color: #eafcf0;
+    color: #1e7c39;
+    border: 1px solid #b7e4c7;
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-weight: 500;
+    width: fit-content;
+    margin-top: 10px;
+}
+
+/* === Responsividad === */
+@media (max-width: 768px) {
+    .modelos-form {
+        padding: 1rem;
+    }
+
+    .form-buttons {
+        flex-direction: column;
+    }
+
+    .modelos-form button {
+        width: 100%;
+    }
+}

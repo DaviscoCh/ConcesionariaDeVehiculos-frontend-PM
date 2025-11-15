@@ -1,0 +1,159 @@
+/* === MarcasPage.css === */
+
+.marcas-container {
+    flex: 1;
+    padding: 40px;
+    background-color: #f9fafc;
+    min-height: 100vh;
+    color: #111a2e;
+}
+
+.marcas-container h2 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 25px;
+    color: #111a2e;
+}
+
+/* Mensaje de éxito */
+.marcas-container>div[style] {
+    background-color: #eafcf0;
+    color: #1e7c39 !important;
+    border: 1px solid #b7e4c7;
+    border-radius: 8px;
+    padding: 10px 15px;
+    width: fit-content;
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+/* === Tabla === */
+.marcas-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 25px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(17, 26, 46, 0.1);
+}
+
+.marcas-table th {
+    background-color: #111a2e;
+    color: #ffffff;
+    text-align: left;
+    padding: 12px 16px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    letter-spacing: 0.5px;
+}
+
+.marcas-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid #e6e9ef;
+    font-size: 0.95rem;
+}
+
+.marcas-table tr:nth-child(even) {
+    background-color: #f5f7fb;
+}
+
+/* === Botones === */
+.marcas-table button {
+    border: none;
+    outline: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    margin-right: 8px;
+}
+
+.marcas-table button:first-of-type {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.marcas-table button:first-of-type:hover {
+    background-color: #0062cc;
+}
+
+.marcas-table button:last-of-type {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+.marcas-table button:last-of-type:hover {
+    background-color: #b02a37;
+}
+
+/* === Formulario (MarcasForm) === */
+form {
+    background-color: #ffffff;
+    padding: 20px 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(17, 26, 46, 0.1);
+    margin-bottom: 25px;
+    max-width: 600px;
+}
+
+form label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+    color: #111a2e;
+}
+
+form input,
+form textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ccd2e3;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    font-size: 0.95rem;
+    transition: border-color 0.2s ease;
+}
+
+form input:focus,
+form textarea:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+form button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+form button:hover {
+    background-color: #218838;
+}
+
+/* === Responsividad === */
+@media (max-width: 768px) {
+    .marcas-container {
+        padding: 20px;
+    }
+
+    .marcas-table th,
+    .marcas-table td {
+        font-size: 0.85rem;
+        padding: 10px;
+    }
+
+    form {
+        padding: 15px;
+    }
+
+    form button {
+        width: 100%;
+    }
+}

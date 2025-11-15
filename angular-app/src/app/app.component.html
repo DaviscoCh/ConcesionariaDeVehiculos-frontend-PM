@@ -1,12 +1,48 @@
-<nav class="navbar">
-  <div class="logo"> <span>Concesionaria <strong>CarPremier</strong></span> </div>
-  <ul class="nav-links">
-    <li><a routerLink="/home" routerLinkActive="active">Inicio</a></li>
-    <li><a routerLink="/vehiculos" routerLinkActive="active">Vehículos</a></li>
-    <li *ngIf="!usuarioAutenticado"><a routerLink="/login" routerLinkActive="active">Iniciar sesión</a></li>
-    <li *ngIf="!usuarioAutenticado"><a routerLink="/registro" routerLinkActive="active">Registrar Persona</a></li>
-    <li *ngIf="usuarioAutenticado"><a routerLink="/perfil" routerLinkActive="active">Perfil</a> </li>
-    <li *ngIf="usuarioAutenticado"><a (click)="cerrarSesion()" routerLinkActive="active">Cerrar sesión</a></li>
-  </ul>
-  <div *ngIf="usuarioAutenticado" class="bienvenida"> ¡Bienvenido, {{ nombreUsuario }}! </div>
-</nav> <router-outlet></router-outlet>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm fixed-top">
+  <div class="container-fluid px-4">
+    <!-- LOGO -->
+    <a class="navbar-brand d-flex align-items-center" routerLink="/home">
+      <i class="bi bi-car-front-fill me-2 text-primary fs-4"></i>
+      <span>Concesionaria <strong>CarPremier</strong></span>
+    </a>
+
+    <!-- BOTÓN RESPONSIVE -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
+      aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- LINKS -->
+    <div class="collapse navbar-collapse" id="navbarContent">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/home" routerLinkActive="active">Inicio</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/vehiculos" routerLinkActive="active">Vehículos</a>
+        </li>
+
+        <li *ngIf="!usuarioAutenticado" class="nav-item">
+          <a class="nav-link" routerLink="/login" routerLinkActive="active">Iniciar sesión</a>
+        </li>
+        <li *ngIf="!usuarioAutenticado" class="nav-item">
+          <a class="nav-link" routerLink="/registro" routerLinkActive="active">Registrar Persona</a>
+        </li>
+
+        <li *ngIf="usuarioAutenticado" class="nav-item">
+          <a class="nav-link" routerLink="/perfil" routerLinkActive="active">Perfil</a>
+        </li>
+        <li *ngIf="usuarioAutenticado" class="nav-item">
+          <a class="nav-link text-danger" (click)="cerrarSesion()" routerLinkActive="active">Cerrar sesión</a>
+        </li>
+
+        <li *ngIf="usuarioAutenticado" class="nav-item ms-lg-3">
+          <span class="badge bg-primary p-2">¡Bienvenido, {{ nombreUsuario }}!</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- CONTENIDO PRINCIPAL -->
+<router-outlet></router-outlet>

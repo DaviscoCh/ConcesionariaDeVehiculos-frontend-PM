@@ -1,0 +1,33 @@
+<div style="height: 63px;"></div>
+
+<form (ngSubmit)="reservarCita()" #form="ngForm" class="p-4 border rounded shadow-sm bg-light">
+    <div class="mb-3">
+        <label class="form-label">Oficina:</label>
+        <select name="id_oficina" class="form-select" [(ngModel)]="cita.id_oficina" required
+            (change)="actualizarHorasDisponibles()">
+            <option value="" disabled selected>Selecciona una oficina</option>
+            <option *ngFor="let o of oficinas" [value]="o.id_oficina">{{ o.nombre }} - {{ o.direccion }}</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Fecha:</label>
+        <input type="date" name="fecha" class="form-control" [(ngModel)]="cita.fecha" [min]="minFecha" required
+            (change)="actualizarHorasDisponibles()" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Hora:</label>
+        <select name="hora" class="form-select" [(ngModel)]="cita.hora" required>
+            <option value="" disabled selected>Selecciona una hora</option>
+            <option *ngFor="let h of horasDisponibles" [value]="h">{{ h }}</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Comentario:</label>
+        <textarea name="comentario" class="form-control" [(ngModel)]="cita.comentario" rows="3"></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-primary w-100">Reservar cita</button>
+</form>

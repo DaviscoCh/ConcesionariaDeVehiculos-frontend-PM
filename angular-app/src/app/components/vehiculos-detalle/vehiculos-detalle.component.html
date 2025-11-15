@@ -1,20 +1,46 @@
-<div class="espaciado"></div>
+<div style="height: 165px;"></div>
+<!-- Eliminamos el espacio superior -->
+<section class="vehiculo-detalle" *ngIf="vehiculo as v">
+    <div class="container py-5">
+        <div class="row g-5 align-items-center">
+            <!-- Imagen -->
+            <div class="col-md-6 text-center">
+                <div class="vehiculo-img-wrapper shadow-sm">
+                    <img [src]="v.imagen_url" alt="{{ v.marca }} {{ v.modelo }}" class="img-fluid rounded vehiculo-img"
+                        loading="lazy">
+                </div>
+            </div>
 
-<div class="vehiculo-detalle" *ngIf="vehiculo as v">
-    <div class="vehiculo-card">
-        <h2>{{ v.marca }} {{ v.modelo }} - {{ v.anio }}</h2>
+            <!-- Información -->
+            <div class="col-md-6">
+                <h2 class="fw-bold mb-3">{{ v.marca }} {{ v.modelo }} <span class="text-muted">({{ v.anio }})</span>
+                </h2>
 
-        <img [src]="vehiculo.imagen_url" width="300" height="200" loading="lazy" />
-        <ul class="vehiculo-info">
-            <li><strong>Color:</strong> {{ v.color }}</li>
-            <li><strong>Precio:</strong> ${{ v.precio | number:'1.2-2' }}</li>
-            <li><strong>Tipo:</strong> {{ v.tipo }}</li>
-            <li><strong>Estado:</strong> {{ v.estado }}</li>
-            <li><strong>Descripción:</strong> {{ v.descripcion }}</li>
-            <li><strong>Fecha de ingreso:</strong> {{ v.fecha_ingreso | date }}</li>
-            <li><strong>Stock:</strong> {{ v.stock }}</li>
-        </ul>
+                <ul class="list-unstyled vehiculo-info mb-4">
+                    <li><strong>Color:</strong> {{ v.color }}</li>
+                    <li><strong>Precio:</strong> <span class="text-primary fw-bold">\${{ v.precio | number:'1.2-2'
+                            }}</span></li>
+                    <li><strong>Tipo:</strong> {{ v.tipo }}</li>
+                    <li><strong>Estado:</strong>
+                        <span class="badge" [ngClass]="v.estado === 'Disponible' ? 'bg-success' : 'bg-secondary'">
+                            {{ v.estado }}
+                        </span>
+                    </li>
+                    <!--
+                    <li><strong>Stock:</strong> {{ v.stock }}</li>
+                    -->
+                    <li><strong>Fecha de ingreso:</strong> {{ v.fecha_ingreso | date }}</li>
+                </ul>
 
-        <button (click)="comprar()" class="btn-principal">Comprar / Cotizar</button>
+                <div class="descripcion mb-4">
+                    <h5 class="fw-semibold">Descripción</h5>
+                    <p class="text-muted">{{ v.descripcion }}</p>
+                </div>
+
+                <button (click)="reservarCita()" class="btn btn-lg btn-primary px-4 shadow-sm">
+                    <i class="bi bi-calendar-check me-2"></i> Reservar cita
+                </button>
+            </div>
+        </div>
     </div>
-</div>
+</section>

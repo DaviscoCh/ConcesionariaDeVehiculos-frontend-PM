@@ -1,0 +1,99 @@
+/* === MarcasForm.css === */
+
+.marcas-form {
+    background-color: #ffffff;
+    padding: 24px 28px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(17, 26, 46, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 600px;
+}
+
+/* === Campos de texto === */
+.marcas-form input {
+    width: 95%;
+    padding: 10px 14px;
+    border: 1px solid #ccd2e3;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.marcas-form input:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.15);
+    outline: none;
+}
+
+/* === Botones === */
+.marcas-form button {
+    border: none;
+    outline: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    flex: 1;
+}
+
+.marcas-form button[type="submit"] {
+    background-color: #28a745;
+    color: white;
+}
+
+.marcas-form button[type="submit"]:hover {
+    background-color: #218838;
+}
+
+.marcas-form button[type="button"] {
+    background-color: #6c757d;
+    color: white;
+}
+
+.marcas-form button[type="button"]:hover {
+    background-color: #5a6268;
+}
+
+/* === Mensaje de éxito === */
+.mensaje-exito {
+    background-color: #eafcf0;
+    color: #1e7c39;
+    border: 1px solid #b7e4c7;
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-weight: 500;
+    width: fit-content;
+    margin-top: 10px;
+    animation: fadeIn 0.4s ease;
+}
+
+/* Animación sutil de aparición */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* === Responsividad === */
+@media (max-width: 768px) {
+    .marcas-form {
+        padding: 18px;
+    }
+
+    .marcas-form div {
+        flex-direction: column;
+    }
+
+    .marcas-form button {
+        width: 100%;
+    }
+}

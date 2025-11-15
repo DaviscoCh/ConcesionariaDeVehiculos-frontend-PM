@@ -1,0 +1,39 @@
+.historial-section {
+    min-height: 90vh;
+    background: #f3f4f6;
+    font-family: 'Poppins', sans-serif;
+}
+
+.historial-card {
+    background-color: #ffffffcc;
+    border: none;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.historial-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* Compras individuales */
+.compra-item {
+    border-radius: 0.75rem;
+    background: linear-gradient(135deg, #fef3c7, #fde68a);
+    padding: 1rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.compra-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* Textos */
+.compra-item p {
+    margin-bottom: 0.4rem;
+}
+
+/* Alertas */
+.alert {
+    font-size: 0.95rem;
+}

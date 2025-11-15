@@ -1,0 +1,58 @@
+/* Estilo general del navbar */
+.navbar {
+    transition: all 0.3s ease;
+    font-family: 'Poppins', sans-serif;
+    letter-spacing: 0.3px;
+}
+
+/* Logo */
+.navbar-brand {
+    font-weight: 600;
+    color: #f9fafb !important;
+}
+
+.navbar-brand strong {
+    color: #0d6efd;
+    /* azul Bootstrap */
+}
+
+/* Enlaces */
+.nav-link {
+    color: #e5e7eb !important;
+    font-weight: 500;
+    margin: 0 6px;
+    transition: all 0.2s ease-in-out;
+}
+
+.nav-link:hover {
+    color: #60a5fa !important;
+    transform: translateY(-1px);
+}
+
+/* Enlace activo */
+.nav-link.active {
+    color: #60a5fa !important;
+    font-weight: 600;
+    border-bottom: 2px solid #60a5fa;
+}
+
+/* Bienvenida */
+.badge {
+    font-size: 0.9rem;
+    border-radius: 10px;
+}
+
+/* Efecto al hacer scroll */
+.navbar.scrolled {
+    background-color: rgba(17, 24, 39, 0.95) !important;
+    backdrop-filter: blur(8px);
+}
+
+/* Mejor experiencia móvil */
+.navbar-toggler {
+    border: none;
+}
+
+.navbar-toggler:focus {
+    box-shadow: none;
+}
