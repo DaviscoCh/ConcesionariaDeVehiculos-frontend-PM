@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -9,23 +9,35 @@ export class CitaService {
 
   constructor(private http: HttpClient) { }
 
+  private getAuthHeaders() {
+    const token = localStorage.getItem('token');
+    return {
+      headers: new HttpHeaders({
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      })
+    };
+  }
+
   crearCita(cita: any) {
-    return this.http.post('http://localhost:3000/api/citas', cita, {
-      headers: { 'Content-Type': 'application/json' }
-    });
+    return this.http.post(`${this.apiUrl}`, cita, this.getAuthHeaders());
   }
 
   obtenerCitas() {
     return this.http.get(this.apiUrl);
   }
 
+  obtenerHistorialUsuario() {
+    return this.http.get(`${this.apiUrl}/historial`, this.getAuthHeaders());
+  }
+
   verificarDisponibilidad(fecha: string, hora: string, id_oficina: string) {
     const params = { fecha, hora, id_oficina };
-    return this.http.get<{ disponible: boolean }>('http://localhost:3000/api/citas/disponibilidad', { params });
+    return this.http.get<{ disponible: boolean }>(`${this.apiUrl}/disponibilidad`, { params });
   }
 
   obtenerHorasOcupadas(fecha: string, id_oficina: string) {
     const params = { fecha, id_oficina };
-    return this.http.get<{ horas: string[] }>('http://localhost:3000/api/citas/horas-ocupadas', { params });
+    return this.http.get<{ horas: string[] }>(`${this.apiUrl}/horas-ocupadas`, { params });
   }
 }

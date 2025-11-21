@@ -34,7 +34,6 @@ export class RegistroUsuarioComponent {
 
     this.cargando = true;
     const { correo, password } = this.loginForm.value;
-    console.log('📨 Enviando credenciales:', correo, password);
 
     this.usuarioService.loginUsuario({ correo, password }).subscribe({
       next: (res: any) => {
@@ -44,17 +43,29 @@ export class RegistroUsuarioComponent {
         const rol = res.rol;
 
         if (!token || !rol) {
-          //console.warn('⚠️ Token o rol no recibido');
           this.cargando = false;
           return;
         }
 
+        // 🚫 ADMIN → NO GUARDAR NADA
+        if (rol === 'admin') {
+          console.warn("🚫 Admin detectado → NO guardar token/rol en Angular");
+
+          // Limpia cualquier rastro previo
+          localStorage.clear();
+
+          // Redirige directo al panel admin React
+          window.location.href = "http://localhost:3001/admin/dashboard";
+          return; // IMPORTANTE: nunca continuar
+        }
+
+        // ✔ USUARIO NORMAL → Guardar data
         localStorage.setItem('token', token);
         localStorage.setItem('rol', rol);
 
         const usuario = res.usuario;
         if (usuario) {
-          localStorage.setItem('usuario', JSON.stringify(usuario)); // ✅ Guarda el objeto completo con id_usuario
+          localStorage.setItem('usuario', JSON.stringify(usuario));
           localStorage.setItem('nombre', usuario.nombres ?? '');
           localStorage.setItem('apellido', usuario.apellidos ?? '');
           localStorage.setItem('correo', usuario.correo ?? '');
@@ -62,12 +73,7 @@ export class RegistroUsuarioComponent {
 
         console.log(`🎉 Bienvenido ${usuario?.nombres ?? ''} (${rol})`);
 
-        // 🔁 Redirección según el rol
-        if (rol === 'admin') {
-          window.location.href = 'http://localhost:3001/admin/dashboard';
-        } else {
-          this.router.navigate(['/home']);
-        }
+        this.router.navigate(['/home']);
 
         this.cargando = false;
         this.loginForm.reset();

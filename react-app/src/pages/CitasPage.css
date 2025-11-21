@@ -1,0 +1,75 @@
+.citas-container {
+    padding: 20px;
+}
+
+.citas-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.citas-table th,
+.citas-table td {
+    border: 1px solid #ccc;
+    padding: 8px;
+}
+
+.mensaje-exito {
+    color: green;
+    margin-bottom: 10px;
+}
+
+.estado {
+    font-weight: bold;
+    padding: 4px 8px;
+    border-radius: 4px;
+    text-transform: uppercase;
+}
+
+.estado-pendiente {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.estado-confirmada {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.estado-atendida {
+    background-color: #cce5ff;
+    color: #004085;
+}
+
+.estado-cancelada {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.estado-select {
+    font-weight: bold;
+    padding: 4px 6px;
+    border-radius: 4px;
+    border: none;
+    outline: none;
+}
+
+.estado-pendiente {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.estado-confirmada {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.estado-atendida {
+    background-color: #cce5ff;
+    color: #004085;
+}
+
+.estado-cancelada {
+    background-color: #f8d7da;
+    color: #721c24;
+}

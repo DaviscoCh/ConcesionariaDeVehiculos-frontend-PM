@@ -5,8 +5,6 @@ import './Dashboard.css'; // ✅ crea este archivo para estilos
 function Dashboard() {
     const [stats, setStats] = useState({
         totalVehiculos: 0,
-        disponibles: 0,
-        agotados: 0,
         totalMarcas: 0,
         totalModelos: 0
     });
@@ -23,13 +21,9 @@ function Dashboard() {
         ]);
 
         const totalVehiculos = vehRes.data.length;
-        const disponibles = vehRes.data.filter(v => v.estado === 'Disponible').length;
-        const agotados = vehRes.data.filter(v => v.estado === 'Agotado').length;
 
         setStats({
             totalVehiculos,
-            disponibles,
-            agotados,
             totalMarcas: marcasRes.data.length,
             totalModelos: modelosRes.data.length
         });
@@ -42,14 +36,6 @@ function Dashboard() {
                 <div className="card total">
                     <h3>Total Vehículos</h3>
                     <p>{stats.totalVehiculos}</p>
-                </div>
-                <div className="card disponibles">
-                    <h3>Disponibles</h3>
-                    <p>{stats.disponibles}</p>
-                </div>
-                <div className="card agotados">
-                    <h3>Agotados</h3>
-                    <p>{stats.agotados}</p>
                 </div>
                 <div className="card marcas">
                     <h3>Total Marcas</h3>

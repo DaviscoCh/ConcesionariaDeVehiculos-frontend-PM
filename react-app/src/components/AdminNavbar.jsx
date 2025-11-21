@@ -8,22 +8,20 @@ function AdminNavbar() {
         { path: '/admin/dashboard', label: 'Dashboard', icon: '📊' },
         { path: '/admin/vehiculos', label: 'Vehículos', icon: '🚗' },
         { path: '/admin/marcas', label: 'Marcas', icon: '🏷️' },
-        { path: '/admin/modelos', label: 'Modelos', icon: '📦' }
+        { path: '/admin/modelos', label: 'Modelos', icon: '📦' },
+        { path: '/admin/citas', label: 'Citas', icon: '📅' }
     ];
 
     const handleLogout = () => {
-        // ✅ Elimina todos los datos de sesión
-        localStorage.removeItem('token');
-        localStorage.removeItem('rol');
-        localStorage.removeItem('nombre');
-        localStorage.removeItem('apellido');
-        localStorage.removeItem('correo');
-
-        // ✅ Refuerza limpieza con clear
         localStorage.clear();
-
-        // ✅ Redirige sin guardar historial
-        window.location.replace('http://localhost:4200');
+        localStorage.removeItem("token");
+        localStorage.removeItem("rol");
+        localStorage.removeItem("usuario");
+        localStorage.removeItem("nombre");
+        localStorage.removeItem("apellido");
+        window.location.href = 'http://localhost:4200/home';
+        localStorage.clear();
+        sessionStorage.clear();
     };
 
     return (

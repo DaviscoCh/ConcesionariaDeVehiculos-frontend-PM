@@ -5,14 +5,14 @@
         <label class="form-label">Oficina:</label>
         <select name="id_oficina" class="form-select" [(ngModel)]="cita.id_oficina" required
             (change)="actualizarHorasDisponibles()">
-            <option value="" disabled selected>Selecciona una oficina</option>
+            <option value="" disabled>Selecciona una oficina</option>
             <option *ngFor="let o of oficinas" [value]="o.id_oficina">{{ o.nombre }} - {{ o.direccion }}</option>
         </select>
     </div>
 
     <div class="mb-3">
         <label class="form-label">Fecha:</label>
-        <input type="date" name="fecha" class="form-control" [(ngModel)]="cita.fecha" [min]="minFecha" required
+        <input type="date" name="fecha" class="form-control" [(ngModel)]="cita.fecha" [min]="minFecha"
             (change)="actualizarHorasDisponibles()" />
     </div>
 
@@ -27,6 +27,11 @@
     <div class="mb-3">
         <label class="form-label">Comentario:</label>
         <textarea name="comentario" class="form-control" [(ngModel)]="cita.comentario" rows="3"></textarea>
+    </div>
+
+    <div class="alert alert-info mb-3" *ngIf="cita.id_oficina && cita.fecha && cita.hora">
+        <strong>Resumen:</strong> Tu cita está programada para el <strong>{{ cita.fecha | date:'fullDate' }}</strong> a
+        las <strong>{{ cita.hora }}</strong> en la oficina <strong>{{ getNombreOficina(cita.id_oficina) }}</strong>.
     </div>
 
     <button type="submit" class="btn btn-primary w-100">Reservar cita</button>
