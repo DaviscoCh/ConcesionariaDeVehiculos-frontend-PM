@@ -12,6 +12,7 @@ import { AuthGuard } from './guards/auth.guard';
 import { ReservarCitaComponent } from './components/reservar-cita/reservar-cita.component';
 
 const routes: Routes = [
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'registro', component: RegistroPersonaComponent },
   { path: 'login', component: RegistroUsuarioComponent },
   { path: 'vehiculos', component: VehiculosComponent },

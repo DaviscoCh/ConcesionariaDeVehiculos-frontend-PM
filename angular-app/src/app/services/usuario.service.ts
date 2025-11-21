@@ -21,6 +21,16 @@ export class UsuarioService {
   }
 
   loginUsuario(datos: any): Observable<any> {
+
+    // 🚫 Bloquear correos de administradores ANTES de enviar al backend
+    const correoAdmin = "admin@admin.com"; // AJÚSTALO AL QUE USAS
+
+    if (datos.correo === correoAdmin) {
+      return new Observable((observer) => {
+        observer.error({ mensaje: "No autorizado para iniciar sesión en esta sección." });
+      });
+    }
+
     return this.http.post<{ token: string; rol: string; usuario: any }>(`${this.apiUrl}/login`, datos).pipe(
       tap(response => {
         if (isPlatformBrowser(this.platformId)) {
@@ -30,7 +40,13 @@ export class UsuarioService {
           localStorage.setItem('apellido', response.usuario?.apellidos ?? '');
           localStorage.setItem('correo', response.usuario?.correo ?? '');
         }
+
         this.autenticado.next(true);
+
+        // Redirección de admin
+        if (response.rol === 'admin') {
+          window.location.href = 'http://localhost:3001/admin/dashboard';
+        }
       })
     );
   }
@@ -50,25 +66,11 @@ export class UsuarioService {
     return this.http.get(url);
   }
 
-  isAuthenticated(): boolean {
-    if (isPlatformBrowser(this.platformId)) {
-      const token = localStorage.getItem('token');
-      const rol = localStorage.getItem('rol');
-
-      // Solo considerar autenticado si hay token y rol válido
-      return !!token && (rol === 'usuario' || rol === 'admin');
-    }
-    return false;
-  }
-
   logout(): void {
     if (isPlatformBrowser(this.platformId)) {
-      localStorage.removeItem('token');
-      localStorage.removeItem('rol'); // ✅ esto es lo que faltaba
-      localStorage.removeItem('nombre');
-      localStorage.removeItem('apellido');
-      localStorage.removeItem('correo');
+      localStorage.clear();
     }
+
     this.autenticado.next(false);
   }
 
@@ -77,7 +79,35 @@ export class UsuarioService {
     return new HttpHeaders().set('Authorization', `Bearer ${token}`);
   }
 
+  isLogged(): boolean {
+    if (typeof window === 'undefined') return false;
+    return !!localStorage.getItem('token');
+  }
+
+
   actualizarEstado(): void {
-    this.autenticado.next(this.isAuthenticated());
+    const estado = this.isAuthenticated();
+    this.autenticado.next(estado);
+  }
+
+  isAuthenticated(): boolean {
+    if (!isPlatformBrowser(this.platformId)) return false;
+
+    const token = localStorage.getItem('token');
+    if (!token) return false;
+
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+
+      // ⛔ Agregar esta validación
+      if (payload.rol === 'admin') {
+        return false; // Un admin NO puede entrar a Angular
+      }
+
+      const exp = payload.exp * 1000;
+      return exp > Date.now();
+    } catch {
+      return false;
+    }
   }
 }
