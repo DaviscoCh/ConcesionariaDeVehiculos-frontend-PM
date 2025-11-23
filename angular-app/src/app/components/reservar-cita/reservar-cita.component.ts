@@ -17,20 +17,22 @@ import Swal from 'sweetalert2';
 })
 export class ReservarCitaComponent implements OnInit {
   cita = {
-    id_usuario: '', // lo obtendrás del login
+    id_usuario: '',
     id_vehiculo: '',
     id_oficina: '',
     fecha: '',
     hora: '',
     comentario: ''
   };
-  private citaAutocompletada = false;
+
   vehiculo: any;
   oficinas: any[] = [];
   mensajeExito = '';
-  minFecha = new Date().toISOString().split('T')[0]; // formato YYYY-MM-DD
+  minFecha = new Date().toISOString().split('T')[0];
+  horasDisponibles: string[] = [];
 
-  constructor(private citaService: CitaService,
+  constructor(
+    private citaService: CitaService,
     private vehiculoService: VehiculoService,
     private oficinaService: OficinaService,
     private router: Router
@@ -43,8 +45,7 @@ export class ReservarCitaComponent implements OnInit {
     if (state?.vehiculo) {
       this.vehiculo = state.vehiculo;
       this.cita.id_vehiculo = state.vehiculo.id_vehiculo;
-      localStorage.setItem('vehiculo_para_cita', JSON.stringify(state.vehiculo)); // respaldo
-      console.log('Usuario cargado:', this.cita.id_usuario);
+      localStorage.setItem('vehiculo_para_cita', JSON.stringify(state.vehiculo));
     } else {
       const vehiculoGuardado = localStorage.getItem('vehiculo_para_cita');
       if (vehiculoGuardado) {
@@ -60,9 +61,44 @@ export class ReservarCitaComponent implements OnInit {
     const usuario = JSON.parse(localStorage.getItem('usuario') || '{}');
     this.cita.id_usuario = usuario.id_usuario;
 
+    // Cargar oficinas
     this.oficinaService.obtenerOficinas().subscribe((data: any) => {
       this.oficinas = data;
-      this.autocompletarPrimeraCitaDisponible();
+      // Autocompletar con el mejor horario disponible
+      this.autocompletarMejorHorario();
+    });
+  }
+
+  // ✅ NUEVA FUNCIÓN: Autocompletar usando el endpoint del backend
+  autocompletarMejorHorario() {
+    this.citaService.obtenerMejorHorarioDisponible().subscribe({
+      next: (horario) => {
+        // Convertir fecha ISO a formato YYYY-MM-DD para el input date
+        this.cita.fecha = horario.fecha.includes('T')
+          ? horario.fecha.split('T')[0]
+          : horario.fecha;
+
+        // Normalizar hora (solo HH:MM)
+        this.cita.hora = horario.hora.substring(0, 5);
+
+        this.cita.id_oficina = horario.id_oficina;
+
+        // Autocompletar comentario descriptivo
+        if (this.vehiculo && !this.cita.comentario) {
+          this.cita.comentario = `Cotización de ${this.vehiculo.marca} ${this.vehiculo.modelo} ${this.vehiculo.anio}`;
+        }
+
+        // Cargar horarios disponibles de esa fecha/oficina
+        this.actualizarHorasDisponibles();
+      },
+      error: (err) => {
+        console.error('Error al obtener horario disponible:', err);
+        Swal.fire({
+          icon: 'info',
+          title: 'Sin disponibilidad',
+          text: 'No hay horarios disponibles en los próximos días.',
+        });
+      }
     });
   }
 
@@ -97,56 +133,37 @@ export class ReservarCitaComponent implements OnInit {
       return;
     }
 
-    // Verificar disponibilidad antes de confirmar
-    this.citaService.verificarDisponibilidad(fecha, hora, id_oficina).subscribe({
-      next: (res) => {
-        if (!res.disponible) {
-          Swal.fire({
-            icon: 'warning',
-            title: 'Horario ocupado',
-            text: 'La oficina ya tiene una cita en esa fecha y hora. Por favor elige otro horario.',
-            confirmButtonText: 'Entendido'
-          }).then(() => {
-            this.cita.hora = '';
-          });
-          return;
-        }
-
-        // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-        // 🟦 MOSTRAR SWEETALERT DE CONFIRMACIÓN
-        // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-        Swal.fire({
-          icon: 'question',
-          title: '¿Confirmar cita?',
-          html: `
-          <p>Vehículo: <strong>${this.vehiculo.marca} ${this.vehiculo.modelo} (${this.vehiculo.anio})</strong></p>
-          <p>Fecha: <strong>${this.cita.fecha}</strong></p>
-          <p>Hora: <strong>${this.cita.hora}</strong></p>
-          <p>Oficina: <strong>${this.getNombreOficina(this.cita.id_oficina)}</strong></p>
-        `,
-          showCancelButton: true,
-          confirmButtonText: 'Confirmar',
-          cancelButtonText: 'Cancelar'
-        }).then(result => {
-          if (result.isConfirmed) {
-            this.crearCitaFinal();  // 👉 Solo aquí se crea la cita de verdad
-          }
-        });
-      },
-
-      error: (err) => {
-        console.error('Error al verificar disponibilidad:', err);
-        Swal.fire({
-          icon: 'error',
-          title: 'Error de verificación',
-          text: 'No se pudo verificar la disponibilidad. Intenta más tarde.',
-          confirmButtonText: 'Cerrar'
-        });
+    // Mostrar confirmación
+    Swal.fire({
+      icon: 'question',
+      title: '¿Confirmar cita?',
+      html: `
+        <p>Vehículo: <strong>${this.vehiculo.marca} ${this.vehiculo.modelo} (${this.vehiculo.anio})</strong></p>
+        <p>Fecha: <strong>${this.cita.fecha}</strong></p>
+        <p>Hora: <strong>${this.cita.hora}</strong></p>
+        <p>Oficina: <strong>${this.getNombreOficina(this.cita.id_oficina)}</strong></p>
+      `,
+      showCancelButton: true,
+      confirmButtonText: 'Confirmar',
+      cancelButtonText: 'Cancelar'
+    }).then(result => {
+      if (result.isConfirmed) {
+        this.crearCitaFinal();
       }
     });
   }
 
   crearCitaFinal() {
+    // Normalizar hora (solo HH:MM)
+    if (this.cita.hora.includes(':')) {
+      this.cita.hora = this.cita.hora.substring(0, 5);
+    }
+
+    // Normalizar fecha (solo YYYY-MM-DD)
+    if (this.cita.fecha.includes('T')) {
+      this.cita.fecha = this.cita.fecha.split('T')[0];
+    }
+
     this.citaService.crearCita(this.cita).subscribe({
       next: () => {
         Swal.fire({
@@ -156,6 +173,8 @@ export class ReservarCitaComponent implements OnInit {
           confirmButtonText: 'Perfecto'
         });
         localStorage.removeItem('vehiculo_para_cita');
+
+        // Limpiar el formulario
         this.cita = {
           id_usuario: this.cita.id_usuario,
           id_vehiculo: this.cita.id_vehiculo,
@@ -164,143 +183,59 @@ export class ReservarCitaComponent implements OnInit {
           hora: '',
           comentario: ''
         };
+
+        // Autocompletar siguiente horario disponible
+        this.autocompletarMejorHorario();
       },
       error: (err) => {
         console.error('Error al reservar cita:', err);
+
+        // Mensaje específico si el horario ya fue tomado
+        const mensajeError = err.error?.error === 'El horario seleccionado ya está reservado'
+          ? 'El horario que seleccionaste acaba de ser reservado por otro usuario. Por favor elige otro.'
+          : 'Hubo un problema al registrar la cita. Intenta nuevamente.';
+
         Swal.fire({
           icon: 'error',
           title: 'Error al reservar',
-          text: 'Hubo un problema al registrar la cita. Intenta nuevamente.',
+          text: mensajeError,
           confirmButtonText: 'Cerrar'
+        }).then(() => {
+          // Recargar horarios disponibles
+          this.autocompletarMejorHorario();
         });
       }
     });
   }
-
 
   getNombreOficina(id: string): string {
     const oficina = this.oficinas.find(o => o.id_oficina === id);
     return oficina ? oficina.nombre : '';
   }
 
-  horasDisponibles: string[] = [];
-  todasLasHoras: string[] = [
-    '08:00', '09:00', '10:00', '11:00', '12:00',
-    '13:00', '14:00', '15:00', '16:00', '17:00'
-  ];
-
+  // Actualizar horarios disponibles cuando cambia fecha u oficina
   actualizarHorasDisponibles() {
-    if (this.cita.fecha && this.cita.id_oficina) {
-      this.citaService.obtenerHorasOcupadas(this.cita.fecha, this.cita.id_oficina).subscribe({
-        next: (res) => {
-          const ocupadas = res.horas.map((h: string) => this.normalizarHora(h));
-          this.horasDisponibles = this.todasLasHoras.filter(h => !ocupadas.includes(h));
-          console.log("Ocupadas DB:", res.horas);
-          console.log("Comparando con:", this.todasLasHoras);
+    if (!this.cita.fecha || !this.cita.id_oficina) return;
 
-          // ❗ Si la hora actual NO está disponible, limpiarla
-          if (!this.horasDisponibles.includes(this.cita.hora)) {
-            this.cita.hora = ''; // se debe volver a escoger
+    this.citaService.obtenerHorariosDisponibles(this.cita.fecha, this.cita.id_oficina)
+      .subscribe({
+        next: (res) => {
+          this.horasDisponibles = res.horarios ?? [];
+
+          // Si la hora actual ya no está disponible, limpiar
+          if (this.cita.hora && !this.horasDisponibles.includes(this.cita.hora)) {
+            this.cita.hora = '';
           }
 
-          // (Opcional) autoseleccionar la primera hora disponible
-          if (this.horasDisponibles.length > 0) {
+          // Autoseleccionar la primera disponible si no hay hora seleccionada
+          if (!this.cita.hora && this.horasDisponibles.length > 0) {
             this.cita.hora = this.horasDisponibles[0];
           }
         },
-        error: (err) => console.error('Error al obtener horas ocupadas:', err)
-      });
-    }
-  }
-
-  normalizarHora(hora: string): string {
-    const partes = hora.split(':');
-    const h = partes[0].padStart(2, '0');
-    const m = (partes[1] ?? '00').padStart(2, '0');
-    return `${h}:${m}`;
-  }
-
-  async autocompletarPrimeraCitaDisponible() {
-    const fechas = Array.from({ length: 3 }, (_, i) => {
-      const d = new Date();
-      d.setDate(d.getDate() + i);
-      return d.toISOString().split('T')[0];
-    });
-
-    for (const fecha of fechas) {
-      const promesas = this.oficinas.map(oficina =>
-        this.citaService.obtenerHorasOcupadas(fecha, oficina.id_oficina).toPromise().then(res => ({
-          oficina,
-          fecha,
-          ocupadas: (res?.horas ?? []).map(h => this.normalizarHora(h))
-        }))
-      );
-
-      try {
-        const resultados = await Promise.all(promesas);
-
-        for (const resultado of resultados) {
-          const disponibles = this.todasLasHoras.filter(h => !resultado.ocupadas.includes(h));
-          if (disponibles.length > 0) {
-            this.cita.fecha = resultado.fecha;
-            this.cita.id_oficina = resultado.oficina.id_oficina;
-            this.cita.hora = disponibles[0];
-            this.horasDisponibles = disponibles;
-            return;
-          }
+        error: (err) => {
+          console.error("Error obteniendo horarios disponibles:", err);
+          this.horasDisponibles = [];
         }
-      } catch (error) {
-        console.error('Error al autocompletar cita:', error);
-      }
-    }
-
-    Swal.fire({
-      icon: 'info',
-      title: 'Sin disponibilidad',
-      text: 'No hay horarios disponibles en los próximos días. Intenta seleccionar otra fecha manualmente.',
-      confirmButtonText: 'Entendido'
-    });
-  }
-
-  diasDisponibles: string[] = [];
-
-  async cargarDiasDisponibles() {
-    const fechas = Array.from({ length: 7 }, (_, i) => {
-      const d = new Date();
-      d.setDate(d.getDate() + i);
-      return d.toISOString().split('T')[0];
-    });
-
-    const disponibles: string[] = [];
-
-    for (const fecha of fechas) {
-      const promesas = this.oficinas.map(oficina =>
-        this.citaService.obtenerHorasOcupadas(fecha, oficina.id_oficina).toPromise().then(res => ({
-          ocupadas: (res?.horas ?? []).map(h => this.normalizarHora(h))
-        }))
-      );
-
-      const resultados = await Promise.all(promesas);
-      const hayDisponibilidad = resultados.some(r =>
-        this.todasLasHoras.some(h => !r.ocupadas.includes(h))
-      );
-
-      if (hayDisponibilidad) disponibles.push(fecha);
-    }
-
-    this.diasDisponibles = disponibles;
-  }
-
-  maxFecha = new Date(new Date().setDate(new Date().getDate() + 7)).toISOString().split('T')[0];
-  fechasBloqueadas: string[] = [];
-
-  actualizarFechasBloqueadas() {
-    const todas = Array.from({ length: 7 }, (_, i) => {
-      const d = new Date();
-      d.setDate(d.getDate() + i);
-      return d.toISOString().split('T')[0];
-    });
-
-    this.fechasBloqueadas = todas.filter(f => !this.diasDisponibles.includes(f));
+      });
   }
 }

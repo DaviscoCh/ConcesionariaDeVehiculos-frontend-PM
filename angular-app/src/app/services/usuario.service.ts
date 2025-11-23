@@ -13,15 +13,16 @@ export class UsuarioService {
   private autenticado = new BehaviorSubject<boolean>(this.isAuthenticated());
   autenticado$ = this.autenticado.asObservable();
 
-  constructor(private http: HttpClient,
-    @Inject(PLATFORM_ID) private platformId: Object) { }
+  constructor(
+    private http: HttpClient,
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) { }
 
   registrarUsuario(usuario: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/register`, usuario);
   }
 
   loginUsuario(datos: any): Observable<any> {
-
     // 🚫 Bloquear correos de administradores ANTES de enviar al backend
     const correoAdmin = "admin@admin.com"; // AJÚSTALO AL QUE USAS
 
@@ -74,16 +75,22 @@ export class UsuarioService {
     this.autenticado.next(false);
   }
 
+  // ✅ CORREGIDO: Verificar si estamos en el navegador antes de acceder a localStorage
   private getAuthHeaders(): HttpHeaders {
-    const token = localStorage.getItem('token');
-    return new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    if (isPlatformBrowser(this.platformId)) {
+      const token = localStorage.getItem('token');
+      if (token) {
+        return new HttpHeaders().set('Authorization', `Bearer ${token}`);
+      }
+    }
+    // Si estamos en el servidor o no hay token, retornar headers vacíos
+    return new HttpHeaders();
   }
 
   isLogged(): boolean {
-    if (typeof window === 'undefined') return false;
+    if (!isPlatformBrowser(this.platformId)) return false;
     return !!localStorage.getItem('token');
   }
-
 
   actualizarEstado(): void {
     const estado = this.isAuthenticated();
@@ -99,7 +106,7 @@ export class UsuarioService {
     try {
       const payload = JSON.parse(atob(token.split('.')[1]));
 
-      // ⛔ Agregar esta validación
+      // ⛔ Validar que no sea admin
       if (payload.rol === 'admin') {
         return false; // Un admin NO puede entrar a Angular
       }
