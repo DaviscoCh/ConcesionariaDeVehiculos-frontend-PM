@@ -10,6 +10,8 @@ import { CotizadorComponent } from './components/cotizador/cotizador.component';
 import { PerfilComponent } from './components/perfil/perfil.component';
 import { AuthGuard } from './guards/auth.guard';
 import { ReservarCitaComponent } from './components/reservar-cita/reservar-cita.component';
+import { NotificacionesComponent } from './components/notificaciones/notificaciones.component';
+import { ToastComponent } from './components/toast/toast.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -21,6 +23,8 @@ const routes: Routes = [
   { path: 'cotizador/:marca-modelo', component: CotizadorComponent, canActivate: [AuthGuard] },
   { path: 'perfil', component: PerfilComponent, canActivate: [AuthGuard] },
   { path: 'reservar-cita', component: ReservarCitaComponent, canActivate: [AuthGuard] },
+  { path: 'notificaciones', component: NotificacionesComponent, canActivate: [AuthGuard] },
+  { path: 'toast', component: ToastComponent, canActivate: [AuthGuard] },
   { path: '**', redirectTo: 'home' }
 ];
 

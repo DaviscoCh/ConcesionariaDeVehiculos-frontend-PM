@@ -1,0 +1,86 @@
+.notificaciones-section {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+.notificacion-item {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border-left: 4px solid transparent;
+}
+
+.notificacion-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.notificacion-item.no-leida {
+    background: #f8f9ff;
+    border-left-color: #007bff;
+}
+
+.notificacion-icono {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icono-tipo {
+    font-size: 32px;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #f0f0f0;
+}
+
+.tipo-confirmada {
+    background: #d4edda;
+}
+
+.tipo-cancelada {
+    background: #f8d7da;
+}
+
+.tipo-atendida {
+    background: #cce5ff;
+}
+
+.tipo-vencida {
+    background: #fff3cd;
+}
+
+.detalles-cita {
+    background: #f8f9fa;
+    padding: 8px 12px;
+    border-radius: 6px;
+    margin-top: 10px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .notificacion-item {
+        padding: 15px;
+    }
+
+    .icono-tipo {
+        font-size: 24px;
+        width: 40px;
+        height: 40px;
+    }
+
+    .d-flex.gap-2 {
+        flex-direction: column;
+    }
+
+    .d-flex.gap-2 button {
+        width: 100%;
+    }
+}

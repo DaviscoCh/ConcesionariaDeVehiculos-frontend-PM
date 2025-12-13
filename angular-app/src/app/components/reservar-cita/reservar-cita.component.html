@@ -1,38 +1,93 @@
 <div style="height: 63px;"></div>
 
-<form (ngSubmit)="reservarCita()" #form="ngForm" class="p-4 border rounded shadow-sm bg-light">
-    <div class="mb-3">
-        <label class="form-label">Oficina:</label>
-        <select name="id_oficina" class="form-select" [(ngModel)]="cita.id_oficina" required
-            (change)="actualizarHorasDisponibles()">
-            <option value="" disabled>Selecciona una oficina</option>
-            <option *ngFor="let o of oficinas" [value]="o.id_oficina">{{ o.nombre }} - {{ o.direccion }}</option>
-        </select>
+<div class="container mt-4">
+    <!-- ✅ Mensaje de éxito después de reservar -->
+    <div class="alert alert-success alert-dismissible fade show" *ngIf="citaReservadaExitosamente">
+        <strong>✅ ¡Cita reservada exitosamente!</strong>
+        <p class="mb-0">Tu cita ha sido registrada correctamente. Puedes ver tus citas en el historial.</p>
+        <button type="button" class="btn-close" (click)="citaReservadaExitosamente = false"></button>
     </div>
 
-    <div class="mb-3">
-        <label class="form-label">Fecha:</label>
-        <input type="date" name="fecha" class="form-control" [(ngModel)]="cita.fecha" [min]="minFecha"
-            (change)="actualizarHorasDisponibles()" />
-    </div>
+    <form (ngSubmit)="reservarCita()" #form="ngForm" class="p-4 border rounded shadow-sm bg-light">
+        <h4 class="mb-4">📅 Reservar Nueva Cita</h4>
 
-    <div class="mb-3">
-        <label class="form-label">Hora:</label>
-        <select name="hora" class="form-select" [(ngModel)]="cita.hora" required>
-            <option value="" disabled selected>Selecciona una hora</option>
-            <option *ngFor="let h of horasDisponibles" [value]="h">{{ h }}</option>
-        </select>
-    </div>
+        <div class="mb-3">
+            <label class="form-label">Oficina:</label>
+            <select name="id_oficina" class="form-select" [(ngModel)]="cita.id_oficina" required
+                (change)="actualizarHorasDisponibles()">
+                <option value="" disabled>Selecciona una oficina</option>
+                <option *ngFor="let o of oficinas" [value]="o.id_oficina">{{ o.nombre }} - {{ o.direccion }}</option>
+            </select>
+        </div>
 
-    <div class="mb-3">
-        <label class="form-label">Comentario:</label>
-        <textarea name="comentario" class="form-control" [(ngModel)]="cita.comentario" rows="3"></textarea>
-    </div>
+        <div class="mb-3">
+            <label class="form-label">Fecha:</label>
+            <input type="date" name="fecha" class="form-control" [(ngModel)]="cita.fecha" [min]="minFecha"
+                (change)="actualizarHorasDisponibles()" required />
+        </div>
 
-    <div class="alert alert-info mb-3" *ngIf="cita.id_oficina && cita.fecha && cita.hora">
-        <strong>Resumen:</strong> Tu cita está programada para el <strong>{{ cita.fecha | date:'fullDate' }}</strong> a
-        las <strong>{{ cita.hora }}</strong> en la oficina <strong>{{ getNombreOficina(cita.id_oficina) }}</strong>.
-    </div>
+        <div class="mb-3">
+            <label class="form-label">Hora:</label>
+            <select name="hora" class="form-select" [(ngModel)]="cita.hora" required>
+                <option value="" disabled>Selecciona una hora</option>
+                <option *ngFor="let h of horasDisponibles" [value]="h">{{ h }}</option>
+            </select>
 
-    <button type="submit" class="btn btn-primary w-100">Reservar cita</button>
-</form>
+            <!-- ✅ Mostrar si no hay horarios disponibles -->
+            <small class="text-muted" *ngIf="horasDisponibles.length === 0 && cita.fecha && cita.id_oficina">
+                ⚠️ No hay horarios disponibles para esta fecha. Intenta con otra fecha u oficina.
+            </small>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Comentario:</label>
+            <textarea name="comentario" class="form-control" [(ngModel)]="cita.comentario" rows="3"
+                placeholder="Ejemplo: Cotización de vehículo, revisión técnica, etc."></textarea>
+        </div>
+
+        <!-- ✅ Resumen de la cita -->
+        <div class="alert alert-info mb-3" *ngIf="cita.id_oficina && cita.fecha && cita.hora">
+            <strong>📋 Resumen:</strong> Tu cita está programada para el <strong>{{ cita.fecha | date:'fullDate'
+                }}</strong> a
+            las <strong>{{ cita.hora }}</strong> en la oficina <strong>{{ getNombreOficina(cita.id_oficina) }}</strong>.
+        </div>
+
+        <!-- ✅ Botones -->
+        <div class="d-flex gap-2">
+            <button type="button" class="btn btn-outline-secondary" (click)="autocompletarMejorHorario()"
+                [disabled]="procesandoCita || citaCompletada">
+                🔄 Sugerir mejor horario
+            </button>
+
+            <button type="submit" class="btn flex-grow-1" [ngClass]="{
+          'btn-primary': !procesandoCita && !citaCompletada,
+          'btn-success': citaCompletada
+        }" [disabled]="!form.valid || horasDisponibles.length === 0 || procesandoCita || citaCompletada">
+
+                <!-- Estado normal -->
+                <span *ngIf="!procesandoCita && !citaCompletada">Reservar cita</span>
+
+                <!-- Estado procesando -->
+                <span *ngIf="procesandoCita && !citaCompletada">
+                    <span class="spinner-border spinner-border-sm me-2"></span>
+                    Procesando...
+                </span>
+
+                <!-- Estado completado -->
+                <span *ngIf="citaCompletada">
+                    ✔️ Cita realizada
+                </span>
+            </button>
+        </div>
+    </form>
+
+    <!-- ✅ Información adicional -->
+    <div class="mt-4 p-3 bg-light border rounded">
+        <h6 class="mb-2">ℹ️ Información importante:</h6>
+        <ul class="small mb-0">
+            <li>Las citas deben reservarse con al menos 1 hora de anticipación</li>
+            <li>Si no llegas a tu cita en los primeros 20 minutos, será cancelada automáticamente</li>
+            <li>Puedes ver y gestionar tus citas desde el historial</li>
+        </ul>
+    </div>
+</div>

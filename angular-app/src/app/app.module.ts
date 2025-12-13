@@ -14,6 +14,9 @@ import { PerfilComponent } from './components/perfil/perfil.component';
 import { TarjetasComponent } from './components/tarjetas/tarjetas.component';
 import { HistorialCitasComponent } from './components/historial-citas/historial-citas.component';
 import { ReservarCitaComponent } from './components/reservar-cita/reservar-cita.component';
+import { NotificacionesComponent } from './components/notificaciones/notificaciones.component';
+import { ToastComponent } from './components/toast/toast.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -24,16 +27,19 @@ import { ReservarCitaComponent } from './components/reservar-cita/reservar-cita.
     CotizadorComponent,
     PerfilComponent,
     TarjetasComponent,
+    NotificacionesComponent
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
     RegistroPersonaComponent,
     FormsModule,
     HistorialCitasComponent,
-    ReservarCitaComponent
+    ReservarCitaComponent,
+    ToastComponent
   ],
   providers: [
     provideClientHydration(withEventReplay()),

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { CitaService } from '../../services/cita.service';
 import { VehiculoService } from '../../services/vehiculo.service';
 import { CommonModule } from '@angular/common';
@@ -30,12 +30,16 @@ export class ReservarCitaComponent implements OnInit {
   mensajeExito = '';
   minFecha = new Date().toISOString().split('T')[0];
   horasDisponibles: string[] = [];
+  citaReservadaExitosamente = false; // ✅ Nueva variable para mostrar mensaje
+  procesandoCita = false; // ✅ Estado del botón
+  citaCompletada = false; // ✅ Estado completado
 
   constructor(
     private citaService: CitaService,
     private vehiculoService: VehiculoService,
     private oficinaService: OficinaService,
-    private router: Router
+    private router: Router,
+    private cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit() {
@@ -61,38 +65,65 @@ export class ReservarCitaComponent implements OnInit {
     const usuario = JSON.parse(localStorage.getItem('usuario') || '{}');
     this.cita.id_usuario = usuario.id_usuario;
 
-    // Cargar oficinas
     this.oficinaService.obtenerOficinas().subscribe((data: any) => {
       this.oficinas = data;
-      // Autocompletar con el mejor horario disponible
       this.autocompletarMejorHorario();
     });
   }
 
-  // ✅ NUEVA FUNCIÓN: Autocompletar usando el endpoint del backend
   autocompletarMejorHorario() {
+    console.log('🔄 Solicitando mejor horario disponible...');
+
     this.citaService.obtenerMejorHorarioDisponible().subscribe({
       next: (horario) => {
-        // Convertir fecha ISO a formato YYYY-MM-DD para el input date
-        this.cita.fecha = horario.fecha.includes('T')
-          ? horario.fecha.split('T')[0]
-          : horario.fecha;
+        console.log('🔥 HORARIO RECIBIDO DEL BACKEND:', horario);
 
-        // Normalizar hora (solo HH:MM)
-        this.cita.hora = horario.hora.substring(0, 5);
+        // ✅ Limpiar datos anteriores
+        this.cita.fecha = '';
+        this.cita.hora = '';
+        this.cita.id_oficina = '';
+        this.horasDisponibles = [];
 
-        this.cita.id_oficina = horario.id_oficina;
+        setTimeout(() => {
+          // ✅ Normalizar fecha (YYYY-MM-DD)
+          const fechaNormalizada = String(horario.fecha).split('T')[0];
 
-        // Autocompletar comentario descriptivo
-        if (this.vehiculo && !this.cita.comentario) {
-          this.cita.comentario = `Cotización de ${this.vehiculo.marca} ${this.vehiculo.modelo} ${this.vehiculo.anio}`;
-        }
+          // ✅ Normalizar hora a formato HH:MM:SS para que coincida con el array
+          let horaNormalizada = String(horario.hora);
+          if (!horaNormalizada.includes(':')) {
+            horaNormalizada = `${horaNormalizada}:00:00`;
+          } else if (horaNormalizada.split(':').length === 2) {
+            // Si viene HH:MM, agregar :00
+            horaNormalizada = `${horaNormalizada}:00`;
+          }
 
-        // Cargar horarios disponibles de esa fecha/oficina
-        this.actualizarHorasDisponibles();
+          console.log('📋 DATOS NORMALIZADOS:', {
+            fechaNormalizada,
+            horaNormalizada,
+            oficinaId: horario.id_oficina
+          });
+
+          // ✅ Asignar valores
+          this.cita.fecha = fechaNormalizada;
+          this.cita.hora = horaNormalizada;
+          this.cita.id_oficina = horario.id_oficina;
+
+          console.log('✅ CITA ASIGNADA:', {
+            fecha: this.cita.fecha,
+            hora: this.cita.hora,
+            oficina: this.cita.id_oficina
+          });
+
+          if (this.vehiculo && !this.cita.comentario) {
+            this.cita.comentario = `Cotización de ${this.vehiculo.marca} ${this.vehiculo.modelo} ${this.vehiculo.anio}`;
+          }
+
+          this.cdr.detectChanges();
+          this.actualizarHorasDisponibles();
+        }, 100);
       },
       error: (err) => {
-        console.error('Error al obtener horario disponible:', err);
+        console.error('❌ Error al obtener horario disponible:', err);
         Swal.fire({
           icon: 'info',
           title: 'Sin disponibilidad',
@@ -105,7 +136,6 @@ export class ReservarCitaComponent implements OnInit {
   reservarCita() {
     const { id_oficina, fecha, hora } = this.cita;
 
-    // Validación de campos vacíos
     if (!id_oficina || !fecha || !hora) {
       Swal.fire({
         icon: 'warning',
@@ -116,24 +146,30 @@ export class ReservarCitaComponent implements OnInit {
       return;
     }
 
-    // Validación de fecha pasada
+    // ✅ Validar que no sea un horario pasado
     const ahora = new Date();
-    const fechaSeleccionada = new Date(`${fecha}T${hora}`);
+    const [year, month, day] = fecha.split('-').map(Number);
+    const [hours, minutes] = hora.split(':').map(Number);
+    const fechaSeleccionada = new Date(year, month - 1, day, hours, minutes);
+
+    console.log('🕐 Validando horario:', {
+      ahora: ahora.toISOString(),
+      seleccionado: fechaSeleccionada.toISOString(),
+      yaPaso: fechaSeleccionada < ahora
+    });
 
     if (fechaSeleccionada < ahora) {
       Swal.fire({
         icon: 'warning',
-        title: 'Fecha inválida',
-        text: 'No puedes reservar una cita en una fecha u hora que ya pasó.',
+        title: 'Horario inválido',
+        text: 'No puedes reservar una cita en un horario que ya pasó.',
         confirmButtonText: 'Entendido'
       }).then(() => {
-        this.cita.fecha = '';
-        this.cita.hora = '';
+        this.autocompletarMejorHorario();
       });
       return;
     }
 
-    // Mostrar confirmación
     Swal.fire({
       icon: 'question',
       title: '¿Confirmar cita?',
@@ -148,49 +184,71 @@ export class ReservarCitaComponent implements OnInit {
       cancelButtonText: 'Cancelar'
     }).then(result => {
       if (result.isConfirmed) {
+        this.procesandoCita = true; // ✅ Activar estado procesando
+        this.citaCompletada = false;
         this.crearCitaFinal();
       }
     });
   }
 
   crearCitaFinal() {
-    // Normalizar hora (solo HH:MM)
+    // ✅ Normalizar antes de enviar
     if (this.cita.hora.includes(':')) {
       this.cita.hora = this.cita.hora.substring(0, 5);
     }
 
-    // Normalizar fecha (solo YYYY-MM-DD)
     if (this.cita.fecha.includes('T')) {
       this.cita.fecha = this.cita.fecha.split('T')[0];
     }
 
+    console.log('📤 Enviando cita al backend:', this.cita);
+
     this.citaService.crearCita(this.cita).subscribe({
       next: () => {
+        // ✅ Cambiar a estado completado
+        this.procesandoCita = false;
+        this.citaCompletada = true;
+        this.citaReservadaExitosamente = true;
+
         Swal.fire({
           icon: 'success',
           title: 'Cita reservada',
           text: 'Tu cita ha sido registrada correctamente.',
           confirmButtonText: 'Perfecto'
         });
+
         localStorage.removeItem('vehiculo_para_cita');
 
-        // Limpiar el formulario
-        this.cita = {
-          id_usuario: this.cita.id_usuario,
-          id_vehiculo: this.cita.id_vehiculo,
-          id_oficina: '',
-          fecha: '',
-          hora: '',
-          comentario: ''
-        };
+        // ✅ LIMPIAR completamente el formulario después de 2 segundos
+        setTimeout(() => {
+          this.cita = {
+            id_usuario: this.cita.id_usuario,
+            id_vehiculo: this.cita.id_vehiculo,
+            id_oficina: '',
+            fecha: '',
+            hora: '',
+            comentario: ''
+          };
 
-        // Autocompletar siguiente horario disponible
-        this.autocompletarMejorHorario();
+          this.horasDisponibles = [];
+          this.citaCompletada = false; // Reset estado del botón
+          this.cdr.detectChanges();
+        }, 2000);
+
+        // ✅ Ocultar mensaje después de 5 segundos
+        setTimeout(() => {
+          this.citaReservadaExitosamente = false;
+        }, 5000);
+
+        // ✅ NO llamar a autocompletarMejorHorario() para dejar el formulario limpio
       },
       error: (err) => {
-        console.error('Error al reservar cita:', err);
+        // ✅ Resetear estados en caso de error
+        this.procesandoCita = false;
+        this.citaCompletada = false;
 
-        // Mensaje específico si el horario ya fue tomado
+        console.error('❌ Error al reservar cita:', err);
+
         const mensajeError = err.error?.error === 'El horario seleccionado ya está reservado'
           ? 'El horario que seleccionaste acaba de ser reservado por otro usuario. Por favor elige otro.'
           : 'Hubo un problema al registrar la cita. Intenta nuevamente.';
@@ -201,7 +259,7 @@ export class ReservarCitaComponent implements OnInit {
           text: mensajeError,
           confirmButtonText: 'Cerrar'
         }).then(() => {
-          // Recargar horarios disponibles
+          // ✅ Solo en caso de error, sugerir otro horario
           this.autocompletarMejorHorario();
         });
       }
@@ -213,27 +271,62 @@ export class ReservarCitaComponent implements OnInit {
     return oficina ? oficina.nombre : '';
   }
 
-  // Actualizar horarios disponibles cuando cambia fecha u oficina
   actualizarHorasDisponibles() {
-    if (!this.cita.fecha || !this.cita.id_oficina) return;
+    if (!this.cita.fecha || !this.cita.id_oficina) {
+      console.log('⚠️ No hay fecha u oficina seleccionada');
+      return;
+    }
+
+    console.log('🔄 Obteniendo horarios disponibles para:', {
+      fecha: this.cita.fecha,
+      oficina: this.cita.id_oficina
+    });
 
     this.citaService.obtenerHorariosDisponibles(this.cita.fecha, this.cita.id_oficina)
       .subscribe({
         next: (res) => {
-          this.horasDisponibles = res.horarios ?? [];
+          console.log('📋 Horarios disponibles ORIGINALES:', res.horarios);
 
-          // Si la hora actual ya no está disponible, limpiar
+          // ✅ FILTRAR horarios que ya pasaron
+          const ahora = new Date();
+          const [year, month, day] = this.cita.fecha.split('-').map(Number);
+
+          this.horasDisponibles = (res.horarios ?? []).filter(hora => {
+            const [hours, minutes] = hora.split(':').map(Number);
+            const fechaHora = new Date(year, month - 1, day, hours, minutes);
+            const noHaPasado = fechaHora >= ahora;
+
+            if (!noHaPasado) {
+              console.log(`⏰ Filtrando hora ${hora} - ya pasó`);
+            }
+
+            return noHaPasado;
+          });
+
+          console.log('✅ Horarios disponibles FILTRADOS:', this.horasDisponibles);
+
+          // ✅ Verificar si la hora actual está disponible
           if (this.cita.hora && !this.horasDisponibles.includes(this.cita.hora)) {
+            console.log('⚠️ La hora seleccionada ya no está disponible:', this.cita.hora);
             this.cita.hora = '';
           }
 
-          // Autoseleccionar la primera disponible si no hay hora seleccionada
+          // ✅ Si no hay hora seleccionada y hay horarios disponibles
           if (!this.cita.hora && this.horasDisponibles.length > 0) {
             this.cita.hora = this.horasDisponibles[0];
+            console.log('✅ Auto-seleccionada primera hora disponible:', this.cita.hora);
           }
+
+          // ✅ Si NO hay horarios disponibles
+          if (this.horasDisponibles.length === 0) {
+            console.log('❌ No hay horarios futuros disponibles para esta fecha');
+            this.cita.hora = '';
+          }
+
+          this.cdr.detectChanges();
         },
         error: (err) => {
-          console.error("Error obteniendo horarios disponibles:", err);
+          console.error("❌ Error obteniendo horarios disponibles:", err);
           this.horasDisponibles = [];
         }
       });

@@ -1,20 +1,32 @@
 <!-- ESPACIADOR para no tapar con el navbar -->
-<div style="height: 60px;"></div>
 
+<!-- HERO PRINCIPAL -->
 <!-- HERO PRINCIPAL -->
 <section class="hero d-flex align-items-center text-center text-light">
     <div class="container">
-        <h1 class="display-4 fw-bold mb-3 animate__animated animate__fadeInDown">
-            Bienvenido a <span class="text-primary">CarPremier</span>
-        </h1>
-        <p class="lead mb-4 animate__animated animate__fadeInUp">
-            Encuentra el vehículo de tus sueños con la mejor calidad, estilo y rendimiento.
-        </p>
-        <a routerLink="/vehiculos" class="btn btn-primary btn-lg shadow">
-            <i class="bi bi-car-front-fill me-2"></i> Ver Vehículos
-        </a>
+
+        <!-- TEXTO del HERO -->
+        <div class="hero-text">
+            <!--<app-toast></app-toast>-->
+            <h1 class="display-4 fw-bold mb-3">
+                Bienvenido a <span class="text-primary">CarPremier</span>
+            </h1>
+
+            <p class="lead mb-4">
+                Encuentra el vehículo de tus sueños con la mejor calidad, estilo y rendimiento.
+            </p>
+            <a routerLink="/vehiculos" class="btn btn-primary btn-lg shadow">
+                <i class="bi bi-car-front-fill me-2"></i> Ver Vehículos
+            </a>
+        </div>
+
+        <!-- AUTO con animación -->
+        <div class="hero-car">
+            <img src="assets/auto-principal.png" alt="Auto Principal">
+        </div>
     </div>
 </section>
+
 
 <!-- SECCIÓN DE DESTACADOS -->
 <section class="py-5 bg-light text-center">

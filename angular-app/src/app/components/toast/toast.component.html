@@ -1,0 +1,25 @@
+<div class="toast-container" *ngIf="isBrowser">
+    <div *ngFor="let toast of toasts" class="toast" [ngClass]="getClaseTipo(toast.tipo)" @toastAnimation>
+
+        <div class="toast-content">
+            <div class="toast-icon">
+                {{ getIcono(toast.tipo) }}
+            </div>
+
+            <div class="toast-body">
+                <div class="toast-titulo">{{ toast.titulo }}</div>
+                <div class="toast-mensaje">{{ toast.mensaje }}</div>
+
+                <button *ngIf="toast.accion" class="toast-accion" (click)="ejecutarAccion(toast)">
+                    {{ toast.accion.texto }}
+                </button>
+            </div>
+
+            <button class="toast-cerrar" (click)="cerrarToast(toast.id)">
+                ✕
+            </button>
+        </div>
+
+        <div class="toast-progreso" [style.animation-duration]="toast.duracion + 'ms'"></div>
+    </div>
+</div>

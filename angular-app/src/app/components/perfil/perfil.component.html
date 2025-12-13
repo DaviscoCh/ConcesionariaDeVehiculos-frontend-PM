@@ -24,6 +24,17 @@
                                 <button class="nav-link" id="tarjetas-tab" data-bs-toggle="tab"
                                     data-bs-target="#tarjetas" type="button" role="tab">Tarjetas</button>
                             </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link position-relative" id="notificaciones-tab" data-bs-toggle="tab"
+                                    data-bs-target="#notificaciones" type="button" role="tab">
+                                    Notificaciones
+                                    <span
+                                        class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                                        *ngIf="contadorNotificaciones > 0" style="font-size: 0.7rem;">
+                                        {{ contadorNotificaciones }}
+                                    </span>
+                                </button>
+                            </li>
                         </ul>
 
                         <!-- Contenido de pestañas -->
@@ -52,6 +63,11 @@
                                 <app-tarjetas></app-tarjetas>
                             </div>
 
+                            <!-- NOTIFICACIONES -->
+                            <div class="tab-pane fade" id="notificaciones" role="tabpanel">
+                                <app-notificaciones></app-notificaciones>
+                            </div>
+
                         </div>
 
                     </ng-container>
@@ -60,7 +76,6 @@
                     <ng-template #errorBlock>
                         <div class="alert alert-danger">{{ error }}</div>
                     </ng-template>
-
                 </div>
             </div>
         </div>

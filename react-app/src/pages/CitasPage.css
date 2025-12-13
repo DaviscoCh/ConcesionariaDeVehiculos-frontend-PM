@@ -1,75 +1,344 @@
 .citas-container {
-    padding: 20px;
+    padding: 30px;
+    max-width: 1400px;
+    margin: 0 auto;
+    background: #f8f9fa;
+    min-height: 100vh;
 }
 
+/* Header */
+.citas-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 3px solid #007bff;
+}
+
+.citas-header h2 {
+    color: #333;
+    font-size: 28px;
+    margin: 0;
+}
+
+.btn-recargar {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.btn-recargar:hover:not(:disabled) {
+    background: #0056b3;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+}
+
+.btn-recargar:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Mensaje de éxito */
+.mensaje-exito {
+    background: #d4edda;
+    border: 1px solid #c3e6cb;
+    color: #155724;
+    padding: 15px 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-weight: 500;
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Wrapper de tabla */
+.tabla-wrapper {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    margin-bottom: 30px;
+}
+
+/* Tabla */
 .citas-table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 20px;
 }
 
-.citas-table th,
-.citas-table td {
-    border: 1px solid #ccc;
-    padding: 8px;
+.citas-table thead {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
 }
 
-.mensaje-exito {
-    color: green;
-    margin-bottom: 10px;
-}
-
-.estado {
-    font-weight: bold;
-    padding: 4px 8px;
-    border-radius: 4px;
+.citas-table th {
+    padding: 15px 12px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 13px;
     text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
-.estado-pendiente {
-    background-color: #fff3cd;
+.citas-table tbody tr {
+    border-bottom: 1px solid #e9ecef;
+    transition: background 0.2s;
+}
+
+.citas-table tbody tr:hover {
+    background: #f8f9fa;
+}
+
+.citas-table td {
+    padding: 14px 12px;
+    font-size: 14px;
+    color: #495057;
+}
+
+.sin-datos {
+    text-align: center;
+    padding: 40px !important;
+    color: #999;
+    font-style: italic;
+}
+
+/* Columnas específicas */
+.td-cliente {
+    font-weight: 600;
+    color: #333;
+}
+
+.td-correo {
+    color: #007bff;
+    font-size: 13px;
+}
+
+.td-vehiculo {
+    line-height: 1.5;
+}
+
+.td-vehiculo strong {
+    color: #333;
+}
+
+.td-vehiculo small {
+    color: #6c757d;
+    font-size: 12px;
+}
+
+.td-fecha {
+    font-weight: 500;
+}
+
+.td-hora {
+    font-weight: 600;
+    color: #dc3545;
+}
+
+.td-oficina {
+    color: #28a745;
+    font-weight: 500;
+}
+
+.td-comentario {
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 13px;
+    color: #6c757d;
+}
+
+/* Badges de estado */
+.badge-estado {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.badge-pendiente {
+    background: #fff3cd;
     color: #856404;
+    border: 1px solid #ffeaa7;
 }
 
-.estado-confirmada {
-    background-color: #d4edda;
+.badge-confirmada {
+    background: #d4edda;
     color: #155724;
+    border: 1px solid #c3e6cb;
 }
 
-.estado-atendida {
-    background-color: #cce5ff;
+.badge-atendida {
+    background: #cce5ff;
     color: #004085;
+    border: 1px solid #b8daff;
 }
 
-.estado-cancelada {
-    background-color: #f8d7da;
+.badge-cancelada {
+    background: #f8d7da;
     color: #721c24;
+    border: 1px solid #f5c6cb;
 }
 
-.estado-select {
-    font-weight: bold;
-    padding: 4px 6px;
-    border-radius: 4px;
+/* Botones de acciones */
+.td-acciones {
+    white-space: nowrap;
+}
+
+.botones-acciones {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+}
+
+.botones-acciones button {
+    padding: 6px 12px;
     border: none;
-    outline: none;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
 }
 
-.estado-pendiente {
-    background-color: #fff3cd;
-    color: #856404;
+.btn-confirmar {
+    background: #28a745;
+    color: white;
 }
 
-.estado-confirmada {
-    background-color: #d4edda;
-    color: #155724;
+.btn-confirmar:hover {
+    background: #218838;
+    transform: scale(1.05);
 }
 
-.estado-atendida {
-    background-color: #cce5ff;
-    color: #004085;
+.btn-atender {
+    background: #17a2b8;
+    color: white;
 }
 
-.estado-cancelada {
-    background-color: #f8d7da;
-    color: #721c24;
+.btn-atender:hover {
+    background: #138496;
+    transform: scale(1.05);
+}
+
+.btn-cancelar {
+    background: #dc3545;
+    color: white;
+}
+
+.btn-cancelar:hover {
+    background: #c82333;
+    transform: scale(1.05);
+}
+
+.btn-eliminar {
+    background: #6c757d;
+    color: white;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s;
+}
+
+.btn-eliminar:hover {
+    background: #5a6268;
+    transform: scale(1.1);
+}
+
+.sin-acciones {
+    color: #999;
+    font-style: italic;
+    font-size: 12px;
+}
+
+/* Leyenda de estados */
+.leyenda-estados {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+}
+
+.leyenda-estados h4 {
+    margin: 0 0 15px 0;
+    color: #333;
+    font-size: 16px;
+}
+
+.leyenda-items {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 12px;
+}
+
+.leyenda-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px;
+    border-radius: 6px;
+    background: #f8f9fa;
+}
+
+.leyenda-item span:last-child {
+    font-size: 13px;
+    color: #6c757d;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+    .citas-table {
+        font-size: 13px;
+    }
+
+    .citas-table th,
+    .citas-table td {
+        padding: 10px 8px;
+    }
+}
+
+@media (max-width: 768px) {
+    .citas-container {
+        padding: 15px;
+    }
+
+    .citas-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .tabla-wrapper {
+        overflow-x: auto;
+    }
+
+    .citas-table {
+        min-width: 900px;
+    }
 }

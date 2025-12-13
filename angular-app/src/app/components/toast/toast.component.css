@@ -1,0 +1,140 @@
+:host {
+    display: block;
+}
+
+.toast-container {
+    position: fixed !important;
+    top: 100px !important;
+    right: 20px !important;
+    z-index: 999999 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 16px !important;
+    max-width: 420px !important;
+    width: auto !important;
+}
+
+.toast {
+    background: #ffffff !important;
+    border-radius: 12px !important;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3) !important;
+    overflow: visible !important;
+    position: relative !important;
+    min-width: 350px !important;
+    max-width: 420px !important;
+    display: block !important;
+}
+
+.toast-content {
+    display: flex !important;
+    padding: 20px !important;
+    gap: 16px !important;
+    align-items: flex-start !important;
+}
+
+.toast-icon {
+    font-size: 32px !important;
+    flex-shrink: 0 !important;
+    line-height: 1 !important;
+    display: block !important;
+}
+
+.toast-body {
+    flex: 1 !important;
+    min-width: 0 !important;
+    display: block !important;
+}
+
+.toast-titulo {
+    font-weight: 700 !important;
+    font-size: 18px !important;
+    margin-bottom: 8px !important;
+    color: #1a1a1a !important;
+    display: block !important;
+}
+
+.toast-mensaje {
+    font-size: 15px !important;
+    color: #555 !important;
+    line-height: 1.5 !important;
+    display: block !important;
+}
+
+.toast-accion {
+    margin-top: 16px !important;
+    padding: 10px 20px !important;
+    background: #007bff !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 8px !important;
+    cursor: pointer !important;
+    font-size: 15px !important;
+    font-weight: 600 !important;
+    display: inline-block !important;
+}
+
+.toast-accion:hover {
+    background: #0056b3 !important;
+}
+
+.toast-cerrar {
+    position: absolute !important;
+    top: 16px !important;
+    right: 16px !important;
+    background: rgba(0, 0, 0, 0.05) !important;
+    border: none !important;
+    font-size: 22px !important;
+    cursor: pointer !important;
+    color: #666 !important;
+    width: 32px !important;
+    height: 32px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 6px !important;
+    padding: 0 !important;
+    line-height: 1 !important;
+}
+
+.toast-cerrar:hover {
+    background: rgba(0, 0, 0, 0.1) !important;
+    color: #000 !important;
+}
+
+.toast-progreso {
+    height: 5px !important;
+    background: currentColor !important;
+    animation: progreso linear !important;
+    animation-fill-mode: forwards !important;
+    width: 100% !important;
+    display: block !important;
+}
+
+@keyframes progreso {
+    from {
+        transform: scaleX(1);
+        transform-origin: left;
+    }
+
+    to {
+        transform: scaleX(0);
+        transform-origin: left;
+    }
+}
+
+/* Colores por tipo */
+.toast-info {
+    border-left: 6px solid #17a2b8 !important;
+}
+
+.toast-info .toast-progreso {
+    color: #17a2b8 !important;
+}
+
+.toast-success {
+    border-left: 6px solid #28a745 !important;
+}
+
+.toast-success .toast-progreso {
+    color: #28a745 !important;
+}

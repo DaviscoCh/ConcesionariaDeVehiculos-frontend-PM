@@ -1,13 +1,19 @@
-/* HERO con imagen de fondo */
-.hero {
-    background: linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.55)),
-        url('https://images.unsplash.com/photo-1503736334956-4c8f8e92946d?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
-    height: 100vh;
-    color: #fff;
+/* ============================
+   ESTILOS GENERALES
+============================ */
+
+h1,
+h2 {
+    font-family: 'Poppins', sans-serif;
 }
 
-/* Animación ligera */
-@import 'https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css';
+p {
+    font-family: 'Open Sans', sans-serif;
+}
+
+.card-title {
+    font-weight: 600;
+}
 
 /* Tarjetas */
 .hover-card {
@@ -24,16 +30,81 @@
     background: linear-gradient(135deg, #0d6efd, #111827);
 }
 
-/* Ajustes generales */
-h1,
-h2 {
-    font-family: 'Poppins', sans-serif;
+/* ============================
+   HERO SECTION (NUEVO)
+============================ */
+
+.hero {
+    position: relative;
+    height: 100vh;
+    background: linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.55)),
+        url('https://images.unsplash.com/photo-1503736334956-4c8f8e92946d?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
+    overflow: hidden;
+    color: #fff;
 }
 
-p {
-    font-family: 'Open Sans', sans-serif;
+/* --- Animación del texto --- */
+.hero-text {
+    opacity: 0;
+    transform: translateX(-80px);
+    animation: slideText 1.4s ease forwards;
 }
 
-.card-title {
-    font-weight: 600;
+@keyframes slideText {
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* --- Animación del auto --- */
+.hero-car {
+    position: absolute;
+    right: -500px;
+    bottom: 0;
+    width: 650px;
+    opacity: 0;
+    animation: carSlide 1.7s ease-out forwards;
+    animation-delay: 0.4s;
+}
+
+.hero-car img {
+    width: 100%;
+    object-fit: contain;
+}
+
+@keyframes carSlide {
+    0% {
+        opacity: 0;
+        transform: translateX(100px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateX(-350px);
+    }
+}
+
+/* ============================
+   RESPONSIVE
+============================ */
+
+@media (max-width: 992px) {
+    .hero-car {
+        width: 400px;
+        right: -300px;
+        animation: none;
+        opacity: 0.3;
+    }
+
+    .hero-text {
+        text-align: center;
+        animation: slideText 1.2s ease forwards;
+    }
+}
+
+@media (max-width: 600px) {
+    .hero-car {
+        display: none;
+    }
 }

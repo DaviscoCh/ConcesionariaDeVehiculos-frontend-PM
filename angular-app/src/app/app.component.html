@@ -1,48 +1,174 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm fixed-top">
+<nav class="navbar navbar-expand-lg navbar-premium shadow-lg fixed-top">
   <div class="container-fluid px-4">
-    <!-- LOGO -->
-    <a class="navbar-brand d-flex align-items-center" routerLink="/home">
-      <i class="bi bi-car-front-fill me-2 text-primary fs-4"></i>
-      <span>Concesionaria <strong>CarPremier</strong></span>
+
+    <!-- Logo con efecto hover mejorado -->
+    <a class="navbar-brand d-flex align-items-center brand-hover" routerLink="/home">
+      <div class="brand-icon-wrapper">
+        <i class="bi bi-car-front-fill brand-icon"></i>
+      </div>
+      <span class="brand-text ms-2"><strong>Car</strong><span class="text-accent">Premier</span></span>
     </a>
 
-    <!-- BOTÓN RESPONSIVE -->
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
       aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <!-- LINKS -->
     <div class="collapse navbar-collapse" id="navbarContent">
-      <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center">
+
+      <!-- Menú central con mejor espaciado -->
+      <ul class="navbar-nav mx-auto mb-2 mb-lg-0 gap-1">
+
         <li class="nav-item">
-          <a class="nav-link" routerLink="/home" routerLinkActive="active">Inicio</a>
+          <a class="nav-link nav-link-modern px-3" routerLink="/home" routerLinkActive="active">
+            <i class="bi bi-house-door me-2"></i>
+            <span>Inicio</span>
+          </a>
         </li>
+
         <li class="nav-item">
-          <a class="nav-link" routerLink="/vehiculos" routerLinkActive="active">Vehículos</a>
+          <a class="nav-link nav-link-modern px-3" routerLink="/vehiculos" routerLinkActive="active">
+            <i class="bi bi-truck-front me-2"></i>
+            <span>Vehículos</span>
+          </a>
         </li>
 
-        <li *ngIf="!usuarioAutenticado" class="nav-item">
-          <a class="nav-link" routerLink="/login" routerLinkActive="active">Iniciar sesión</a>
-        </li>
-        <li *ngIf="!usuarioAutenticado" class="nav-item">
-          <a class="nav-link" routerLink="/registro" routerLinkActive="active">Registrar Persona</a>
-        </li>
-
-        <li *ngIf="usuarioAutenticado" class="nav-item">
-          <a class="nav-link" routerLink="/perfil" routerLinkActive="active">Perfil</a>
-        </li>
-        <li *ngIf="usuarioAutenticado" class="nav-item">
-          <a class="nav-link text-danger" (click)="cerrarSesion()" routerLinkActive="active">Cerrar sesión</a>
+        <li class="nav-item">
+          <a class="nav-link nav-link-modern px-3" routerLink="/marcas" routerLinkActive="active">
+            <i class="bi bi-grid-3x3-gap-fill me-2"></i>
+            <span>Marcas</span>
+          </a>
         </li>
 
-        <li *ngIf="usuarioAutenticado" class="nav-item ms-lg-3">
-          <span class="badge bg-primary p-2">¡Bienvenido, {{ nombreUsuario }}!</span>
+        <li class="nav-item">
+          <a class="nav-link nav-link-modern px-3" routerLink="/concesionarios" routerLinkActive="active">
+            <i class="bi bi-geo-alt-fill me-2"></i>
+            <span>Concesionarios</span>
+          </a>
         </li>
+
+        <li class="nav-item dropdown">
+          <a class="nav-link nav-link-modern dropdown-toggle px-3" href="#" id="navbarDropdownServicios" role="button"
+            data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-tools me-2"></i>
+            <span>Servicios</span>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-premium animate-dropdown" aria-labelledby="navbarDropdownServicios">
+            <li><a class="dropdown-item dropdown-item-modern" href="#"><i
+                  class="bi bi-wrench me-2"></i>Mantenimiento</a></li>
+            <li><a class="dropdown-item dropdown-item-modern" href="#"><i class="bi bi-gear-fill me-2"></i>Repuestos</a>
+            </li>
+          </ul>
+        </li>
+
+        <li class="nav-item dropdown">
+          <a class="nav-link nav-link-modern dropdown-toggle px-3" href="#" id="navbarDropdownOfertas" role="button"
+            data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-tags-fill me-2"></i>
+            <span>Ofertas</span>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-premium animate-dropdown" aria-labelledby="navbarDropdownOfertas">
+            <li><a class="dropdown-item dropdown-item-modern" href="#"><i class="bi bi-percent me-2"></i>Descuentos</a>
+            </li>
+            <li><a class="dropdown-item dropdown-item-modern" href="#"><i
+                  class="bi bi-credit-card me-2"></i>Financiación</a></li>
+          </ul>
+        </li>
+
       </ul>
+
+      <!-- Botones de autenticación mejorados -->
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center gap-2">
+
+        <ng-container *ngIf="!usuarioAutenticado">
+          <!-- Botón Iniciar Sesión con icono -->
+          <li class="nav-item">
+            <a class="btn btn-auth btn-login d-flex align-items-center" routerLink="/login" routerLinkActive="active">
+              <i class="bi bi-box-arrow-in-right fs-5"></i>
+              <span class="ms-2 d-none d-xl-inline">Ingresar</span>
+            </a>
+          </li>
+
+          <!-- Botón Registrar con icono -->
+          <li class="nav-item">
+            <a class="btn btn-auth btn-register d-flex align-items-center" routerLink="/registro"
+              routerLinkActive="active">
+              <i class="bi bi-person-plus-fill fs-5"></i>
+              <span class="ms-2 d-none d-xl-inline">Registrarse</span>
+            </a>
+          </li>
+        </ng-container>
+
+        <ng-container *ngIf="usuarioAutenticado">
+
+          <!-- Perfil desplegable con foto de usuario -->
+          <li class="nav-item dropdown user-dropdown">
+            <a class="nav-link dropdown-toggle d-flex align-items-center user-profile-btn" href="#"
+              id="navbarDropdownUser" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+
+              <!-- Avatar del usuario -->
+              <div class="user-avatar me-2">
+                <i class="bi bi-person-circle"></i>
+                <!-- Aquí podrás poner la foto más adelante: <img src="ruta-foto" alt="User"> -->
+              </div>
+
+              <!-- Nombre del usuario -->
+              <span class="user-name d-none d-lg-inline">{{ nombreUsuario }}</span>
+            </a>
+
+            <!-- Menú desplegable del usuario -->
+            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-user animate-dropdown"
+              aria-labelledby="navbarDropdownUser">
+              <li class="dropdown-header">
+                <div class="text-center py-2">
+                  <div class="user-avatar-large mb-2">
+                    <i class="bi bi-person-circle"></i>
+                  </div>
+                  <strong>{{ nombreUsuario }}</strong>
+                  <p class="text-muted small mb-0"></p>
+                </div>
+              </li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+              <li>
+                <a class="dropdown-item dropdown-item-user" routerLink="/perfil">
+                  <i class="bi bi-person-badge me-2"></i>Mi Perfil
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item dropdown-item-user" href="#">
+                  <i class="bi bi-heart me-2"></i>Mis Favoritos
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item dropdown-item-user" href="#">
+                  <i class="bi bi-clock-history me-2"></i>Historial
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item dropdown-item-user" href="#">
+                  <i class="bi bi-gear me-2"></i>Configuración
+                </a>
+              </li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+              <li>
+                <a class="dropdown-item dropdown-item-user text-danger" (click)="cerrarSesion()"
+                  style="cursor: pointer;">
+                  <i class="bi bi-box-arrow-right me-2"></i>Cerrar Sesión
+                </a>
+              </li>
+            </ul>
+          </li>
+
+        </ng-container>
+      </ul>
+
     </div>
   </div>
 </nav>
 
-<!-- CONTENIDO PRINCIPAL -->
 <router-outlet></router-outlet>
+<app-toast></app-toast>

@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { UsuarioService } from '../services/usuario.service';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-registro-usuario',
@@ -51,12 +52,10 @@ export class RegistroUsuarioComponent {
         if (rol === 'admin') {
           console.warn("🚫 Admin detectado → NO guardar token/rol en Angular");
 
-          // Limpia cualquier rastro previo
           localStorage.clear();
 
-          // Redirige directo al panel admin React
           window.location.href = "http://localhost:3001/admin/dashboard";
-          return; // IMPORTANTE: nunca continuar
+          return;
         }
 
         // ✔ USUARIO NORMAL → Guardar data
@@ -73,15 +72,39 @@ export class RegistroUsuarioComponent {
 
         console.log(`🎉 Bienvenido ${usuario?.nombres ?? ''} (${rol})`);
 
-        this.router.navigate(['/home']);
+        this.usuarioService.actualizarEstado();
+
+        // ⭐⭐ → SWAL FIRE AL LOGUEARSE CORRECTAMENTE
+        Swal.fire({
+          title: `Bienvenido ${usuario?.nombres ?? ''}!`,
+          text: 'Has iniciado sesión correctamente.',
+          icon: 'success',
+          confirmButtonText: 'Aceptar',
+          confirmButtonColor: '#3085d6',
+          timer: 2000,
+          timerProgressBar: true,
+        });
+
+        // Redirigir después de un pequeño retraso
+        setTimeout(() => {
+          this.router.navigate(['/home']);
+        }, 1500);
 
         this.cargando = false;
         this.loginForm.reset();
       },
+
       error: err => {
         console.error('❌ Error en login:', err);
         this.respuesta = err.error;
         this.cargando = false;
+
+        // ❌ Al fallar login → mensaje Swal
+        Swal.fire({
+          title: 'Error',
+          text: 'Correo o contraseña incorrectos.',
+          icon: 'error'
+        });
       }
     });
   }

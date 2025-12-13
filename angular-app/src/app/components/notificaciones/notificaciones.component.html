@@ -1,0 +1,164 @@
+<div style="height: 75px;"></div>
+
+<section class="notificaciones-section py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+
+                <!-- Header -->
+                <div class="card shadow-lg mb-4">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center flex-wrap">
+                            <h2 class="fw-bold mb-0">
+                                <i class="bi bi-bell-fill text-primary me-2"></i>
+                                Notificaciones
+                            </h2>
+                            <div class="d-flex gap-2">
+                                <button class="btn btn-sm btn-outline-primary" (click)="marcarTodasLeidas()"
+                                    [disabled]="totalNoLeidas === 0">
+                                    <i class="bi bi-check-all"></i> Marcar todas como leídas
+                                </button>
+                                <button class="btn btn-sm btn-outline-secondary" (click)="cargarNotificaciones()">
+                                    <i class="bi bi-arrow-clockwise"></i> Actualizar
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Contador -->
+                        <div class="mt-3" *ngIf="!cargando">
+                            <span class="badge bg-primary">
+                                Total: {{ notificaciones.length }}
+                            </span>
+                            <span class="badge bg-warning text-dark ms-2" *ngIf="totalNoLeidas > 0">
+                                Sin leer: {{ totalNoLeidas }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mensaje de éxito -->
+                <div class="alert alert-success alert-dismissible fade show" role="alert" *ngIf="mensajeExito">
+                    {{ mensajeExito }}
+                    <button type="button" class="btn-close" (click)="mensajeExito = ''"></button>
+                </div>
+
+                <!-- Filtros -->
+                <div class="card shadow-sm mb-4">
+                    <div class="card-body">
+                        <div class="d-flex gap-2 flex-wrap">
+                            <button class="btn btn-sm" [class.btn-primary]="filtroActivo === 'todas'"
+                                [class.btn-outline-primary]="filtroActivo !== 'todas'" (click)="aplicarFiltro('todas')">
+                                Todas
+                            </button>
+                            <button class="btn btn-sm" [class.btn-warning]="filtroActivo === 'noLeidas'"
+                                [class.btn-outline-warning]="filtroActivo !== 'noLeidas'"
+                                (click)="aplicarFiltro('noLeidas')">
+                                No leídas
+                            </button>
+                            <button class="btn btn-sm" [class.btn-secondary]="filtroActivo === 'leidas'"
+                                [class.btn-outline-secondary]="filtroActivo !== 'leidas'"
+                                (click)="aplicarFiltro('leidas')">
+                                Leídas
+                            </button>
+                            <button class="btn btn-sm" [class.btn-success]="filtroActivo === 'cita_confirmada'"
+                                [class.btn-outline-success]="filtroActivo !== 'cita_confirmada'"
+                                (click)="aplicarFiltro('cita_confirmada')">
+                                Confirmadas
+                            </button>
+                            <button class="btn btn-sm" [class.btn-info]="filtroActivo === 'cita_atendida'"
+                                [class.btn-outline-info]="filtroActivo !== 'cita_atendida'"
+                                (click)="aplicarFiltro('cita_atendida')">
+                                Atendidas
+                            </button>
+                            <button class="btn btn-sm" [class.btn-danger]="filtroActivo === 'cita_cancelada'"
+                                [class.btn-outline-danger]="filtroActivo !== 'cita_cancelada'"
+                                (click)="aplicarFiltro('cita_cancelada')">
+                                Canceladas
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Loading -->
+                <div class="text-center py-5" *ngIf="cargando">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Cargando...</span>
+                    </div>
+                    <p class="mt-3">Cargando notificaciones...</p>
+                </div>
+
+                <!-- Error -->
+                <div class="alert alert-danger" *ngIf="error">
+                    {{ error }}
+                </div>
+
+                <!-- Lista de Notificaciones -->
+                <div *ngIf="!cargando && !error">
+                    <!-- Sin notificaciones -->
+                    <div class="card shadow-sm text-center py-5" *ngIf="notificacionesFiltradas.length === 0">
+                        <div class="card-body">
+                            <i class="bi bi-inbox display-1 text-muted"></i>
+                            <h4 class="mt-3">No hay notificaciones</h4>
+                            <p class="text-muted">
+                                {{ filtroActivo === 'todas' ? 'Aún no tienes notificaciones' : 'No hay notificaciones
+                                con este filtro' }}
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Notificaciones -->
+                    <div class="notificacion-item" *ngFor="let notif of notificacionesFiltradas"
+                        [class.no-leida]="!notif.leida" (click)="marcarComoLeida(notif)">
+
+                        <div class="d-flex">
+                            <!-- Icono -->
+                            <div class="notificacion-icono me-3">
+                                <span class="icono-tipo" [ngClass]="obtenerClaseTipo(notif.tipo)">
+                                    {{ obtenerIconoTipo(notif.tipo) }}
+                                </span>
+                            </div>
+
+                            <!-- Contenido -->
+                            <div class="flex-grow-1">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <h5 class="mb-1 fw-bold">{{ notif.titulo }}</h5>
+                                    <small class="text-muted">{{ formatearFecha(notif.fecha_creacion) }}</small>
+                                </div>
+
+                                <p class="mb-2 text-muted">{{ notif.mensaje }}</p>
+
+                                <!-- Detalles de la cita -->
+                                <div class="detalles-cita" *ngIf="notif.fecha_cita">
+                                    <small class="text-secondary">
+                                        <i class="bi bi-calendar-event me-1"></i>
+                                        {{ notif.fecha_cita | date: 'dd/MM/yyyy' }}
+                                        <i class="bi bi-clock ms-2 me-1"></i>
+                                        {{ notif.hora_cita }}
+                                        <i class="bi bi-geo-alt ms-2 me-1" *ngIf="notif.nombre_oficina"></i>
+                                        {{ notif.nombre_oficina }}
+                                    </small>
+                                </div>
+
+                                <!-- Badge de estado -->
+                                <span class="badge mt-2"
+                                    [ngClass]="!notif.leida ? 'bg-warning text-dark' : 'bg-secondary'">
+                                    {{ notif.leida ? 'Leída' : 'Nueva' }}
+                                </span>
+                            </div>
+
+                            <!-- Botón eliminar -->
+                            <div class="ms-2">
+                                <button class="btn btn-sm btn-outline-danger"
+                                    (click)="eliminarNotificacion(notif.id_notificacion); $event.stopPropagation()"
+                                    title="Eliminar notificación">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>

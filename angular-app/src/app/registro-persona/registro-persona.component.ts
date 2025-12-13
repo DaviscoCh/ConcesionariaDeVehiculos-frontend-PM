@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UsuarioService } from '../services/usuario.service';
 import { CommonModule } from '@angular/common';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-registro-persona',
@@ -30,16 +31,39 @@ export class RegistroPersonaComponent {
 
   registrar() {
     if (this.personaForm.invalid) return;
+
     this.cargando = true;
+
     this.usuarioService.registrarUsuario(this.personaForm.value).subscribe({
       next: res => {
         this.respuesta = res;
         this.cargando = false;
+
+        // ⭐ Swal cuando el registro es exitoso
+        Swal.fire({
+          title: 'Registro exitoso 🎉',
+          text: 'Tu cuenta ha sido creada correctamente.',
+          icon: 'success',
+          confirmButtonText: 'Aceptar',
+          confirmButtonColor: '#3085d6',
+          timer: 3000,
+          timerProgressBar: true,
+        });
+
         this.personaForm.reset();
       },
+
       error: err => {
         this.respuesta = err.error;
         this.cargando = false;
+
+        // ❌ Swal cuando hay error (correo duplicado, etc.)
+        Swal.fire({
+          title: 'Error en el registro',
+          text: err.error?.message ?? 'Ocurrió un problema al registrar.',
+          icon: 'error',
+          confirmButtonText: 'Aceptar'
+        });
       }
     });
   }

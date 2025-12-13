@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ToastService } from '../../services/toast.service';
 
 @Component({
   selector: 'app-home',
@@ -7,6 +8,8 @@ import { Component } from '@angular/core';
   styleUrl: './home.component.css'
 })
 export class HomeComponent {
+  constructor(private toastService: ToastService) { }
+
   autosDestacados = [
     {
       nombre: 'Toyota Supra',
@@ -27,4 +30,15 @@ export class HomeComponent {
       imagen: 'https://blog.consumerguide.com/wp-content/uploads/sites/2/2021/09/aIMG_5370.jpg'
     }
   ];
+
+  probarToast() {
+    console.log('Llamando al toast...');
+    this.toastService.mostrar({
+      tipo: 'info',
+      titulo: 'Prueba',
+      mensaje: 'Este es un toast de prueba',
+      duracion: 5000
+    });
+  }
+
 }
