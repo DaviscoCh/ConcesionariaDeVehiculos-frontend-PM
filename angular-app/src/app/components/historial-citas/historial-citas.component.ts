@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-historial-citas',
@@ -14,7 +15,7 @@ export class HistorialCitasComponent implements OnInit {
   today = new Date().toISOString().slice(0, 10);
   citas: any[] = [];
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) { }
 
   ngOnInit(): void {
     const token = localStorage.getItem('token');
@@ -32,5 +33,11 @@ export class HistorialCitasComponent implements OnInit {
           this.error = 'No se pudo cargar el historial de citas.';
         }
       });
+  }
+
+  verFactura(id_cita: string) {
+    this.router.navigate(['/facturas'], {
+      queryParams: { cita: id_cita }
+    });
   }
 }

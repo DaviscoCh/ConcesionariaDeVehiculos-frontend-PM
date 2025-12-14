@@ -18,6 +18,7 @@ import { NotificacionesComponent } from './components/notificaciones/notificacio
 import { ToastComponent } from './components/toast/toast.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FavoritosComponent } from './components/favoritos/favoritos.component';
+import { FacturasComponent } from './components/facturas/facturas.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { FavoritosComponent } from './components/favoritos/favoritos.component';
     PerfilComponent,
     TarjetasComponent,
     NotificacionesComponent,
-    FavoritosComponent
+    FavoritosComponent,
+    FacturasComponent
   ],
   imports: [
     BrowserModule,

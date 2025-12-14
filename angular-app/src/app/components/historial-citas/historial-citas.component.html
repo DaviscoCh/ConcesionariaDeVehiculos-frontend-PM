@@ -1,48 +1,100 @@
-<div style="height: 75px;"></div>
-<section class="historial-section py-5">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-8">
-                <div class="card shadow-lg p-4 rounded-4 historial-card">
-                    <h2 class="fw-bold mb-4 text-center">📅 Historial de Citas</h2>
+<div style="height: 80px;"></div>
 
-                    <div *ngIf="citas.length > 0; else sinCitas">
-                        <div class="row row-cols-1 row-cols-md-2 g-3 mb-4">
-                            <div *ngFor="let c of citas" class="col">
-                                <div class="card p-3 compra-item shadow-sm">
-                                    <p><strong>🚗 Vehículo:</strong> {{ c.marca }} {{ c.modelo }} - {{ c.anio }}</p>
-                                    <p><strong>🏢 Oficina:</strong> {{ c.nombre_oficina }}</p>
-                                    <p><strong>📅 Fecha:</strong> {{ c.fecha | date:'mediumDate' }}</p>
-                                    <p><strong>🕐 Hora:</strong> {{ c.hora }}</p>
-                                    <p><strong>📊 Estado:</strong>
-                                        <span [ngClass]="{
-                                            'text-warning': c.estado === 'Pendiente',
-                                            'text-success': c.estado === 'Confirmada',
-                                            'text-primary': c.estado === 'Atendida',
-                                            'text-danger': c.estado === 'Cancelada'
-                                        }">{{ c.estado }}</span>
-                                    </p>
-                                    <p><strong>💬 Comentario:</strong> {{ c.comentario || '—' }}</p>
-                                    <p *ngIf="c.estado === 'Atendida'" class="text-success mb-0">
-                                        <strong>✔ Cita cumplida</strong>
-                                    </p>
+<section class="historial-section">
+    <div class="container">
+        <!-- Encabezado -->
+        <div class="historial-header text-center mb-5">
+            <div class="header-icon">
+                <i class="bi bi-calendar-check"></i>
+            </div>
+            <h2 class="section-title">📅 Historial de Citas</h2>
+            <p class="section-subtitle">Revisa el estado de todas tus citas agendadas</p>
+        </div>
+
+        <!-- Lista de citas -->
+        <div *ngIf="citas.length > 0; else sinCitas">
+            <div class="row g-4">
+                <div *ngFor="let c of citas" class="col-12 col-md-6 col-lg-4">
+                    <div class="card compra-item h-100">
+                        <!-- Badge de estado en la esquina -->
+                        <div class="estado-badge">
+                            <span [ngClass]="{
+                                'badge-warning': c.estado === 'Pendiente',
+                                'badge-success': c.estado === 'Confirmada',
+                                'badge-primary': c.estado === 'Atendida',
+                                'badge-danger': c.estado === 'Cancelada'
+                            }">{{ c.estado }}</span>
+                        </div>
+
+                        <div class="card-body">
+                            <!-- Vehículo -->
+                            <div class="cita-info mb-3">
+                                <h6 class="info-label">🚗 Vehículo</h6>
+                                <p class="info-value">{{ c.marca }} {{ c.modelo }} ({{ c.anio }})</p>
+                            </div>
+
+                            <!-- Oficina -->
+                            <div class="cita-info mb-3">
+                                <h6 class="info-label">🏢 Oficina</h6>
+                                <p class="info-value">{{ c.nombre_oficina }}</p>
+                            </div>
+
+                            <!-- Fecha y Hora -->
+                            <div class="row mb-3">
+                                <div class="col-6">
+                                    <div class="cita-info">
+                                        <h6 class="info-label">📅 Fecha</h6>
+                                        <p class="info-value">{{ c.fecha | date:'dd/MM/yyyy' }}</p>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="cita-info">
+                                        <h6 class="info-label">🕐 Hora</h6>
+                                        <p class="info-value">{{ c.hora?.substring(0, 5) }}</p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
 
-                    <ng-template #sinCitas>
-                        <div class="alert alert-warning text-center mb-4">
-                            <i class="fas fa-calendar-times fa-3x mb-3"></i>
-                            <p class="mb-0">No tienes citas registradas aún.</p>
-                        </div>
-                    </ng-template>
+                            <!-- Comentario -->
+                            <div class="cita-info mb-3" *ngIf="c.comentario">
+                                <h6 class="info-label">💬 Comentario</h6>
+                                <p class="info-value text-muted">{{ c.comentario }}</p>
+                            </div>
 
-                    <div *ngIf="error" class="alert alert-danger text-center">
-                        <i class="fas fa-exclamation-circle"></i> {{ error }}
+                            <!-- Mensaje de cita cumplida -->
+                            <div *ngIf="c.estado === 'Atendida'" class="alert-cumplida mb-3">
+                                <i class="bi bi-check-circle-fill me-2"></i>
+                                <strong>Cita cumplida</strong>
+                            </div>
+
+                            <!-- Botón ver factura -->
+                            <button *ngIf="c.estado === 'Atendida'" class="btn btn-primary w-100"
+                                (click)="verFactura(c.id_cita)">
+                                <i class="bi bi-receipt me-2"></i>Ver Factura
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
+        </div>
+
+        <!-- Sin citas -->
+        <ng-template #sinCitas>
+            <div class="empty-state">
+                <div class="empty-icon-bg">
+                    <i class="bi bi-calendar-x"></i>
+                </div>
+                <h3>No tienes citas registradas</h3>
+                <p>Agenda tu primera cita para ver tu historial aquí</p>
+                <a routerLink="/reservar-cita" class="btn btn-primary mt-3">
+                    <i class="bi bi-calendar-plus me-2"></i>Agendar Cita
+                </a>
+            </div>
+        </ng-template>
+
+        <!-- Error -->
+        <div *ngIf="error" class="alert alert-danger text-center mt-4">
+            <i class="bi bi-exclamation-circle me-2"></i>{{ error }}
         </div>
     </div>
 </section>

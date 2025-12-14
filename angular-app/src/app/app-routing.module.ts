@@ -13,6 +13,7 @@ import { ReservarCitaComponent } from './components/reservar-cita/reservar-cita.
 import { NotificacionesComponent } from './components/notificaciones/notificaciones.component';
 import { ToastComponent } from './components/toast/toast.component';
 import { FavoritosComponent } from './components/favoritos/favoritos.component';
+import { FacturasComponent } from './components/facturas/facturas.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -27,6 +28,7 @@ const routes: Routes = [
   { path: 'notificaciones', component: NotificacionesComponent, canActivate: [AuthGuard] },
   { path: 'toast', component: ToastComponent, canActivate: [AuthGuard] },
   { path: 'favoritos', component: FavoritosComponent, canActivate: [AuthGuard] },
+  { path: 'facturas', component: FacturasComponent, canActivate: [AuthGuard] },
   { path: '**', redirectTo: 'home' }
 ];
 

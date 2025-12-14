@@ -1,39 +1,292 @@
+/* ========================================
+   SECCIÓN PRINCIPAL
+======================================== */
 .historial-section {
-    min-height: 90vh;
-    background: #f3f4f6;
+    min-height: calc(100vh - 80px);
+    padding: 3rem 0;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
     font-family: 'Poppins', sans-serif;
 }
 
-.historial-card {
-    background-color: #ffffffcc;
-    border: none;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+/* ========================================
+   ENCABEZADO
+======================================== */
+.historial-header {
+    animation: fadeInUp 0.6s ease-out;
 }
 
-.historial-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+.header-icon {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #0066cc 0%, #004999 100%);
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 10px 30px rgba(0, 102, 204, 0.3);
 }
 
-/* Compras individuales */
+.header-icon i {
+    font-size: 2.5rem;
+    color: white;
+}
+
+.section-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #111a2e;
+    margin-bottom: 0.5rem;
+}
+
+.section-subtitle {
+    font-size: 1.1rem;
+    color: #6c757d;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* ========================================
+   CARDS DE CITAS
+======================================== */
 .compra-item {
-    border-radius: 0.75rem;
-    background: linear-gradient(135deg, #fef3c7, #fde68a);
-    padding: 1rem;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: none;
+    border-radius: 16px;
+    background: white;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    position: relative;
+    overflow: visible;
 }
 
 .compra-item:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+    transform: translateY(-8px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
 }
 
-/* Textos */
-.compra-item p {
-    margin-bottom: 0.4rem;
+/* ========================================
+   BADGE DE ESTADO
+======================================== */
+.estado-badge {
+    position: absolute;
+    top: -12px;
+    right: 15px;
+    z-index: 10;
 }
 
-/* Alertas */
-.alert {
+.estado-badge span {
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    display: inline-block;
+}
+
+.badge-warning {
+    background: linear-gradient(135deg, #ff9800, #f57c00);
+    color: white;
+}
+
+.badge-success {
+    background: linear-gradient(135deg, #28a745, #20c997);
+    color: white;
+}
+
+.badge-primary {
+    background: linear-gradient(135deg, #0066cc, #0052a3);
+    color: white;
+}
+
+.badge-danger {
+    background: linear-gradient(135deg, #dc3545, #c82333);
+    color: white;
+}
+
+/* ========================================
+   CONTENIDO DE LA CITA
+======================================== */
+.card-body {
+    padding: 2rem 1.5rem 1.5rem;
+}
+
+.cita-info {
+    margin-bottom: 0;
+}
+
+.info-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #6c757d;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.25rem;
+}
+
+.info-value {
     font-size: 0.95rem;
+    color: #111a2e;
+    font-weight: 500;
+    margin-bottom: 0;
+    line-height: 1.4;
+}
+
+/* ========================================
+   ALERTA DE CITA CUMPLIDA
+======================================== */
+.alert-cumplida {
+    background: linear-gradient(135deg, #d4edda, #c3e6cb);
+    border-left: 4px solid #28a745;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    color: #155724;
+}
+
+/* ========================================
+   BOTÓN VER FACTURA
+======================================== */
+.compra-item .btn-primary {
+    background: linear-gradient(135deg, #0066cc, #0052a3);
+    border: none;
+    font-weight: 600;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 102, 204, 0.2);
+}
+
+.compra-item .btn-primary:hover {
+    background: linear-gradient(135deg, #0052a3, #003d7a);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 102, 204, 0.3);
+}
+
+/* ========================================
+   ESTADO VACÍO
+======================================== */
+.empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    animation: fadeIn 0.5s ease-out;
+}
+
+.empty-icon-bg {
+    width: 120px;
+    height: 120px;
+    background: rgba(0, 102, 204, 0.1);
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 2rem;
+}
+
+.empty-icon-bg i {
+    font-size: 3.5rem;
+    color: #0066cc;
+}
+
+.empty-state h3 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #111a2e;
+    margin-bottom: 0.5rem;
+}
+
+.empty-state p {
+    color: #6c757d;
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+}
+
+/* ========================================
+   ALERTAS
+======================================== */
+.alert-danger {
+    background: linear-gradient(135deg, #f8d7da, #f5c6cb);
+    border: none;
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+/* ========================================
+   RESPONSIVE
+======================================== */
+@media (max-width: 768px) {
+    .historial-section {
+        padding: 2rem 0;
+    }
+
+    .section-title {
+        font-size: 2rem;
+    }
+
+    .card-body {
+        padding: 1.5rem 1.25rem 1.25rem;
+    }
+
+    .estado-badge {
+        top: -10px;
+        right: 10px;
+    }
+
+    .estado-badge span {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.8rem;
+    }
+}
+
+/* ========================================
+   ANIMACIONES
+======================================== */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.compra-item {
+    animation: fadeInUp 0.5s ease-out backwards;
+}
+
+.compra-item:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.compra-item:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.compra-item:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+.compra-item:nth-child(4) {
+    animation-delay: 0.4s;
+}
+
+.compra-item:nth-child(5) {
+    animation-delay: 0.5s;
+}
+
+.compra-item:nth-child(6) {
+    animation-delay: 0.6s;
 }
