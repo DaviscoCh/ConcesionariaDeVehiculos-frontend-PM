@@ -1,0 +1,118 @@
+<div class="header-spacer"></div>
+
+<section class="favoritos-section">
+    <div class="container">
+        <!-- Encabezado -->
+        <div class="favoritos-header text-center mb-5 fade-in-up">
+            <div class="header-icon">
+                <i class="bi bi-heart-fill"></i>
+            </div>
+            <h2 class="section-title">Mis Favoritos</h2>
+            <p class="section-subtitle">Los vehículos que más te interesan, guardados en un solo lugar</p>
+        </div>
+
+        <!-- Estado de carga -->
+        <div *ngIf="cargando" class="loading-state py-5">
+            <div class="spinner-grow text-primary" role="status"></div>
+            <p class="mt-3 text-muted fw-medium">Cargando tus favoritos...</p>
+        </div>
+
+        <!-- Sin favoritos -->
+        <div *ngIf="!cargando && favoritos.length === 0" class="empty-state py-5">
+            <div class="empty-icon-bg">
+                <i class="bi bi-heart"></i>
+            </div>
+            <h3>Aún no tienes favoritos</h3>
+            <p>Explora nuestro catálogo y guarda los vehículos que te interesen</p>
+            <button class="btn btn-primary mt-3" (click)="irAVehiculos()">
+                <i class="bi bi-search me-2"></i>Explorar Vehículos
+            </button>
+        </div>
+
+        <!-- Lista de favoritos -->
+        <div *ngIf="!cargando && favoritos.length > 0">
+            <div class="results-info mb-4">
+                <span class="text-muted">
+                    <i class="bi bi-heart-fill text-danger me-2"></i>
+                    Tienes <strong>{{ favoritos.length }}</strong>
+                    {{ favoritos.length === 1 ? 'vehículo favorito' : 'vehículos favoritos' }}
+                </span>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-4 col-xl-3 fade-in-item" *ngFor="let fav of favoritos"
+                    [class.eliminando]="eliminando.has(fav.id_vehiculo)">
+
+                    <div class="card vehicle-card h-100">
+                        <div class="vehicle-img-wrapper">
+                            <img [src]="fav.imagen_url" [alt]="fav.marca_nombre + ' ' + fav.modelo_nombre"
+                                class="vehicle-img">
+
+                            <div class="badge-overlay top-right">
+                                <span class="badge"
+                                    [ngClass]="fav.estado === 'Disponible' ? 'bg-success-gradient' : 'bg-secondary'">
+                                    {{ fav.estado }}
+                                </span>
+                            </div>
+
+                            <div class="vehicle-hover-action">
+                                <button class="btn btn-light btn-pill fw-bold" (click)="verDetalles(fav.id_vehiculo)">
+                                    Ver Detalles <i class="bi bi-arrow-right ms-1"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="card-body d-flex flex-column p-3">
+                            <!-- Header con tipo y marca/modelo -->
+                            <div class="vehicle-header mb-3">
+                                <span class="vehicle-type-badge">{{ fav.tipo }}</span>
+                                <h5 class="vehicle-title mb-1">
+                                    {{ fav.marca_nombre }}
+                                    <span class="vehicle-model">{{ fav.modelo_nombre }}</span>
+                                </h5>
+                            </div>
+
+                            <!-- Características -->
+                            <div class="vehicle-specs mb-3">
+                                <div class="spec-item">
+                                    <i class="bi bi-calendar-check"></i>
+                                    <span>{{ fav.anio }}</span>
+                                </div>
+                                <div class="spec-divider"></div>
+                                <div class="spec-item">
+                                    <i class="bi bi-palette-fill"></i>
+                                    <span>{{ fav.color }}</span>
+                                </div>
+                            </div>
+
+                            <!-- Fecha agregado -->
+                            <div class="favorite-date mb-3">
+                                <i class="bi bi-clock-history me-1"></i>
+                                <small class="text-muted">
+                                    Agregado el {{ fav.fecha_agregado | date:'dd/MM/yyyy' }}
+                                </small>
+                            </div>
+
+                            <!-- Precio y acciones -->
+                            <div class="vehicle-footer mt-auto">
+                                <div class="price-section">
+                                    <span class="price-label">Precio</span>
+                                    <div class="price-wrapper">
+                                        <span class="currency">$</span>
+                                        <span class="price-amount">{{ fav.precio | number:'1.0-0' }}</span>
+                                    </div>
+                                </div>
+                                <button class="btn-remove-favorite" [disabled]="eliminando.has(fav.id_vehiculo)"
+                                    (click)="eliminarFavorito(fav.id_vehiculo)" title="Eliminar de favoritos">
+                                    <i class="bi bi-trash-fill"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

@@ -1,42 +1,214 @@
-<div style="height: 75px;"></div>
-<!-- Eliminamos el espacio blanco -->
-<section class="vehiculos py-5 bg-light">
+<div style="height: 25px;"></div>
+<div class="header-spacer"></div>
+<section class="vehiculos-section">
     <div class="container">
-        <h2 class="text-center fw-bold mb-5">Vehículos Disponibles</h2>
 
-        <!-- Indicadores de carga -->
-        <div *ngIf="cargando" class="text-center text-muted">
-            <div class="spinner-border text-primary" role="status"></div>
-            <p class="mt-2">Cargando vehículos...</p>
+        <div class="text-center mb-5 fade-in-up">
+            <h2 class="section-title">Encuentra tu próximo auto</h2>
+            <p class="section-subtitle">Explora nuestra selección premium de vehículos certificados</p>
+
+            <div class="search-hero-container">
+                <div class="search-hero-wrapper shadow-lg">
+                    <i class="bi bi-search search-icon"></i>
+                    <input type="text" class="form-control search-input" placeholder="Buscar por marca, modelo..."
+                        [(ngModel)]="filtros.busqueda" (input)="onBusquedaChange()" (keyup.enter)="aplicarFiltros()" />
+
+                    <button class="btn btn-search-action" (click)="aplicarFiltros()">
+                        Buscar
+                    </button>
+                </div>
+            </div>
+
+            <button class="btn btn-link btn-toggle-filters mt-3" (click)="toggleFiltros()">
+                <i class="bi" [ngClass]="mostrarFiltros ? 'bi-funnel-fill' : 'bi-funnel'"></i>
+                {{ mostrarFiltros ? 'Ocultar filtros avanzados' : 'Ver filtros avanzados' }}
+            </button>
         </div>
 
-        <div *ngIf="!cargando && vehiculos.length === 0" class="alert alert-warning text-center">
-            No hay vehículos disponibles en este momento.
-        </div>
-
-        <!-- Catálogo de vehículos -->
-        <div *ngIf="!cargando && vehiculos.length > 0" class="row g-4">
-            <div class="col-md-4 col-lg-3" *ngFor="let v of vehiculos">
-                <div class="card vehiculo-card shadow-sm h-100 border-0">
-                    <div class="vehiculo-img-container">
-                        <img [src]="v.imagen_url" alt="{{ v.marca }} {{ v.modelo }}" class="card-img-top vehiculo-img">
-                        <div class="vehiculo-overlay">
-                            <a [routerLink]="['/vehiculos-detalle', v.id_vehiculo]" class="btn btn-primary btn-sm">
-                                <i class="bi bi-eye"></i> Ver detalle
-                            </a>
+        <div class="filters-panel-wrapper" *ngIf="mostrarFiltros">
+            <div class="card filters-card shadow-sm border-0">
+                <div class="card-body p-4">
+                    <div class="row g-3">
+                        <!-- Filtro Marca -->
+                        <div class="col-md-3">
+                            <label class="filter-label">Marca</label>
+                            <select class="form-select custom-select" [(ngModel)]="filtros.marca"
+                                (change)="aplicarFiltros()">
+                                <option value="">Todas</option>
+                                <option *ngFor="let marca of marcas" [value]="marca">{{ marca }}</option>
+                            </select>
                         </div>
-                    </div>
 
-                    <div class="card-body text-center">
-                        <h5 class="card-title mb-1">{{ v.marca }} {{ v.modelo }}</h5>
-                        <p class="text-muted mb-2">{{ v.anio }}</p>
-                        <p class="fw-bold text-primary mb-1">\${{ v.precio | number }}</p>
-                        <span class="badge" [ngClass]="v.estado === 'Disponible' ? 'bg-success' : 'bg-secondary'">
-                            {{ v.estado }}
-                        </span>
+                        <!-- Filtro Modelo -->
+                        <div class="col-md-3">
+                            <label class="filter-label">Modelo</label>
+                            <select class="form-select custom-select" [(ngModel)]="filtros.modelo"
+                                (change)="aplicarFiltros()">
+                                <option value="">Todos</option>
+                                <option *ngFor="let modelo of modelos" [value]="modelo">{{ modelo }}</option>
+                            </select>
+                        </div>
+
+                        <!-- Filtro Año -->
+                        <div class="col-md-3">
+                            <label class="filter-label">Año</label>
+                            <select class="form-select custom-select" [(ngModel)]="filtros.anio"
+                                (change)="aplicarFiltros()">
+                                <option value="">Todos</option>
+                                <option *ngFor="let anio of anios" [value]="anio">{{ anio }}</option>
+                            </select>
+                        </div>
+
+                        <!-- Filtro Tipo (NUEVO) -->
+                        <div class="col-md-3">
+                            <label class="filter-label">Tipo</label>
+                            <select class="form-select custom-select" [(ngModel)]="filtros.tipo"
+                                (change)="aplicarFiltros()">
+                                <option value="">Todos</option>
+                                <option *ngFor="let tipo of tipos" [value]="tipo">{{ tipo }}</option>
+                            </select>
+                        </div>
+
+                        <!-- Filtro Color (NUEVO) -->
+                        <div class="col-md-3">
+                            <label class="filter-label">Color</label>
+                            <select class="form-select custom-select" [(ngModel)]="filtros.color"
+                                (change)="aplicarFiltros()">
+                                <option value="">Todos</option>
+                                <option *ngFor="let color of colores" [value]="color">{{ color }}</option>
+                            </select>
+                        </div>
+
+                        <!-- Filtro Estado -->
+                        <div class="col-md-3">
+                            <label class="filter-label">Estado</label>
+                            <select class="form-select custom-select" [(ngModel)]="filtros.estado"
+                                (change)="aplicarFiltros()">
+                                <option value="">Cualquiera</option>
+                                <option value="Disponible">Disponible</option>
+                                <option value="Vendido">Vendido</option>
+                            </select>
+                        </div>
+
+                        <!-- Filtro Precio Mínimo -->
+                        <div class="col-md-3">
+                            <label class="filter-label">Precio Mín.</label>
+                            <div class="input-group input-group-sm">
+                                <span class="input-group-text bg-white border-end-0 text-muted">$</span>
+                                <input type="number" class="form-control border-start-0" placeholder="0"
+                                    [(ngModel)]="filtros.precioMin" (blur)="aplicarFiltros()">
+                            </div>
+                        </div>
+
+                        <!-- Filtro Precio Máximo -->
+                        <div class="col-md-3">
+                            <label class="filter-label">Precio Máx.</label>
+                            <div class="input-group input-group-sm">
+                                <span class="input-group-text bg-white border-end-0 text-muted">$</span>
+                                <input type="number" class="form-control border-start-0" placeholder="Sin límite"
+                                    [(ngModel)]="filtros.precioMax" (blur)="aplicarFiltros()">
+                            </div>
+                        </div>
+
+                        <!-- Botones de acción -->
+                        <div class="col-md-12 d-flex align-items-end gap-2 mt-3">
+                            <button class="btn btn-primary flex-grow-1" (click)="aplicarFiltros()">
+                                <i class="bi bi-check-circle me-1"></i> Aplicar Filtros
+                            </button>
+                            <button class="btn btn-outline-secondary" (click)="limpiarFiltros()"
+                                *ngIf="hayFiltrosActivos()" style="min-width: 120px;">
+                                <i class="bi bi-trash me-1"></i> Limpiar
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+
+        <div *ngIf="cargando" class="loading-state py-5">
+            <div class="spinner-grow text-primary" role="status"></div>
+            <p class="mt-3 text-muted fw-medium">Buscando las mejores opciones...</p>
+        </div>
+
+        <div *ngIf="!cargando && vehiculosFiltrados.length === 0" class="empty-state py-5">
+            <div class="empty-icon-bg">
+                <i class="bi bi-search"></i>
+            </div>
+            <h3>No encontramos resultados</h3>
+            <p>Intenta ajustar tus filtros o busca algo diferente.</p>
+            <button class="btn btn-outline-primary mt-2" (click)="limpiarFiltros()">Ver todo el inventario</button>
+        </div>
+        <!-- 
+        <div class="results-info mb-4 d-flex justify-content-between align-items-center"
+            *ngIf="!cargando && vehiculosFiltrados.length > 0">
+            <span class="text-muted">Mostrando <strong>{{ vehiculosFiltrados.length }}</strong> vehículos</span>
+        </div>
+        -->
+        <div *ngIf="!cargando && vehiculosFiltrados.length > 0" class="row g-4">
+            <div class="col-md-6 col-lg-4 col-xl-3 fade-in-item" *ngFor="let v of vehiculosFiltrados">
+
+                <div class="card vehicle-card h-100">
+                    <div class="vehicle-img-wrapper">
+                        <img [src]="v.imagen_url" alt="{{ v.marca }} {{ v.modelo }}" class="vehicle-img">
+
+                        <div class="badge-overlay top-right">
+                            <span class="badge"
+                                [ngClass]="v.estado === 'Disponible' ? 'bg-success-gradient' : 'bg-secondary'">
+                                {{ v.estado }}
+                            </span>
+                        </div>
+
+                        <div class="vehicle-hover-action">
+                            <a [routerLink]="['/vehiculos-detalle', v.id_vehiculo]"
+                                class="btn btn-light btn-pill fw-bold">
+                                Ver Detalles <i class="bi bi-arrow-right ms-1"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="card-body d-flex flex-column p-3">
+                        <!-- Header con tipo y marca/modelo -->
+                        <div class="vehicle-header mb-3">
+                            <span class="vehicle-type-badge">{{ v.tipo }}</span>
+                            <h5 class="vehicle-title mb-1">{{ v.marca }} <span class="vehicle-model">{{ v.modelo
+                                    }}</span></h5>
+                        </div>
+
+                        <!-- Características con iconos -->
+                        <div class="vehicle-specs mb-3">
+                            <div class="spec-item">
+                                <i class="bi bi-calendar-check"></i>
+                                <span>{{ v.anio }}</span>
+                            </div>
+                            <div class="spec-divider"></div>
+                            <div class="spec-item">
+                                <i class="bi bi-palette-fill"></i>
+                                <span>{{ v.color }}</span>
+                            </div>
+                        </div>
+
+                        <!-- Precio y acción -->
+                        <div class="vehicle-footer mt-auto">
+                            <div class="price-section">
+                                <span class="price-label">Precio</span>
+                                <div class="price-wrapper">
+                                    <span class="currency">$</span>
+                                    <span class="price-amount" style="color: #111a2e !important;">{{ v.precio |
+                                        number:'1.0-0' }}</span>
+                                </div>
+                            </div>
+                            <button class="btn-favorite" [class.active]="esFavorito(v.id_vehiculo)"
+                                [disabled]="!usuarioService.isAuthenticated() || estaProcesando(v.id_vehiculo)"
+                                [title]="!usuarioService.isAuthenticated() ? 'Inicia sesión para agregar favoritos' : (esFavorito(v.id_vehiculo) ? 'Quitar de favoritos' : 'Agregar a favoritos')"
+                                (click)="toggleFavorito(v.id_vehiculo, $event)">
+                                <i class="bi" [ngClass]="esFavorito(v.id_vehiculo) ? 'bi-heart-fill' : 'bi-heart'"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
     </div>
 </section>

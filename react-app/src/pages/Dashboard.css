@@ -1,72 +1,371 @@
-/* === Dashboard.css === */
-
+/* === Dashboard Container (Consistente con Vehiculos) === */
 .dashboard-container {
     flex: 1;
     padding: 40px;
     background-color: #f9fafc;
+    /* Mismo fondo */
     min-height: 100vh;
     color: #111a2e;
 }
 
-.dashboard-container h2 {
-    font-size: 1.8rem;
-    font-weight: 700;
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 25px;
-    color: #111a2e;
 }
 
+.dashboard-header h2 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #111a2e;
+    margin: 0;
+}
+
+/* === Campanita (Estilo Botón Vehículos) === */
+.notif-bell-container {
+    position: relative;
+}
+
+.notif-bell-btn {
+    position: relative;
+    background: #ffffff;
+    /* Borde sutil similar al de los mensajes de éxito/tabla */
+    border: 1px solid #e6e9ef;
+    border-radius: 12px;
+    /* Coincide con el radius de la tabla */
+    width: 45px;
+    height: 45px;
+    font-size: 1.3rem;
+    color: #111a2e;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 6px rgba(17, 26, 46, 0.05);
+}
+
+.notif-bell-btn:hover {
+    background-color: #eef3fb;
+    /* Mismo hover que las filas de la tabla */
+    color: #007bff;
+    /* Azul de tus botones primarios */
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(17, 26, 46, 0.1);
+}
+
+.notif-bell-btn:active {
+    transform: scale(0.96);
+}
+
+/* Badge (Rojo consistente con botones de borrar) */
+.notif-bell-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: #dc3545;
+    /* Rojo de tu botón 'Delete' */
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 10px;
+    min-width: 18px;
+    text-align: center;
+    border: 2px solid #f9fafc;
+    /* Borde del color del fondo para separar */
+}
+
+/* === Panel Dropdown (Estructura tipo Tabla) === */
+.notif-panel-dropdown {
+    position: absolute;
+    top: 60px;
+    right: 0;
+    width: 380px;
+    background: white;
+    /* Mismo radio y sombra que .vehiculos-table */
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(17, 26, 46, 0.15);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    /* Para respetar los bordes redondeados */
+    border: 1px solid #e6e9ef;
+    animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* === Header del Panel (Igual a .vehiculos-table th) === */
+.notif-panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    background-color: #111a2e;
+    /* Fondo oscuro consistente */
+    border-bottom: 1px solid #111a2e;
+}
+
+.notif-panel-header h3 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #ffffff;
+    /* Texto blanco */
+    margin: 0;
+    letter-spacing: 0.5px;
+}
+
+.notif-panel-actions {
+    display: flex;
+    gap: 8px;
+}
+
+/* Botones pequeños en el header (Iconos blancos) */
+.btn-refrescar-small,
+.btn-marcar-small {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    border-radius: 6px;
+    width: 28px;
+    height: 28px;
+    cursor: pointer;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+
+.btn-refrescar-small:hover,
+.btn-marcar-small:hover {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+/* === Filtros === */
+.notif-panel-filtros {
+    display: flex;
+    background-color: #f5f7fb;
+    /* Gris claro de filas pares */
+    padding: 8px 16px;
+    border-bottom: 1px solid #e6e9ef;
+    gap: 10px;
+}
+
+.filtro-btn-small {
+    background: transparent;
+    border: none;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #6c757d;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: all 0.2s;
+}
+
+.filtro-btn-small:hover {
+    color: #111a2e;
+    background-color: #e6e9ef;
+}
+
+.filtro-btn-small.active {
+    color: #007bff;
+    /* Azul primario */
+    background-color: #eafcf0;
+    /* Fondo sutil (reutilizando paleta éxito si deseas, o blanco) */
+    /* Opcional: fondo blanco simple con sombra */
+    background-color: white;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* === Lista === */
+.notif-panel-lista {
+    flex: 1;
+    overflow-y: auto;
+    max-height: 400px;
+    background: white;
+}
+
+/* Scrollbar */
+.notif-panel-lista::-webkit-scrollbar {
+    width: 6px;
+}
+
+.notif-panel-lista::-webkit-scrollbar-thumb {
+    background: #cbd5e0;
+    border-radius: 3px;
+}
+
+/* === Item de Notificación === */
+.notif-item {
+    padding: 12px 16px;
+    /* Padding igual a td */
+    border-bottom: 1px solid #e6e9ef;
+    /* Borde igual a td */
+    display: flex;
+    gap: 12px;
+    transition: background-color 0.2s ease;
+    align-items: flex-start;
+}
+
+/* Hover consistente con .vehiculos-table tr:hover */
+.notif-item:hover {
+    background-color: #eef3fb;
+}
+
+/* Estado No Leído */
+.notif-item.no-leida {
+    background-color: #ffffff;
+    /* Indicador lateral azul fuerte */
+    border-left: 3px solid #007bff;
+}
+
+/* Si es leída, quitamos el borde izquierdo para alinear texto */
+.notif-item:not(.no-leida) {
+    padding-left: 19px;
+    /* Compensar los 3px del borde */
+}
+
+.notif-item-content {
+    flex: 1;
+}
+
+.notif-item-titulo {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #111a2e;
+    margin-bottom: 4px;
+}
+
+.notif-item-mensaje {
+    font-size: 0.85rem;
+    color: #555;
+    margin-bottom: 6px;
+    line-height: 1.4;
+}
+
+.notif-item-footer {
+    font-size: 0.75rem;
+    color: #8898aa;
+    display: flex;
+    gap: 10px;
+}
+
+/* === Acciones (Aparecen al hover) === */
+.notif-item-acciones {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.notif-item:hover .notif-item-acciones {
+    opacity: 1;
+}
+
+.btn-check-small,
+.btn-delete-small {
+    width: 26px;
+    height: 26px;
+    border: none;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 0.8rem;
+    color: white;
+    transition: transform 0.2s;
+}
+
+/* Botones consistentes con Vehículos */
+.btn-check-small {
+    background-color: #1e7c39;
+    /* Verde éxito (estilo mensaje éxito) */
+}
+
+.btn-delete-small {
+    background-color: #dc3545;
+    /* Rojo botón borrar */
+}
+
+.btn-check-small:hover,
+.btn-delete-small:hover {
+    transform: scale(1.1);
+    opacity: 0.9;
+}
+
+/* === Tarjetas Estadísticas (Ajustadas al estilo limpio) === */
 .card-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 24px;
 }
 
-/* === Tarjetas generales === */
 .card {
     background: #ffffff;
-    border-radius: 16px;
-    box-shadow: 0 4px 12px rgba(17, 26, 46, 0.1);
+    border-radius: 12px;
+    /* Consistente */
     padding: 24px;
-    text-align: center;
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    box-shadow: 0 4px 12px rgba(17, 26, 46, 0.1);
+    border: 1px solid transparent;
+    transition: transform 0.2s ease;
 }
 
 .card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 20px rgba(17, 26, 46, 0.15);
+    transform: translateY(-4px);
+    box-shadow: 0 6px 16px rgba(17, 26, 46, 0.15);
 }
 
 .card h3 {
-    font-size: 1.1rem;
+    font-size: 0.95rem;
     font-weight: 600;
+    color: #6c757d;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
     margin-bottom: 10px;
 }
 
 .card p {
     font-size: 2rem;
     font-weight: 700;
+    color: #111a2e;
     margin: 0;
 }
 
-/* === Colores personalizados === */
-.total {
-    background-color: #e3f6fd;
+/* Decoración lateral en lugar de fondo completo para mantener limpieza */
+.card.total {
+    border-bottom: 4px solid #007bff;
 }
 
-.disponibles {
-    background-color: #eafcf0;
+.card.disponibles {
+    border-bottom: 4px solid #1e7c39;
 }
 
-.agotados {
-    background-color: #fdecec;
+.card.agotados {
+    border-bottom: 4px solid #dc3545;
 }
 
-.marcas {
-    background-color: #f2ecfd;
+.card.marcas {
+    border-bottom: 4px solid #6610f2;
 }
 
-.modelos {
-    background-color: #fff5e3;
+.card.modelos {
+    border-bottom: 4px solid #fd7e14;
 }
 
 /* === Responsividad === */
@@ -75,11 +374,13 @@
         padding: 20px;
     }
 
-    .card-grid {
-        grid-template-columns: 1fr;
+    .notif-panel-dropdown {
+        width: 300px;
+        right: -10px;
     }
 
-    .card {
-        padding: 20px;
+    /* En móvil las acciones siempre visibles */
+    .notif-item-acciones {
+        opacity: 1;
     }
 }

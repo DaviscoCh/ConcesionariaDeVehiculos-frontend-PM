@@ -12,6 +12,7 @@ import { AuthGuard } from './guards/auth.guard';
 import { ReservarCitaComponent } from './components/reservar-cita/reservar-cita.component';
 import { NotificacionesComponent } from './components/notificaciones/notificaciones.component';
 import { ToastComponent } from './components/toast/toast.component';
+import { FavoritosComponent } from './components/favoritos/favoritos.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -25,6 +26,7 @@ const routes: Routes = [
   { path: 'reservar-cita', component: ReservarCitaComponent, canActivate: [AuthGuard] },
   { path: 'notificaciones', component: NotificacionesComponent, canActivate: [AuthGuard] },
   { path: 'toast', component: ToastComponent, canActivate: [AuthGuard] },
+  { path: 'favoritos', component: FavoritosComponent, canActivate: [AuthGuard] },
   { path: '**', redirectTo: 'home' }
 ];
 

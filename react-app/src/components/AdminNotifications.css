@@ -1,0 +1,261 @@
+/* src/components/AdminNotifications.css */
+
+.admin-notifications {
+    position: fixed;
+    top: 20px;
+    right: 30px;
+    z-index: 1001;
+}
+
+/* Botón de campana */
+.notif-bell {
+    position: relative;
+    background: white;
+    border: 2px solid #e5e7eb;
+    cursor: pointer;
+    padding: 12px;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    color: #1f2937;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.notif-bell:hover {
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+
+.notif-bell:hover {
+    background: linear-gradient(90deg, #2563eb, #3b82f6);
+    transform: translateY(-2px);
+}
+
+.notif-bell svg {
+    display: block;
+}
+
+/* Badge contador */
+.notif-badge {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    color: white;
+    border-radius: 50%;
+    min-width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: bold;
+    border: 2px solid #1e293b;
+    padding: 0 6px;
+    box-shadow: 0 2px 8px rgba(239, 68, 68, 0.4);
+}
+
+/* Overlay para cerrar dropdown */
+.notif-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: transparent;
+    z-index: 998;
+}
+
+/* Dropdown de notificaciones */
+.notif-dropdown {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    width: 420px;
+    max-height: 600px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    z-index: 999;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* Header del dropdown */
+.notif-header {
+    padding: 16px 20px;
+    border-bottom: 1px solid #e5e7eb;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(135deg, #f9fafb, #f3f4f6);
+}
+
+.notif-header h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: #1f2937;
+}
+
+.btn-marcar-todas {
+    background: transparent;
+    border: none;
+    color: #3b82f6;
+    font-size: 13px;
+    cursor: pointer;
+    padding: 6px 12px;
+    border-radius: 6px;
+    transition: all 0.2s;
+    font-weight: 500;
+}
+
+.btn-marcar-todas:hover {
+    background-color: #dbeafe;
+    color: #2563eb;
+}
+
+/* Lista de notificaciones */
+.notif-list {
+    overflow-y: auto;
+    max-height: 500px;
+}
+
+.notif-list::-webkit-scrollbar {
+    width: 8px;
+}
+
+.notif-list::-webkit-scrollbar-track {
+    background: #f9fafb;
+}
+
+.notif-list::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+}
+
+.notif-list::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+/* Item de notificación */
+.notif-item {
+    padding: 16px 20px;
+    border-bottom: 1px solid #f3f4f6;
+    display: flex;
+    gap: 12px;
+    transition: all 0.2s;
+}
+
+.notif-item:hover {
+    background-color: #f9fafb;
+}
+
+.notif-item.no-leida {
+    background: linear-gradient(90deg, #eff6ff, #dbeafe);
+    border-left: 4px solid #3b82f6;
+}
+
+.notif-content {
+    flex: 1;
+}
+
+.notif-title {
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 6px;
+    font-size: 14px;
+}
+
+.notif-mensaje {
+    color: #6b7280;
+    font-size: 13px;
+    line-height: 1.6;
+    margin-bottom: 8px;
+}
+
+.notif-footer {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    font-size: 12px;
+}
+
+.notif-fecha {
+    color: #9ca3af;
+    font-weight: 500;
+}
+
+.notif-usuario {
+    color: #6b7280;
+}
+
+/* Acciones */
+.notif-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    align-items: center;
+}
+
+.btn-marcar,
+.btn-eliminar {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 6px 8px;
+    border-radius: 6px;
+    font-size: 16px;
+    transition: all 0.2s;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-marcar {
+    color: #10b981;
+}
+
+.btn-marcar:hover {
+    background-color: #d1fae5;
+    transform: scale(1.1);
+}
+
+.btn-eliminar {
+    color: #ef4444;
+}
+
+.btn-eliminar:hover {
+    background-color: #fee2e2;
+    transform: scale(1.1);
+}
+
+/* Estados vacíos y cargando */
+.notif-loading,
+.notif-empty {
+    padding: 60px 20px;
+    text-align: center;
+    color: #9ca3af;
+}
+
+.notif-empty p {
+    margin: 0;
+    font-size: 14px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .notif-dropdown {
+        left: 10px;
+        right: 10px;
+        width: auto;
+        max-height: 400px;
+    }
+}

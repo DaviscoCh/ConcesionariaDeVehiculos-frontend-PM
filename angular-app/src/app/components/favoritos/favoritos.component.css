@@ -1,0 +1,398 @@
+/* ========================================
+   ESPACIADO Y SECCIÓN PRINCIPAL
+======================================== */
+.header-spacer {
+    height: 80px;
+}
+
+.favoritos-section {
+    min-height: calc(100vh - 80px);
+    padding: 3rem 0;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+/* ========================================
+   ENCABEZADO
+======================================== */
+.favoritos-header {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.header-icon {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 10px 30px rgba(220, 53, 69, 0.3);
+}
+
+.header-icon i {
+    font-size: 2.5rem;
+    color: white;
+}
+
+.section-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #111a2e;
+    margin-bottom: 0.5rem;
+}
+
+.section-subtitle {
+    font-size: 1.1rem;
+    color: #6c757d;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* ========================================
+   ESTADOS DE CARGA Y VACÍO
+======================================== */
+.loading-state,
+.empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    animation: fadeIn 0.5s ease-out;
+}
+
+.spinner-grow {
+    width: 3rem;
+    height: 3rem;
+}
+
+.empty-icon-bg {
+    width: 120px;
+    height: 120px;
+    background: rgba(220, 53, 69, 0.1);
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 2rem;
+}
+
+.empty-icon-bg i {
+    font-size: 3.5rem;
+    color: #dc3545;
+}
+
+.empty-state h3 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #111a2e;
+    margin-bottom: 0.5rem;
+}
+
+.empty-state p {
+    color: #6c757d;
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+}
+
+/* ========================================
+   INFO DE RESULTADOS
+======================================== */
+.results-info {
+    padding: 1rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    display: inline-block;
+}
+
+/* ========================================
+   TARJETAS DE VEHÍCULOS
+======================================== */
+.vehicle-card {
+    border: none;
+    border-radius: 16px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    background: white;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.vehicle-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+}
+
+.vehicle-img-wrapper {
+    position: relative;
+    height: 220px;
+    overflow: hidden;
+    background: #f8f9fa;
+}
+
+.vehicle-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.vehicle-card:hover .vehicle-img {
+    transform: scale(1.1);
+}
+
+.badge-overlay {
+    position: absolute;
+    z-index: 2;
+}
+
+.badge-overlay.top-right {
+    top: 12px;
+    right: 12px;
+}
+
+.badge {
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border-radius: 20px;
+}
+
+.bg-success-gradient {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+}
+
+.vehicle-hover-action {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 1.5rem;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.3s ease;
+}
+
+.vehicle-card:hover .vehicle-hover-action {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.btn-pill {
+    border-radius: 25px;
+    padding: 0.6rem 1.5rem;
+    font-size: 0.9rem;
+}
+
+/* ========================================
+   INFORMACIÓN DEL VEHÍCULO
+======================================== */
+.vehicle-header {
+    border-bottom: 1px solid #e9ecef;
+    padding-bottom: 0.75rem;
+}
+
+.vehicle-type-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    background: #e7f3ff;
+    color: #0066cc;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border-radius: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.5rem;
+}
+
+.vehicle-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #111a2e;
+    margin: 0;
+}
+
+.vehicle-model {
+    font-weight: 400;
+    color: #6c757d;
+}
+
+.vehicle-specs {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.spec-item {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: #6c757d;
+    font-size: 0.9rem;
+}
+
+.spec-item i {
+    font-size: 1rem;
+    color: #0066cc;
+}
+
+.spec-divider {
+    width: 1px;
+    height: 20px;
+    background: #dee2e6;
+}
+
+.favorite-date {
+    padding: 0.5rem 0;
+    font-size: 0.85rem;
+}
+
+/* ========================================
+   FOOTER Y ACCIONES
+======================================== */
+.vehicle-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 1rem;
+    border-top: 1px solid #e9ecef;
+}
+
+.price-section {
+    flex: 1;
+}
+
+.price-label {
+    display: block;
+    font-size: 0.75rem;
+    color: #6c757d;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.25rem;
+}
+
+.price-wrapper {
+    display: flex;
+    align-items: baseline;
+    gap: 0.25rem;
+}
+
+.currency {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #111a2e;
+}
+
+.price-amount {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #111a2e;
+}
+
+.btn-remove-favorite {
+    background: rgba(220, 53, 69, 0.1);
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-remove-favorite:hover:not(:disabled) {
+    background: #dc3545;
+    transform: scale(1.1);
+}
+
+.btn-remove-favorite i {
+    font-size: 1.1rem;
+    color: #dc3545;
+    transition: color 0.3s ease;
+}
+
+.btn-remove-favorite:hover:not(:disabled) i {
+    color: white;
+}
+
+.btn-remove-favorite:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* ========================================
+   ESTADO DE ELIMINACIÓN
+======================================== */
+.eliminando {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+/* ========================================
+   ANIMACIONES
+======================================== */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in-up {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.fade-in-item {
+    animation: fadeInUp 0.5s ease-out backwards;
+}
+
+.fade-in-item:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.fade-in-item:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.fade-in-item:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+.fade-in-item:nth-child(4) {
+    animation-delay: 0.4s;
+}
+
+/* ========================================
+   RESPONSIVE
+======================================== */
+@media (max-width: 768px) {
+    .section-title {
+        font-size: 2rem;
+    }
+
+    .favoritos-section {
+        padding: 2rem 0;
+    }
+
+    .vehicle-img-wrapper {
+        height: 180px;
+    }
+}

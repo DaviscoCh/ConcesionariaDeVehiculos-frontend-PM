@@ -17,6 +17,7 @@ import { ReservarCitaComponent } from './components/reservar-cita/reservar-cita.
 import { NotificacionesComponent } from './components/notificaciones/notificaciones.component';
 import { ToastComponent } from './components/toast/toast.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FavoritosComponent } from './components/favoritos/favoritos.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     CotizadorComponent,
     PerfilComponent,
     TarjetasComponent,
-    NotificacionesComponent
+    NotificacionesComponent,
+    FavoritosComponent
   ],
   imports: [
     BrowserModule,
