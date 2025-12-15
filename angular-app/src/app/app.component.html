@@ -56,7 +56,8 @@
           <ul class="dropdown-menu dropdown-menu-premium animate-dropdown" aria-labelledby="navbarDropdownServicios">
             <li><a class="dropdown-item dropdown-item-modern" href="#"><i
                   class="bi bi-wrench me-2"></i>Mantenimiento</a></li>
-            <li><a class="dropdown-item dropdown-item-modern" href="#"><i class="bi bi-gear-fill me-2"></i>Repuestos</a>
+            <li><a class="dropdown-item dropdown-item-modern" routerLink="/repuestos"><i
+                  class="bi bi-gear-fill me-2"></i>Repuestos</a>
             </li>
           </ul>
         </li>
@@ -65,12 +66,13 @@
           <a class="nav-link nav-link-modern dropdown-toggle px-3" href="#" id="navbarDropdownOfertas" role="button"
             data-bs-toggle="dropdown" aria-expanded="false">
             <i class="bi bi-tags-fill me-2"></i>
-            <span>Ofertas</span>
+            <span>Promociones</span>
           </a>
           <ul class="dropdown-menu dropdown-menu-premium animate-dropdown" aria-labelledby="navbarDropdownOfertas">
-            <li><a class="dropdown-item dropdown-item-modern" href="#"><i class="bi bi-percent me-2"></i>Descuentos</a>
+            <li><a class="dropdown-item dropdown-item-modern" routerLink="/ofertas"><i
+                  class="bi bi-percent me-2"></i>Ofertas</a>
             </li>
-            <li><a class="dropdown-item dropdown-item-modern" href="#"><i
+            <li><a class="dropdown-item dropdown-item-modern" routerLink="/financiacion"><i
                   class="bi bi-credit-card me-2"></i>Financiación</a></li>
           </ul>
         </li>
@@ -147,8 +149,8 @@
                 </a>
               </li>
               <li>
-                <a class="dropdown-item dropdown-item-user" href="#">
-                  <i class="bi bi-gear me-2"></i>Configuración
+                <a class="dropdown-item dropdown-item-user" routerLink="/historial-compras">
+                  <i class="bi bi-gear me-2"></i>Repuestos
                 </a>
               </li>
               <li>
@@ -172,3 +174,137 @@
 
 <router-outlet></router-outlet>
 <app-toast></app-toast>
+
+<!-- Footer Premium -->
+<footer class="footer-premium bg-dark text-light pt-5 pb-3">
+  <div class="container">
+    <div class="row g-4">
+
+      <!-- Columna 1: Logo y Redes Sociales -->
+      <div class="col-lg-3 col-md-6">
+        <div class="footer-brand mb-4">
+          <div class="d-flex align-items-center mb-3">
+            <i class="bi bi-car-front-fill text-primary fs-2 me-2"></i>
+            <h4 class="mb-0"><strong>Car</strong><span class="text-primary">Premier</span></h4>
+          </div>
+          <p class="text-light-gray small">
+            Tu destino premium para encontrar el vehículo perfecto con la mejor calidad, estilo y rendimiento.
+          </p>
+        </div>
+
+        <!-- Redes Sociales -->
+        <div class="social-links">
+          <h6 class="text-uppercase mb-3">Síguenos</h6>
+          <div class="d-flex gap-2">
+            <a href="#" class="btn btn-outline-light btn-sm rounded-circle" style="width: 40px; height: 40px;">
+              <i class="bi bi-instagram"></i>
+            </a>
+            <a href="#" class="btn btn-outline-light btn-sm rounded-circle" style="width: 40px; height: 40px;">
+              <i class="bi bi-facebook"></i>
+            </a>
+            <a href="#" class="btn btn-outline-light btn-sm rounded-circle" style="width: 40px; height: 40px;">
+              <i class="bi bi-tiktok"></i>
+            </a>
+            <a href="#" class="btn btn-outline-light btn-sm rounded-circle" style="width: 40px; height: 40px;">
+              <i class="bi bi-twitter-x"></i>
+            </a>
+            <a href="#" class="btn btn-outline-light btn-sm rounded-circle" style="width: 40px; height: 40px;">
+              <i class="bi bi-linkedin"></i>
+            </a>
+            <a href="#" class="btn btn-outline-light btn-sm rounded-circle" style="width: 40px; height: 40px;">
+              <i class="bi bi-youtube"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Columna 2: Marcas -->
+      <div class="col-lg-2 col-md-6">
+        <h6 class="text-uppercase mb-3 text-primary">Marcas</h6>
+        <ul class="list-unstyled footer-links">
+          <li><a routerLink="/marcas/toyota" class="text-light-gray"><i class="bi bi-chevron-right me-1"></i>Toyota</a>
+          </li>
+          <li><a routerLink="/marcas/honda" class="text-light-gray"><i class="bi bi-chevron-right me-1"></i>Honda</a>
+          </li>
+          <li><a routerLink="/marcas/mazda" class="text-light-gray"><i class="bi bi-chevron-right me-1"></i>Mazda</a>
+          </li>
+          <li><a routerLink="/marcas/nissan" class="text-light-gray"><i class="bi bi-chevron-right me-1"></i>Nissan</a>
+          </li>
+          <li><a routerLink="/marcas/hyundai" class="text-light-gray"><i
+                class="bi bi-chevron-right me-1"></i>Hyundai</a></li>
+          <li><a routerLink="/marcas/kia" class="text-light-gray"><i class="bi bi-chevron-right me-1"></i>Kia</a></li>
+          <li><a routerLink="/marcas/chevrolet" class="text-light-gray"><i
+                class="bi bi-chevron-right me-1"></i>Chevrolet</a></li>
+        </ul>
+      </div>
+
+      <!-- Columna 3: Servicios -->
+      <div class="col-lg-2 col-md-6">
+        <h6 class="text-uppercase mb-3 text-primary">Servicios</h6>
+        <ul class="list-unstyled footer-links">
+          <li><a routerLink="/cotizador" class="text-light-gray"><i class="bi bi-chevron-right me-1"></i>Cotizador
+              Virtual</a></li>
+          <li><a routerLink="/agendar-cita" class="text-light-gray"><i class="bi bi-chevron-right me-1"></i>Agenda tu
+              Cita</a></li>
+          <li><a routerLink="/financiacion" class="text-light-gray"><i class="bi bi-chevron-right me-1"></i>Plan de
+              Financiación</a></li>
+          <li><a routerLink="/ofertas" class="text-light-gray"><i class="bi bi-chevron-right me-1"></i>Ofertas
+              Especiales</a></li>
+          <li><a routerLink="/repuestos" class="text-light-gray"><i class="bi bi-chevron-right me-1"></i>Repuestos</a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Columna 4: Para Ti -->
+      <div class="col-lg-2 col-md-6">
+        <h6 class="text-uppercase mb-3 text-primary">Para Ti</h6>
+        <ul class="list-unstyled footer-links">
+          <li><a routerLink="/noticias" class="text-light-gray"><i class="bi bi-chevron-right me-1"></i>Últimas
+              Noticias</a></li>
+          <li><a routerLink="/trabaja-con-nosotros" class="text-light-gray"><i
+                class="bi bi-chevron-right me-1"></i>Trabaja con Nosotros</a></li>
+          <li><a routerLink="/concesionarios" class="text-light-gray"><i
+                class="bi bi-chevron-right me-1"></i>Concesionarios</a></li>
+          <li><a routerLink="/contacto-talleres" class="text-light-gray"><i
+                class="bi bi-chevron-right me-1"></i>Contacto Talleres</a></li>
+          <li><a routerLink="/blog" class="text-light-gray"><i class="bi bi-chevron-right me-1"></i>Blog</a></li>
+        </ul>
+      </div>
+
+      <!-- Columna 5: Info Legal -->
+      <div class="col-lg-3 col-md-6">
+        <h6 class="text-uppercase mb-3 text-primary">Información Legal</h6>
+        <ul class="list-unstyled footer-links">
+          <li><a routerLink="/contacto" class="text-light-gray"><i class="bi bi-chevron-right me-1"></i>Contacto</a>
+          </li>
+          <li><a routerLink="/privacidad" class="text-light-gray"><i class="bi bi-chevron-right me-1"></i>Protección de
+              Datos</a></li>
+          <li><a routerLink="/terminos" class="text-light-gray"><i class="bi bi-chevron-right me-1"></i>Términos y
+              Condiciones</a></li>
+        </ul>
+
+        <!-- Chatbot Illustration -->
+        <div class="text-center mt-4">
+          <div class="chatbot-illustration">
+            <i class="bi bi-robot text-primary" style="font-size: 4rem; opacity: 0.8;"></i>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Línea divisoria -->
+    <hr class="my-4 border-secondary">
+
+    <!-- Copyright -->
+    <div class="row">
+      <div class="col-12 text-center">
+        <p class="mb-0 text-light small">
+          <strong>CarPremier Cía. Ltda. 2025 ©</strong><br>
+          Todos los Derechos Reservados.
+        </p>
+      </div>
+    </div>
+
+  </div>
+</footer>

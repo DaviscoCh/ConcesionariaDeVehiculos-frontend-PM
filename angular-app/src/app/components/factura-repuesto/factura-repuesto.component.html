@@ -1,0 +1,127 @@
+<div class="header-spacer"></div>
+
+<section class="factura-section" *ngIf="!cargando && compra">
+    <div class="container">
+        <!-- Botones de acción -->
+        <div class="factura-actions mb-4 no-print">
+            <button class="btn btn-secondary" (click)="volver()">
+                <i class="bi bi-arrow-left me-2"></i>Volver
+            </button>
+            <div class="btn-group">
+                <button class="btn btn-success" (click)="descargarPDF()" [disabled]="generandoPDF">
+                    <i class="bi bi-download me-2"></i>
+                    {{ generandoPDF ? 'Generando...' : 'Descargar PDF' }}
+                </button>
+                <button class="btn btn-outline-primary" (click)="imprimirFactura()">
+                    <i class="bi bi-printer me-2"></i>Imprimir
+                </button>
+            </div>
+        </div>
+
+        <!-- Factura -->
+        <div id="factura-pdf" class="factura-documento">
+            <!-- Encabezado empresa -->
+            <div class="factura-empresa mb-4">
+                <h1 class="empresa-nombre">🚗 CarPremier</h1>
+                <p class="empresa-info mb-0">Concesionaria de Vehículos y Repuestos Premium</p>
+                <p class="empresa-info mb-0">RUC: 0123456789001</p>
+                <p class="empresa-info">Dir: Av. Principal 123, Quito, Ecuador</p>
+            </div>
+
+            <!-- Título y número de factura -->
+            <div class="text-center mb-4">
+                <h2 class="factura-titulo">FACTURA DE COMPRA - REPUESTOS</h2>
+                <h3 class="factura-numero-grande">{{ compra.numero_factura }}</h3>
+                <p class="text-muted">Fecha de compra: {{ formatearFecha(compra.fecha_compra) }} - {{
+                    formatearHora(compra.fecha_compra) }}</p>
+            </div>
+
+            <!-- Datos del cliente -->
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <div class="info-box">
+                        <h5 class="info-titulo">Datos del Cliente</h5>
+                        <p class="mb-1"><strong>Nombre:</strong> {{ compra.nombres }} {{ compra.apellidos }}</p>
+                        <p class="mb-1"><strong>Documento:</strong> {{ compra.documento }}</p>
+                        <p class="mb-1"><strong>Correo:</strong> {{ compra.correo }}</p>
+                        <p class="mb-1"><strong>Teléfono:</strong> {{ compra.telefono }}</p>
+                        <p class="mb-0"><strong>Dirección:</strong> {{ compra.direccion }}</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="info-box">
+                        <h5 class="info-titulo">Datos de Pago</h5>
+                        <p class="mb-1"><strong>Método de pago:</strong> Tarjeta {{ compra.tipo_tarjeta }}</p>
+                        <p class="mb-1"><strong>Número de tarjeta:</strong> {{ enmascaradoTarjeta(compra.numero_tarjeta)
+                            }}</p>
+                        <p class="mb-1"><strong>Estado:</strong>
+                            <span class="badge bg-success">{{ compra.estado }}</span>
+                        </p>
+                        <p class="mb-0"><strong>Fecha de emisión:</strong> {{ formatearFecha(compra.created_at) }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Detalle del repuesto -->
+            <div class="table-responsive mb-4">
+                <table class="table table-bordered">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Repuesto</th>
+                            <th>Categoría</th>
+                            <th class="text-center">Cantidad</th>
+                            <th class="text-end">Precio Unit.</th>
+                            <th class="text-end">Subtotal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <strong>{{ compra.nombre_repuesto }}</strong><br>
+                                <small class="text-muted">{{ compra.descripcion_repuesto }}</small>
+                            </td>
+                            <td>{{ compra.categoria }}</td>
+                            <td class="text-center"><strong>{{ compra.cantidad }}</strong></td>
+                            <td class="text-end">${{ compra.precio_unitario | number:'1.2-2' }}</td>
+                            <td class="text-end"><strong>${{ compra.subtotal | number:'1.2-2' }}</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Totales -->
+            <div class="row">
+                <div class="col-md-6 offset-md-6">
+                    <div class="totales-box">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Subtotal:</span>
+                            <strong>${{ compra.subtotal | number:'1.2-2' }}</strong>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>IVA (15%):</span>
+                            <strong>${{ compra.iva | number:'1.2-2' }}</strong>
+                        </div>
+                        <hr>
+                        <div class="d-flex justify-content-between total-final">
+                            <strong>TOTAL PAGADO:</strong>
+                            <strong>${{ compra.total | number:'1.2-2' }}</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pie de página -->
+            <div class="factura-footer text-center mt-5">
+                <p class="mb-1"><strong>¡Gracias por tu compra!</strong></p>
+                <p class="text-muted mb-0">Esta factura fue generada automáticamente y es válida sin firma ni sello.</p>
+                <p class="text-muted mt-2"><small>Conserva este documento para garantías y devoluciones.</small></p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Loading -->
+<div *ngIf="cargando" class="loading-container">
+    <div class="spinner-grow text-primary"></div>
+    <p class="mt-3">Cargando factura...</p>
+</div>

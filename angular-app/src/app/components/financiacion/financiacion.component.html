@@ -1,0 +1,169 @@
+<div class="header-spacer"></div>
+
+<section class="financiacion-section">
+    <div class="container">
+        <!-- Hero Banner -->
+        <div class="hero-financiacion mb-5">
+            <div class="hero-content">
+                <span class="hero-badge">💳 Financiamiento Fácil</span>
+                <h1 class="hero-title">Haz realidad tu sueño</h1>
+                <p class="hero-subtitle">Planes de financiamiento flexibles desde 12 hasta 48 meses</p>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <strong>5%</strong>
+                        <span>Tasa desde</span>
+                    </div>
+                    <div class="stat-divider"></div>
+                    <div class="stat">
+                        <strong>24h</strong>
+                        <span>Aprobación</span>
+                    </div>
+                    <div class="stat-divider"></div>
+                    <div class="stat">
+                        <strong>10%</strong>
+                        <span>Entrada mínima</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Planes de Financiamiento -->
+        <div class="planes-section mb-5">
+            <h2 class="text-center mb-4">Nuestros Planes de Financiamiento</h2>
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-3" *ngFor="let plan of planes">
+                    <div class="plan-card" [class.destacado]="plan.destacado">
+                        <div class="plan-badge" *ngIf="plan.destacado">
+                            ⭐ Más Popular
+                        </div>
+
+                        <div class="plan-header" [style.background]="plan.color">
+                            <div class="plan-meses">{{ plan.meses }} meses</div>
+                            <div class="plan-interes">{{ plan.interes }}% interés</div>
+                        </div>
+
+                        <div class="plan-body">
+                            <div class="plan-cuota">
+                                <span class="cuota-label">Cuota desde</span>
+                                <div class="cuota-valor">
+                                    <span class="currency">$</span>
+                                    <span class="amount">{{ plan.cuotaEjemplo }}</span>
+                                    <span class="periodo">/mes</span>
+                                </div>
+                            </div>
+
+                            <div class="plan-beneficios">
+                                <div class="beneficio" *ngFor="let beneficio of plan.beneficios">
+                                    <i class="bi bi-check-circle-fill"></i>
+                                    <span>{{ beneficio }}</span>
+                                </div>
+                            </div>
+
+                            <button class="btn btn-plan w-100" (click)="agendarCita()">
+                                Solicitar Plan
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Calculadora Próximamente -->
+        <div class="calculadora-section mb-5">
+            <div class="calculadora-card">
+                <div class="calculadora-header">
+                    <i class="bi bi-calculator"></i>
+                    <div>
+                        <h3>Calculadora de Crédito</h3>
+                        <p>Simula tu financiamiento y conoce tus cuotas mensuales</p>
+                    </div>
+                </div>
+                <div class="calculadora-proximamente">
+                    <i class="bi bi-hourglass-split"></i>
+                    <span>Próximamente disponible</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Requisitos -->
+        <div class="requisitos-section mb-5">
+            <h3 class="text-center mb-4">Requisitos para Financiamiento</h3>
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-3" *ngFor="let req of requisitos">
+                    <div class="requisito-card">
+                        <i class="bi" [ngClass]="req.icono"></i>
+                        <p>{{ req.texto }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ventajas -->
+        <div class="ventajas-section mb-5">
+            <h3 class="text-center mb-4">¿Por qué financiar con nosotros?</h3>
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-3" *ngFor="let ventaja of ventajas">
+                    <div class="ventaja-card">
+                        <i class="bi" [ngClass]="ventaja.icono"></i>
+                        <h5>{{ ventaja.titulo }}</h5>
+                        <p>{{ ventaja.descripcion }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Proceso -->
+        <div class="proceso-section mb-5">
+            <h3 class="text-center mb-4">Proceso de Financiamiento</h3>
+            <div class="proceso-timeline">
+                <div class="proceso-step">
+                    <div class="step-numero">1</div>
+                    <div class="step-content">
+                        <h5>Elige tu vehículo</h5>
+                        <p>Explora nuestro catálogo y selecciona el auto de tus sueños</p>
+                    </div>
+                </div>
+                <div class="proceso-step">
+                    <div class="step-numero">2</div>
+                    <div class="step-content">
+                        <h5>Solicita financiamiento</h5>
+                        <p>Completa el formulario con tus datos y documentos</p>
+                    </div>
+                </div>
+                <div class="proceso-step">
+                    <div class="step-numero">3</div>
+                    <div class="step-content">
+                        <h5>Aprobación express</h5>
+                        <p>Recibe respuesta en menos de 24 horas</p>
+                    </div>
+                </div>
+                <div class="proceso-step">
+                    <div class="step-numero">4</div>
+                    <div class="step-content">
+                        <h5>¡Conduce tu auto!</h5>
+                        <p>Firma el contrato y llévate tu vehículo</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CTA Final -->
+        <div class="cta-financiacion">
+            <div class="cta-content">
+                <h3>¿Listo para financiar tu próximo vehículo?</h3>
+                <p>Agenda una cita con nuestros asesores financieros y obtén la mejor oferta</p>
+                <div class="cta-buttons">
+                    <button class="btn btn-primary btn-lg" (click)="agendarCita()">
+                        <i class="bi bi-calendar-check me-2"></i>Agendar Cita
+                    </button>
+                    <button class="btn btn-success btn-lg" (click)="contactarWhatsApp()">
+                        <i class="bi bi-whatsapp me-2"></i>Consultar por WhatsApp
+                    </button>
+                    <button class="btn btn-outline-light btn-lg" (click)="verVehiculos()">
+                        <i class="bi bi-car-front me-2"></i>Ver Vehículos
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

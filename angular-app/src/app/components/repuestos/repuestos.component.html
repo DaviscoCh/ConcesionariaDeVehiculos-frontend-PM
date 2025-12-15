@@ -1,0 +1,193 @@
+<div class="header-spacer"></div>
+
+<section class="repuestos-section">
+    <div class="container">
+        <!-- Encabezado -->
+        <div class="repuestos-header text-center mb-5">
+            <div class="header-icon">
+                <i class="bi bi-gear-fill"></i>
+            </div>
+            <h2 class="section-title">🔧 Tienda de Repuestos</h2>
+            <p class="section-subtitle">Encuentra los repuestos compatibles con tus vehículos</p>
+        </div>
+
+        <!-- Botón flotante del carrito -->
+        <button class="btn-carrito-flotante" (click)="toggleCarrito()" *ngIf="carrito.length > 0">
+            <i class="bi bi-cart-fill"></i>
+            <span class="badge-cantidad">{{ carrito.length }}</span>
+        </button>
+
+        <!-- Panel del carrito lateral -->
+        <div class="carrito-lateral" [class.show]="mostrarCarrito">
+            <div class="carrito-header">
+                <h4><i class="bi bi-cart3 me-2"></i>Mi Carrito</h4>
+                <button class="btn-close-carrito" (click)="toggleCarrito()">
+                    <i class="bi bi-x-lg"></i>
+                </button>
+            </div>
+
+            <div class="carrito-body" *ngIf="carrito.length > 0">
+                <div class="carrito-item" *ngFor="let item of carrito">
+                    <img [src]="item.imagen_url" [alt]="item.nombre" class="carrito-item-img">
+                    <div class="carrito-item-info">
+                        <h6>{{ item.nombre }}</h6>
+                        <p class="precio">${{ item.precio | number:'1.2-2' }}</p>
+                        <div class="cantidad-control">
+                            <button (click)="actualizarCantidad(item.id_repuesto, item.cantidad - 1)">
+                                <i class="bi bi-dash"></i>
+                            </button>
+                            <span>{{ item.cantidad }}</span>
+                            <button (click)="actualizarCantidad(item.id_repuesto, item.cantidad + 1)">
+                                <i class="bi bi-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <button class="btn-eliminar" (click)="eliminarDelCarrito(item.id_repuesto)">
+                        <i class="bi bi-trash"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="carrito-vacio" *ngIf="carrito.length === 0">
+                <i class="bi bi-cart-x"></i>
+                <p>Tu carrito está vacío</p>
+            </div>
+
+            <div class="carrito-footer" *ngIf="carrito.length > 0">
+                <div class="totales">
+                    <div class="total-row">
+                        <span>Subtotal:</span>
+                        <strong>${{ obtenerSubtotal() | number:'1.2-2' }}</strong>
+                    </div>
+                    <div class="total-row">
+                        <span>IVA (15%):</span>
+                        <strong>${{ obtenerIVA() | number:'1.2-2' }}</strong>
+                    </div>
+                    <hr>
+                    <div class="total-row total-final">
+                        <span>Total:</span>
+                        <strong>${{ obtenerTotal() | number:'1.2-2' }}</strong>
+                    </div>
+                </div>
+                <button class="btn btn-primary w-100 mt-3" (click)="procederAlPago()">
+                    <i class="bi bi-credit-card me-2"></i>Proceder al Pago
+                </button>
+            </div>
+        </div>
+
+        <!-- Overlay -->
+        <div class="carrito-overlay" [class.show]="mostrarCarrito" (click)="toggleCarrito()"></div>
+
+        <!-- Mis vehículos con selector -->
+        <div class="mis-vehiculos mb-4" *ngIf="vehiculos.length > 0">
+            <h5><i class="bi bi-car-front me-2"></i>Filtrar por mi vehículo</h5>
+            <div class="vehiculos-selector">
+                <div class="vehiculo-option" [class.selected]="vehiculoSeleccionado === ''"
+                    (click)="vehiculoSeleccionado = ''; aplicarFiltros()">
+                    <i class="bi bi-list-ul me-2"></i>
+                    <span>Todos los repuestos</span>
+                </div>
+                <div class="vehiculo-option" *ngFor="let v of vehiculos"
+                    [class.selected]="vehiculoSeleccionado === v.id_vehiculo"
+                    (click)="vehiculoSeleccionado = v.id_vehiculo; aplicarFiltros()">
+                    <i class="bi bi-check-circle-fill me-2"></i>
+                    <span>{{ v.marca }} {{ v.modelo }} ({{ v.anio }})</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sin vehículos -->
+        <div class="empty-state" *ngIf="!cargando && vehiculos.length === 0">
+            <div class="empty-icon-bg">
+                <i class="bi bi-car-front"></i>
+            </div>
+            <h3>No tienes vehículos registrados</h3>
+            <p>Para ver repuestos compatibles, primero debes tener vehículos asociados a tu cuenta.</p>
+            <p class="text-muted">Los vehículos se registran automáticamente cuando completas una cita.</p>
+            <button class="btn btn-primary mt-3" routerLink="/reservar-cita">
+                <i class="bi bi-calendar-plus me-2"></i>Agendar una Cita
+            </button>
+        </div>
+
+        <!-- Filtros -->
+        <div class="filtros-panel mb-4" *ngIf="vehiculos.length > 0">
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <input type="text" class="form-control" placeholder="Buscar repuesto..."
+                        [(ngModel)]="filtros.busqueda" (input)="aplicarFiltros()">
+                </div>
+                <div class="col-md-2">
+                    <select class="form-select" [(ngModel)]="filtros.categoria" (change)="aplicarFiltros()">
+                        <option value="">Todas las categorías</option>
+                        <option *ngFor="let cat of categorias" [value]="cat">{{ cat }}</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <input type="number" class="form-control" placeholder="Precio mín." [(ngModel)]="filtros.precioMin"
+                        (blur)="aplicarFiltros()">
+                </div>
+                <div class="col-md-2">
+                    <input type="number" class="form-control" placeholder="Precio máx." [(ngModel)]="filtros.precioMax"
+                        (blur)="aplicarFiltros()">
+                </div>
+                <div class="col-md-2">
+                    <button class="btn btn-outline-secondary w-100" (click)="limpiarFiltros()">
+                        <i class="bi bi-arrow-clockwise me-1"></i>Limpiar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading -->
+        <div *ngIf="cargando" class="loading-state">
+            <div class="spinner-grow text-primary"></div>
+            <p class="mt-3">Cargando repuestos...</p>
+        </div>
+
+        <!-- Lista de repuestos -->
+        <div *ngIf="!cargando && vehiculos.length > 0">
+            <!-- Sin resultados -->
+            <div *ngIf="repuestosFiltrados.length === 0" class="alert alert-warning text-center">
+                <i class="bi bi-exclamation-triangle me-2"></i>
+                No se encontraron repuestos compatibles con tus filtros.
+            </div>
+
+            <!-- Grid de repuestos -->
+            <div class="row g-4" *ngIf="repuestosFiltrados.length > 0">
+                <div class="col-md-6 col-lg-4 col-xl-3" *ngFor="let rep of repuestosFiltrados">
+                    <div class="card repuesto-card h-100">
+                        <div class="repuesto-img-wrapper">
+                            <img [src]="rep.imagen_url" [alt]="rep.nombre" class="repuesto-img">
+                            <span class="badge-categoria">{{ rep.categoria }}</span>
+                            <span class="badge-stock" [class.agotado]="rep.stock === 0">
+                                {{ rep.stock > 0 ? 'Stock: ' + rep.stock : 'Agotado' }}
+                            </span>
+                        </div>
+
+                        <div class="card-body">
+                            <h6 class="repuesto-nombre">{{ rep.nombre }}</h6>
+                            <p class="repuesto-descripcion">{{ rep.descripcion }}</p>
+
+                            <!-- Solo mostrar si hay un vehículo seleccionado -->
+                            <div class="compatibilidad mb-2" *ngIf="vehiculoSeleccionado">
+                                <small class="text-muted">
+                                    <i class="bi bi-check-circle text-success me-1"></i>
+                                    Compatible con el vehículo seleccionado
+                                </small>
+                            </div>
+
+                            <div class="repuesto-footer">
+                                <div class="precio-grande">${{ rep.precio | number:'1.2-2' }}</div>
+                                <button class="btn btn-primary btn-sm" (click)="agregarAlCarrito(rep)"
+                                    [disabled]="rep.stock === 0">
+                                    <i class="bi bi-cart-plus me-1"></i>
+                                    {{ rep.stock === 0 ? 'Agotado' : 'Agregar' }}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

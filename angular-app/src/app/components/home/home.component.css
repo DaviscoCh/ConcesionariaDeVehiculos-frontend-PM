@@ -1,87 +1,366 @@
 /* ============================
-   ESTILOS GENERALES
+   HERO CAROUSEL
 ============================ */
 
-h1,
-h2 {
-    font-family: 'Poppins', sans-serif;
-}
-
-p {
-    font-family: 'Open Sans', sans-serif;
-}
-
-.card-title {
-    font-weight: 600;
-}
-
-/* Tarjetas */
-.hover-card {
-    transition: all 0.3s ease;
-}
-
-.hover-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-}
-
-/* CTA */
-.cta {
-    background: linear-gradient(135deg, #0d6efd, #111827);
-}
-
-/* ============================
-   HERO SECTION (NUEVO)
-============================ */
-
-.hero {
+.hero-carousel {
     position: relative;
+    width: 100%;
+    margin-top: -1px;
+}
+
+.hero-slide {
     height: 100vh;
-    background: linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.55)),
-        url('https://images.unsplash.com/photo-1503736334956-4c8f8e92946d?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
+    min-height: 650px;
+    display: flex;
+    align-items: center;
+    position: relative;
     overflow: hidden;
-    color: #fff;
 }
 
-/* --- Animación del texto --- */
-.hero-text {
-    opacity: 0;
-    transform: translateX(-80px);
-    animation: slideText 1.4s ease forwards;
-}
-
-@keyframes slideText {
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
-
-/* --- Animación del auto --- */
-.hero-car {
+.hero-slide::before {
+    content: '';
     position: absolute;
-    right: -500px;
+    top: 0;
+    left: 0;
+    right: 0;
     bottom: 0;
-    width: 650px;
-    opacity: 0;
-    animation: carSlide 1.7s ease-out forwards;
-    animation-delay: 0.4s;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+}
+
+.hero-slide-1 {
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6)),
+        url('https://images.unsplash.com/photo-1503736334956-4c8f8e92946d?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
+}
+
+.hero-slide-2 {
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6)),
+        url('https://images.unsplash.com/photo-1542282088-fe8426682b8f?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
+}
+
+.hero-slide-3 {
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6)),
+        url('https://images.unsplash.com/photo-1580273916550-e323be2ae537?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    color: white;
+}
+
+.hero-badge {
+    display: inline-block;
+    padding: 0.5rem 1.5rem;
+    background: rgba(0, 102, 255, 0.9);
+    color: white;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+    animation: fadeInDown 0.8s ease-out;
+}
+
+.text-gradient {
+    background: linear-gradient(135deg, #0066ff, #00ccff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.hero-car {
+    position: relative;
+    z-index: 2;
+    animation: carFloat 3s ease-in-out infinite;
 }
 
 .hero-car img {
-    width: 100%;
-    object-fit: contain;
+    filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.4));
 }
 
-@keyframes carSlide {
-    0% {
-        opacity: 0;
-        transform: translateX(100px);
+@keyframes carFloat {
+
+    0%,
+    100% {
+        transform: translateY(0px);
     }
 
-    100% {
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
+.btn-hero {
+    transition: all 0.3s ease;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.btn-hero:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    width: 3rem;
+    height: 3rem;
+    background-color: rgba(0, 102, 255, 0.8);
+    border-radius: 50%;
+}
+
+.carousel-control-prev-icon:hover,
+.carousel-control-next-icon:hover {
+    background-color: rgba(0, 102, 255, 1);
+}
+
+.carousel-indicators button {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin: 0 5px;
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+.carousel-indicators button.active {
+    background-color: #0066ff;
+}
+
+/* ============================
+   VEHÍCULOS DESTACADOS
+============================ */
+
+.card-vehiculo {
+    transition: all 0.4s ease;
+    border-radius: 15px;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.card-vehiculo:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15) !important;
+}
+
+.card-img-wrapper {
+    position: relative;
+    overflow: hidden;
+    height: 250px;
+}
+
+.card-img-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.card-vehiculo:hover .card-img-wrapper img {
+    transform: scale(1.1);
+}
+
+.card-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    z-index: 2;
+}
+
+.card-badge .badge {
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* ============================
+   MARCAS
+============================ */
+
+.marca-card {
+    padding: 2rem;
+    background: white;
+    border-radius: 15px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: 2px solid #f0f0f0;
+}
+
+.marca-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 102, 255, 0.15);
+    border-color: #0066ff;
+}
+
+.marca-logo {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto;
+    background: linear-gradient(135deg, #f0f4ff, #e6f0ff);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.marca-card:hover .marca-logo {
+    background: linear-gradient(135deg, #0066ff, #00ccff);
+    color: white !important;
+}
+
+.marca-card:hover .marca-logo i {
+    color: white !important;
+}
+
+/* ============================
+   SERVICIOS
+============================ */
+
+.servicio-card {
+    background: white;
+    border-radius: 15px;
+    transition: all 0.3s ease;
+    border: 1px solid #e0e0e0;
+    height: 100%;
+}
+
+.servicio-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    border-color: #0066ff;
+}
+
+.servicio-icon {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto;
+    background: linear-gradient(135deg, #f0f4ff, #e6f0ff);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.servicio-card:hover .servicio-icon {
+    background: linear-gradient(135deg, #0066ff, #00ccff);
+    transform: scale(1.1);
+}
+
+.servicio-card:hover .servicio-icon i {
+    color: white !important;
+}
+
+/* ============================
+   CTA SECTION
+============================ */
+
+.cta-section {
+    background: linear-gradient(135deg, #0d6efd, #0a58ca);
+    position: relative;
+    overflow: hidden;
+}
+
+.cta-section::before {
+    content: '';
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 50%;
+    top: -250px;
+    right: -250px;
+}
+
+.cta-section::after {
+    content: '';
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 50%;
+    bottom: -200px;
+    left: -200px;
+}
+
+.cta-section .row {
+    position: relative;
+    z-index: 1;
+}
+
+/* ============================
+   CONCESIONARIOS
+============================ */
+
+.concesionario-img img {
+    border-radius: 20px;
+    transition: transform 0.5s ease;
+}
+
+.concesionario-img img:hover {
+    transform: scale(1.05);
+}
+
+/* ============================
+   STATS SECTION
+============================ */
+
+.stats-section {
+    background: linear-gradient(135deg, #0066ff, #004cbf);
+    position: relative;
+    overflow: hidden;
+}
+
+.stats-section::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="2" fill="rgba(255,255,255,0.1)"/></svg>');
+    opacity: 0.3;
+}
+
+.stat-item {
+    position: relative;
+    z-index: 1;
+    padding: 2rem;
+    transition: transform 0.3s ease;
+}
+
+.stat-item:hover {
+    transform: scale(1.1);
+}
+
+.stat-item h2 {
+    text-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* ============================
+   ANIMACIONES
+============================ */
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
         opacity: 1;
-        transform: translateX(-350px);
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
 
@@ -90,21 +369,69 @@ p {
 ============================ */
 
 @media (max-width: 992px) {
-    .hero-car {
-        width: 400px;
-        right: -300px;
-        animation: none;
-        opacity: 0.3;
+    .hero-slide {
+        min-height: 500px;
+        height: auto;
+        padding: 4rem 0;
     }
 
-    .hero-text {
-        text-align: center;
-        animation: slideText 1.2s ease forwards;
+    .hero-content h1 {
+        font-size: 2.5rem;
+    }
+
+    .hero-car {
+        display: none;
+    }
+
+    .display-3 {
+        font-size: 2.5rem;
+    }
+
+    .display-5 {
+        font-size: 2rem;
     }
 }
 
-@media (max-width: 600px) {
-    .hero-car {
-        display: none;
+@media (max-width: 768px) {
+    .hero-content h1 {
+        font-size: 2rem;
+    }
+
+    .hero-content .lead {
+        font-size: 1rem;
+    }
+
+    .btn-hero {
+        padding: 0.75rem 1.5rem;
+        font-size: 0.9rem;
+    }
+
+    .card-img-wrapper {
+        height: 200px;
+    }
+
+    .stat-item h2 {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .hero-slide {
+        min-height: 400px;
+    }
+
+    .hero-badge {
+        font-size: 0.8rem;
+        padding: 0.4rem 1rem;
+    }
+
+    .marca-logo {
+        width: 60px;
+        height: 60px;
+    }
+
+    .servicio-icon {
+        width: 80px;
+        height: 80px;
     }
 }

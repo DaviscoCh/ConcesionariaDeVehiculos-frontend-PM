@@ -1,0 +1,107 @@
+<div class="header-spacer"></div>
+
+<section class="historial-compras-section">
+    <div class="container">
+        <!-- Encabezado -->
+        <div class="historial-header text-center mb-5">
+            <div class="header-icon">
+                <i class="bi bi-bag-check-fill"></i>
+            </div>
+            <h2 class="section-title">🛍️ Historial de Compras</h2>
+            <p class="section-subtitle">Todas tus compras de repuestos en un solo lugar</p>
+        </div>
+
+        <!-- Estado de carga -->
+        <div *ngIf="cargando" class="loading-state">
+            <div class="spinner-grow text-primary"></div>
+            <p class="mt-3 text-muted">Cargando tu historial...</p>
+        </div>
+
+        <!-- Error -->
+        <div *ngIf="error && !cargando" class="alert alert-danger text-center">
+            <i class="bi bi-exclamation-circle me-2"></i>{{ error }}
+        </div>
+
+        <!-- Sin compras -->
+        <div *ngIf="!cargando && !error && compras.length === 0" class="empty-state">
+            <div class="empty-icon-bg">
+                <i class="bi bi-bag-x"></i>
+            </div>
+            <h3>Aún no has realizado compras</h3>
+            <p>Explora nuestro catálogo de repuestos y encuentra lo que necesitas</p>
+            <button class="btn btn-primary mt-3" (click)="irARepuestos()">
+                <i class="bi bi-gear-fill me-2"></i>Ver Repuestos
+            </button>
+        </div>
+
+        <!-- Lista de compras -->
+        <div *ngIf="!cargando && !error && compras.length > 0">
+            <div class="results-info mb-4">
+                <span class="text-muted">
+                    <i class="bi bi-bag-check me-2"></i>
+                    Tienes <strong>{{ compras.length }}</strong>
+                    {{ compras.length === 1 ? 'compra registrada' : 'compras registradas' }}
+                </span>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-12 col-md-6 col-lg-4" *ngFor="let compra of compras">
+                    <div class="card compra-card h-100">
+                        <!-- Header -->
+                        <div class="compra-header">
+                            <div class="compra-numero">{{ compra.numero_factura }}</div>
+                            <span class="badge"
+                                [ngClass]="compra.estado === 'Completada' ? 'bg-success' : 'bg-secondary'">
+                                {{ compra.estado }}
+                            </span>
+                        </div>
+
+                        <!-- Imagen del repuesto -->
+                        <div class="compra-img-wrapper">
+                            <img [src]="compra.imagen_url" [alt]="compra.nombre_repuesto" class="compra-img">
+                            <div class="compra-categoria">{{ compra.categoria }}</div>
+                        </div>
+
+                        <!-- Body -->
+                        <div class="card-body">
+                            <!-- Información del repuesto -->
+                            <h6 class="repuesto-nombre">{{ compra.nombre_repuesto }}</h6>
+
+                            <!-- Detalles de la compra -->
+                            <div class="compra-detalles mb-3">
+                                <div class="detalle-row">
+                                    <span class="detalle-label">Cantidad:</span>
+                                    <span class="detalle-valor">{{ compra.cantidad }} unidad(es)</span>
+                                </div>
+                                <div class="detalle-row">
+                                    <span class="detalle-label">Precio unit.:</span>
+                                    <span class="detalle-valor">${{ compra.precio_unitario | number:'1.2-2' }}</span>
+                                </div>
+                                <div class="detalle-row">
+                                    <span class="detalle-label">Fecha:</span>
+                                    <span class="detalle-valor">{{ compra.fecha_compra | date:'dd/MM/yyyy' }}</span>
+                                </div>
+                                <div class="detalle-row">
+                                    <span class="detalle-label">Tarjeta:</span>
+                                    <span class="detalle-valor">**** {{ obtenerUltimosDigitos(compra.numero_tarjeta)
+                                        }}</span>
+                                </div>
+                            </div>
+
+                            <!-- Total -->
+                            <div class="compra-total">
+                                <span>Total pagado:</span>
+                                <strong class="precio-total">${{ compra.total | number:'1.2-2' }}</strong>
+                            </div>
+
+                            <!-- Botón ver factura -->
+                            <button class="btn btn-outline-primary w-100 mt-3" (click)="verFactura(compra.id_compra)">
+                                <i class="bi bi-receipt me-2"></i>Ver Factura
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

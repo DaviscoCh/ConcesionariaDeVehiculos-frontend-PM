@@ -12,22 +12,25 @@ export class HomeComponent {
 
   autosDestacados = [
     {
-      nombre: 'Toyota Supra',
-      descripcion: 'Deportivo legendario con potencia turbo y diseño icónico.',
-      precio: 85000,
-      imagen: 'https://acnews.blob.core.windows.net/imgnews/large/NAZ_32d9ae28b98b4cf9bfde6a1bae8f19ff.webp'
+      id: 1,
+      nombre: 'Toyota Corolla 2024',
+      descripcion: 'Sedán elegante con tecnología avanzada y máximo confort',
+      precio: 28500,
+      imagen: 'https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?auto=format&fit=crop&w=800&q=80'
     },
     {
-      nombre: 'Ford Mustang GT',
-      descripcion: 'Motor V8, estilo agresivo y una experiencia única al volante.',
-      precio: 92000,
-      imagen: 'https://rentlux.es/wp-content/uploads/2023/04/alquilar-ford-mustang.jpg'
+      id: 2,
+      nombre: 'Honda CR-V Hybrid',
+      descripcion: 'SUV híbrido con diseño moderno y eficiencia energética',
+      precio: 42000,
+      imagen: 'https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?auto=format&fit=crop&w=800&q=80'
     },
     {
-      nombre: 'BMW M4 Competition',
-      descripcion: 'Elegancia, lujo y potencia de clase mundial.',
-      precio: 105000,
-      imagen: 'https://blog.consumerguide.com/wp-content/uploads/sites/2/2021/09/aIMG_5370.jpg'
+      id: 3,
+      nombre: 'Mazda CX-5 Turbo',
+      descripcion: 'Deportividad y elegancia en un SUV de alto rendimiento',
+      precio: 38900,
+      imagen: 'https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&w=800&q=80'
     }
   ];
 

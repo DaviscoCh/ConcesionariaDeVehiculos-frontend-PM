@@ -1,62 +1,381 @@
-<!-- ESPACIADOR para no tapar con el navbar -->
+<!-- ESPACIADOR para el navbar fijo -->
 
-<!-- HERO PRINCIPAL -->
-<!-- HERO PRINCIPAL -->
-<section class="hero d-flex align-items-center text-center text-light">
-    <div class="container">
+<!-- ============================
+     HERO CAROUSEL
+============================ -->
+<section class="hero-carousel">
+    <div id="heroCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="5000">
 
-        <!-- TEXTO del HERO -->
-        <div class="hero-text">
-            <!--<app-toast></app-toast>-->
-            <h1 class="display-4 fw-bold mb-3">
-                Bienvenido a <span class="text-primary">CarPremier</span>
-            </h1>
-
-            <p class="lead mb-4">
-                Encuentra el vehículo de tus sueños con la mejor calidad, estilo y rendimiento.
-            </p>
-            <a routerLink="/vehiculos" class="btn btn-primary btn-lg shadow">
-                <i class="bi bi-car-front-fill me-2"></i> Ver Vehículos
-            </a>
+        <!-- Indicadores -->
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active"></button>
+            <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1"></button>
+            <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2"></button>
         </div>
 
-        <!-- AUTO con animación -->
-        <div class="hero-car">
-            <img src="assets/auto-principal.png" alt="Auto Principal">
+        <!-- Slides -->
+        <div class="carousel-inner">
+
+            <!-- Slide 1 -->
+            <div class="carousel-item active">
+                <div class="hero-slide hero-slide-1">
+                    <div class="container h-100">
+                        <div class="row h-100 align-items-center">
+                            <div class="col-lg-6">
+                                <div class="hero-content" data-aos="fade-right">
+                                    <span class="hero-badge">Nuevo en CarPremier</span>
+                                    <h1 class="display-3 fw-bold mb-3">
+                                        Bienvenido a <span class="text-gradient">CarPremier</span>
+                                    </h1>
+                                    <p class="lead mb-4">
+                                        Encuentra el vehículo de tus sueños con la mejor calidad, estilo y rendimiento
+                                        del mercado.
+                                    </p>
+                                    <div class="d-flex gap-3 flex-wrap">
+                                        <a routerLink="/vehiculos" class="btn btn-hero btn-primary btn-lg">
+                                            <i class="bi bi-car-front-fill me-2"></i> Ver Vehículos
+                                        </a>
+                                        <a routerLink="/registro" class="btn btn-hero btn-outline-light btn-lg">
+                                            <i class="bi bi-person-plus me-2"></i> Registrarse
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 d-none d-lg-block">
+                                <div class="hero-car" data-aos="fade-left" data-aos-delay="300">
+                                    <img src="assets/auto-principal.png" alt="" class="img-fluid">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 2 -->
+            <div class="carousel-item">
+                <div class="hero-slide hero-slide-2">
+                    <div class="container h-100">
+                        <div class="row h-100 align-items-center">
+                            <div class="col-lg-6">
+                                <div class="hero-content" data-aos="fade-right">
+                                    <span class="hero-badge bg-warning text-dark">Ofertas Exclusivas</span>
+                                    <h1 class="display-3 fw-bold mb-3">
+                                        Hasta <span class="text-warning">30% OFF</span>
+                                    </h1>
+                                    <p class="lead mb-4">
+                                        Aprovecha nuestras increíbles ofertas en los mejores vehículos. Financiación
+                                        disponible.
+                                    </p>
+                                    <div class="d-flex gap-3 flex-wrap">
+                                        <a routerLink="/ofertas" class="btn btn-hero btn-warning btn-lg text-dark">
+                                            <i class="bi bi-percent me-2"></i> Ver Ofertas
+                                        </a>
+                                        <a routerLink="/financiacion" class="btn btn-hero btn-outline-light btn-lg">
+                                            <i class="bi bi-credit-card me-2"></i> Financiación
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 d-none d-lg-block">
+                                <div class="hero-car" data-aos="fade-left" data-aos-delay="300">
+                                    <img src="assets/auto-oferta.png" alt="Auto en Oferta" class="img-fluid">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 3 -->
+            <div class="carousel-item">
+                <div class="hero-slide hero-slide-3">
+                    <div class="container h-100">
+                        <div class="row h-100 align-items-center">
+                            <div class="col-lg-6">
+                                <div class="hero-content" data-aos="fade-right">
+                                    <span class="hero-badge bg-success">Servicio Premium</span>
+                                    <h1 class="display-3 fw-bold mb-3">
+                                        Servicio <span class="text-success">Postventa</span>
+                                    </h1>
+                                    <p class="lead mb-4">
+                                        Mantenimiento profesional, repuestos originales y atención personalizada para tu
+                                        vehículo.
+                                    </p>
+                                    <div class="d-flex gap-3 flex-wrap">
+                                        <a routerLink="/repuestos" class="btn btn-hero btn-success btn-lg">
+                                            <i class="bi bi-gear-fill me-2"></i> Repuestos
+                                        </a>
+                                        <a routerLink="/concesionarios" class="btn btn-hero btn-outline-light btn-lg">
+                                            <i class="bi bi-geo-alt me-2"></i> Concesionarios
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 d-none d-lg-block">
+                                <div class="hero-car" data-aos="fade-left" data-aos-delay="300">
+                                    <img src="assets/auto-servicio.png" alt="Servicio" class="img-fluid">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Controles -->
+        <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon"></span>
+        </button>
+    </div>
+</section>
+
+
+<!-- ============================
+     VEHÍCULOS DESTACADOS
+============================ -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <h2 class="display-5 fw-bold mb-3">Vehículos <span class="text-primary">Destacados</span></h2>
+            <p class="lead text-muted">Los modelos más populares y exclusivos de nuestra colección</p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-4" *ngFor="let auto of autosDestacados" data-aos="fade-up" data-aos-delay="100">
+                <div class="card card-vehiculo h-100 shadow-sm border-0">
+                    <div class="card-img-wrapper">
+                        <img [src]="auto.imagen" class="card-img-top" [alt]="auto.nombre">
+                        <div class="card-badge">
+                            <span class="badge bg-primary">Destacado</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title fw-bold">{{ auto.nombre }}</h5>
+                        <p class="card-text text-muted">{{ auto.descripcion }}</p>
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <p class="fw-bold text-primary fs-4 mb-0">${{ auto.precio | number }}</p>
+                            <span class="text-muted small">
+                                <i class="bi bi-star-fill text-warning"></i> 4.8
+                            </span>
+                        </div>
+                        <a routerLink="/vehiculos/{{ auto.id }}" class="btn btn-outline-primary w-100">
+                            <i class="bi bi-eye me-2"></i> Ver Detalles
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-5" data-aos="fade-up">
+            <a routerLink="/vehiculos" class="btn btn-primary btn-lg">
+                Ver Todos los Vehículos <i class="bi bi-arrow-right ms-2"></i>
+            </a>
         </div>
     </div>
 </section>
 
 
-<!-- SECCIÓN DE DESTACADOS -->
-<section class="py-5 bg-light text-center">
+<!-- ============================
+     EXPLORA POR MARCAS
+============================ -->
+<section class="py-5 bg-white">
     <div class="container">
-        <h2 class="fw-bold mb-5">Vehículos Destacados</h2>
+        <div class="text-center mb-5" data-aos="fade-up">
+            <h2 class="display-5 fw-bold mb-3">Explora por <span class="text-primary">Marcas</span></h2>
+            <p class="lead text-muted">Las mejores marcas del mercado automotriz</p>
+        </div>
+
         <div class="row g-4">
-            <div class="col-md-4" *ngFor="let auto of autosDestacados">
-                <div class="card h-100 shadow-sm border-0 hover-card">
-                    <img [src]="auto.imagen" class="card-img-top" alt="{{ auto.nombre }}">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ auto.nombre }}</h5>
-                        <p class="card-text text-muted">{{ auto.descripcion }}</p>
-                        <p class="fw-bold text-primary mb-3">\${{ auto.precio | number }}</p>
-                        <a routerLink="/vehiculos" class="btn btn-outline-primary btn-sm">
-                            Ver más
-                        </a>
+            <div class="col-6 col-md-3" data-aos="zoom-in" data-aos-delay="100">
+                <div class="marca-card text-center">
+                    <div class="marca-logo">
+                        <i class="bi bi-car-front-fill fs-1 text-primary"></i>
                     </div>
+                    <h6 class="mt-3 fw-bold">Toyota</h6>
+                </div>
+            </div>
+            <div class="col-6 col-md-3" data-aos="zoom-in" data-aos-delay="150">
+                <div class="marca-card text-center">
+                    <div class="marca-logo">
+                        <i class="bi bi-car-front-fill fs-1 text-primary"></i>
+                    </div>
+                    <h6 class="mt-3 fw-bold">Honda</h6>
+                </div>
+            </div>
+            <div class="col-6 col-md-3" data-aos="zoom-in" data-aos-delay="200">
+                <div class="marca-card text-center">
+                    <div class="marca-logo">
+                        <i class="bi bi-car-front-fill fs-1 text-primary"></i>
+                    </div>
+                    <h6 class="mt-3 fw-bold">Mazda</h6>
+                </div>
+            </div>
+            <div class="col-6 col-md-3" data-aos="zoom-in" data-aos-delay="250">
+                <div class="marca-card text-center">
+                    <div class="marca-logo">
+                        <i class="bi bi-car-front-fill fs-1 text-primary"></i>
+                    </div>
+                    <h6 class="mt-3 fw-bold">Nissan</h6>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-5" data-aos="fade-up">
+            <a routerLink="/marcas" class="btn btn-outline-primary btn-lg">
+                Ver Todas las Marcas <i class="bi bi-arrow-right ms-2"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+
+<!-- ============================
+     SERVICIOS
+============================ -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <h2 class="display-5 fw-bold mb-3">Nuestros <span class="text-primary">Servicios</span></h2>
+            <p class="lead text-muted">Todo lo que necesitas en un solo lugar</p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+                <div class="servicio-card text-center p-4">
+                    <div class="servicio-icon mb-3">
+                        <i class="bi bi-wrench-adjustable-circle-fill fs-1 text-primary"></i>
+                    </div>
+                    <h4 class="fw-bold mb-3">Mantenimiento</h4>
+                    <p class="text-muted">Servicio técnico especializado con los mejores profesionales</p>
+                    <a href="#" class="btn btn-sm btn-outline-primary">Más info</a>
+                </div>
+            </div>
+
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="150">
+                <div class="servicio-card text-center p-4">
+                    <div class="servicio-icon mb-3">
+                        <i class="bi bi-gear-fill fs-1 text-primary"></i>
+                    </div>
+                    <h4 class="fw-bold mb-3">Repuestos</h4>
+                    <p class="text-muted">Repuestos originales y garantizados para tu vehículo</p>
+                    <a routerLink="/repuestos" class="btn btn-sm btn-outline-primary">Explorar</a>
+                </div>
+            </div>
+
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+                <div class="servicio-card text-center p-4">
+                    <div class="servicio-icon mb-3">
+                        <i class="bi bi-credit-card-fill fs-1 text-primary"></i>
+                    </div>
+                    <h4 class="fw-bold mb-3">Financiación</h4>
+                    <p class="text-muted">Planes de financiamiento flexibles adaptados a ti</p>
+                    <a routerLink="/financiacion" class="btn btn-sm btn-outline-primary">Ver planes</a>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- SECCIÓN LLAMADA A LA ACCIÓN -->
-<section class="cta text-light text-center py-5">
+
+<!-- ============================
+     CTA REGISTRO
+============================ -->
+<section class="cta-section py-5">
     <div class="container">
-        <h2 class="fw-bold mb-3">¿Listo para conducir tu nuevo auto?</h2>
-        <p class="mb-4">Regístrate hoy y accede a ofertas exclusivas en CarPremier.</p>
-        <a routerLink="/registro" class="btn btn-light btn-lg text-dark fw-semibold">
-            <i class="bi bi-person-plus me-2"></i> Registrar Persona
-        </a>
+        <div class="row align-items-center" data-aos="fade-up">
+            <div class="col-lg-8">
+                <h2 class="display-6 fw-bold text-white mb-3">¿Listo para encontrar tu vehículo ideal?</h2>
+                <p class="lead text-white-50 mb-0">Regístrate ahora y accede a ofertas exclusivas, financiamiento
+                    preferencial y mucho más.</p>
+            </div>
+            <div class="col-lg-4 text-lg-end mt-4 mt-lg-0">
+                <a routerLink="/registro" class="btn btn-light btn-lg me-2 mb-2">
+                    <i class="bi bi-person-plus me-2"></i> Registrarse
+                </a>
+                <a routerLink="/login" class="btn btn-outline-light btn-lg mb-2">
+                    <i class="bi bi-box-arrow-in-right me-2"></i> Ingresar
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ============================
+     CONCESIONARIOS
+============================ -->
+<section class="py-5 bg-white">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-4 mb-lg-0" data-aos="fade-right">
+                <h2 class="display-5 fw-bold mb-3">Visita Nuestros <span class="text-primary">Concesionarios</span></h2>
+                <p class="lead text-muted mb-4">
+                    Contamos con concesionarios ubicados estratégicamente en todo el país. Visítanos y conoce de cerca
+                    nuestros vehículos.
+                </p>
+                <ul class="list-unstyled">
+                    <li class="mb-3">
+                        <i class="bi bi-check-circle-fill text-primary me-2"></i>
+                        <strong>Atención personalizada</strong>
+                    </li>
+                    <li class="mb-3">
+                        <i class="bi bi-check-circle-fill text-primary me-2"></i>
+                        <strong>Test drive disponible</strong>
+                    </li>
+                    <li class="mb-3">
+                        <i class="bi bi-check-circle-fill text-primary me-2"></i>
+                        <strong>Asesoría profesional</strong>
+                    </li>
+                </ul>
+                <a routerLink="/concesionarios" class="btn btn-primary btn-lg">
+                    <i class="bi bi-geo-alt me-2"></i> Ver Ubicaciones
+                </a>
+            </div>
+            <div class="col-lg-6" data-aos="fade-left">
+                <div class="concesionario-img">
+                    <img src="https://images.unsplash.com/photo-1562519819-016a2b5d2c2c?auto=format&fit=crop&w=800&q=80"
+                        alt="Concesionario" class="img-fluid rounded shadow">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ============================
+     STATS
+============================ -->
+<section class="stats-section py-5 bg-primary text-white">
+    <div class="container">
+        <div class="row text-center g-4">
+            <div class="col-md-3" data-aos="fade-up" data-aos-delay="100">
+                <div class="stat-item">
+                    <h2 class="display-4 fw-bold mb-2">500+</h2>
+                    <p class="mb-0">Vehículos Disponibles</p>
+                </div>
+            </div>
+            <div class="col-md-3" data-aos="fade-up" data-aos-delay="150">
+                <div class="stat-item">
+                    <h2 class="display-4 fw-bold mb-2">15+</h2>
+                    <p class="mb-0">Marcas Premium</p>
+                </div>
+            </div>
+            <div class="col-md-3" data-aos="fade-up" data-aos-delay="200">
+                <div class="stat-item">
+                    <h2 class="display-4 fw-bold mb-2">10K+</h2>
+                    <p class="mb-0">Clientes Satisfechos</p>
+                </div>
+            </div>
+            <div class="col-md-3" data-aos="fade-up" data-aos-delay="250">
+                <div class="stat-item">
+                    <h2 class="display-4 fw-bold mb-2">20+</h2>
+                    <p class="mb-0">Años de Experiencia</p>
+                </div>
+            </div>
+        </div>
     </div>
 </section>

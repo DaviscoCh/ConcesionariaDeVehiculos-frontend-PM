@@ -1,0 +1,307 @@
+/* ========================================
+   ESPACIADO Y SECCIÓN PRINCIPAL
+======================================== */
+.header-spacer {
+    height: 80px;
+}
+
+.historial-compras-section {
+    min-height: calc(100vh - 80px);
+    padding: 3rem 0;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+/* ========================================
+   ENCABEZADO
+======================================== */
+.historial-header {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.header-icon {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #6f42c1 0%, #5a32a3 100%);
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 10px 30px rgba(111, 66, 193, 0.3);
+}
+
+.header-icon i {
+    font-size: 2.5rem;
+    color: white;
+}
+
+.section-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #111a2e;
+    margin-bottom: 0.5rem;
+}
+
+.section-subtitle {
+    font-size: 1.1rem;
+    color: #6c757d;
+}
+
+/* ========================================
+   ESTADOS
+======================================== */
+.loading-state,
+.empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    animation: fadeIn 0.5s ease-out;
+}
+
+.spinner-grow {
+    width: 3rem;
+    height: 3rem;
+}
+
+.empty-icon-bg {
+    width: 120px;
+    height: 120px;
+    background: rgba(111, 66, 193, 0.1);
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 2rem;
+}
+
+.empty-icon-bg i {
+    font-size: 3.5rem;
+    color: #6f42c1;
+}
+
+.empty-state h3 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #111a2e;
+    margin-bottom: 0.5rem;
+}
+
+.empty-state p {
+    color: #6c757d;
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+}
+
+/* ========================================
+   INFO DE RESULTADOS
+======================================== */
+.results-info {
+    padding: 1rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    display: inline-block;
+}
+
+/* ========================================
+   TARJETAS DE COMPRAS
+======================================== */
+.compra-card {
+    border: none;
+    border-radius: 16px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    background: white;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.compra-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+}
+
+.compra-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    border-bottom: 2px solid #dee2e6;
+}
+
+.compra-numero {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #6f42c1;
+}
+
+.compra-img-wrapper {
+    position: relative;
+    height: 200px;
+    overflow: hidden;
+    background: #f8f9fa;
+}
+
+.compra-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.compra-categoria {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(111, 66, 193, 0.9);
+    color: white;
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.repuesto-nombre {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #111a2e;
+    margin-bottom: 1rem;
+    min-height: 50px;
+}
+
+/* ========================================
+   DETALLES DE LA COMPRA
+======================================== */
+.compra-detalles {
+    background: #f8f9fa;
+    padding: 1rem;
+    border-radius: 8px;
+}
+
+.detalle-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.detalle-row:last-child {
+    margin-bottom: 0;
+}
+
+.detalle-label {
+    color: #6c757d;
+    font-weight: 500;
+}
+
+.detalle-valor {
+    color: #111a2e;
+    font-weight: 600;
+}
+
+/* ========================================
+   TOTAL
+======================================== */
+.compra-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background: rgba(111, 66, 193, 0.05);
+    border-radius: 8px;
+    border-left: 4px solid #6f42c1;
+}
+
+.compra-total span {
+    font-size: 0.95rem;
+    color: #6c757d;
+}
+
+.precio-total {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #6f42c1;
+}
+
+/* ========================================
+   BOTONES
+======================================== */
+.btn-outline-primary {
+    border-color: #6f42c1;
+    color: #6f42c1;
+    font-weight: 600;
+}
+
+.btn-outline-primary:hover {
+    background: #6f42c1;
+    border-color: #6f42c1;
+    color: white;
+}
+
+/* ========================================
+   RESPONSIVE
+======================================== */
+@media (max-width: 768px) {
+    .section-title {
+        font-size: 2rem;
+    }
+
+    .historial-compras-section {
+        padding: 2rem 0;
+    }
+
+    .compra-img-wrapper {
+        height: 180px;
+    }
+}
+
+/* ========================================
+   ANIMACIONES
+======================================== */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.compra-card {
+    animation: fadeInUp 0.5s ease-out backwards;
+}
+
+.compra-card:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.compra-card:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.compra-card:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+.compra-card:nth-child(4) {
+    animation-delay: 0.4s;
+}
+
+.compra-card:nth-child(5) {
+    animation-delay: 0.5s;
+}
+
+.compra-card:nth-child(6) {
+    animation-delay: 0.6s;
+}

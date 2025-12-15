@@ -2,19 +2,36 @@
    SECCIÓN PRINCIPAL
 ======================================== */
 .historial-section {
-    min-height: calc(100vh - 80px);
-    padding: 3rem 0;
-    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    height: auto;
 }
+
+
+:host {
+    display: block;
+    height: auto;
+    min-height: 0;
+}
+
+.historial-header {
+    margin-bottom: 1rem !important;
+}
+
+.header-icon {
+    width: 48px;
+    height: 48px;
+}
+
+.section-title {
+    font-size: 1.5rem;
+}
+
+
 
 /* ========================================
    ENCABEZADO
 ======================================== */
-.historial-header {
-    animation: fadeInUp 0.6s ease-out;
-}
-
 .header-icon {
     width: 80px;
     height: 80px;
@@ -165,11 +182,11 @@
 /* ========================================
    ESTADO VACÍO
 ======================================== */
-.empty-state {
-    text-align: center;
-    padding: 4rem 2rem;
-    animation: fadeIn 0.5s ease-out;
+.tab-pane .empty-state {
+    padding: 2rem 1.5rem;
+    /* mucho más equilibrado */
 }
+
 
 .empty-icon-bg {
     width: 120px;
@@ -263,9 +280,14 @@
     }
 }
 
-.compra-item {
+.tab-pane.active .historial-header {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.tab-pane.active .compra-item {
     animation: fadeInUp 0.5s ease-out backwards;
 }
+
 
 .compra-item:nth-child(1) {
     animation-delay: 0.1s;

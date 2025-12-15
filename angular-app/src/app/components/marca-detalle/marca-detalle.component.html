@@ -1,0 +1,124 @@
+<div style="height: 85px;"></div>
+<div class="header-spacer"></div>
+
+<section class="marca-detalle-section">
+    <div class="container">
+        <!-- Botón volver -->
+        <div class="mb-4">
+            <button class="btn btn-outline-secondary" (click)="volverAMarcas()">
+                <i class="bi bi-arrow-left me-2"></i>Volver a Marcas
+            </button>
+        </div>
+
+        <!-- Header de la marca -->
+        <div class="marca-header" *ngIf="marca">
+            <div class="marca-banner">
+                <div class="marca-logo-grande">
+                    <img [src]="obtenerLogo(marca.nombre)" [alt]="marca.nombre"
+                        (error)="onImgError($event, marca.nombre)">
+                </div>
+                <div class="marca-info-banner">
+                    <h1 class="marca-nombre-grande">{{ marca.nombre }}</h1>
+                    <p class="marca-descripcion-grande" *ngIf="marca.descripcion">
+                        {{ marca.descripcion }}
+                    </p>
+                    <div class="marca-stats">
+                        <div class="stat-item">
+                            <i class="bi bi-car-front-fill"></i>
+                            <div>
+                                <strong>{{ vehiculos.length }}</strong>
+                                <span>Vehículos disponibles</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading -->
+        <div *ngIf="cargando" class="loading-state">
+            <div class="spinner-grow text-primary"></div>
+            <p class="mt-3 text-muted">Cargando vehículos...</p>
+        </div>
+
+        <!-- Error -->
+        <div *ngIf="error && !cargando" class="alert alert-danger text-center">
+            <i class="bi bi-exclamation-circle me-2"></i>{{ error }}
+        </div>
+
+        <!-- Sin vehículos -->
+        <div *ngIf="!cargando && !error && vehiculos.length === 0" class="empty-state">
+            <div class="empty-icon-bg">
+                <i class="bi bi-car-front"></i>
+            </div>
+            <h3>No hay vehículos disponibles</h3>
+            <p>En este momento no tenemos vehículos de esta marca en inventario</p>
+        </div>
+
+        <!-- Grid de vehículos -->
+        <div *ngIf="!cargando && !error && vehiculos.length > 0">
+            <div class="section-subtitle text-center mb-4">
+                <h3>Vehículos {{ marca?.nombre }}</h3>
+                <p class="text-muted">Explora nuestra selección de {{ vehiculos.length }} vehículos disponibles</p>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-4 col-xl-3" *ngFor="let v of vehiculos">
+                    <div class="card vehicle-card h-100">
+                        <div class="vehicle-img-wrapper">
+                            <img [src]="v.imagen_url" [alt]="v.marca + ' ' + v.modelo" class="vehicle-img">
+
+                            <div class="badge-overlay top-right">
+                                <span class="badge"
+                                    [ngClass]="v.estado === 'Disponible' ? 'bg-success-gradient' : 'bg-secondary'">
+                                    {{ v.estado }}
+                                </span>
+                            </div>
+
+                            <div class="vehicle-hover-action">
+                                <button class="btn btn-light btn-pill fw-bold"
+                                    (click)="verDetalleVehiculo(v.id_vehiculo)">
+                                    Ver Detalles <i class="bi bi-arrow-right ms-1"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="card-body d-flex flex-column p-3">
+                            <!-- Header con tipo y modelo -->
+                            <div class="vehicle-header mb-3">
+                                <span class="vehicle-type-badge">{{ v.tipo }}</span>
+                                <h5 class="vehicle-title mb-1">
+                                    {{ v.marca }} <span class="vehicle-model">{{ v.modelo }}</span>
+                                </h5>
+                            </div>
+
+                            <!-- Características -->
+                            <div class="vehicle-specs mb-3">
+                                <div class="spec-item">
+                                    <i class="bi bi-calendar-check"></i>
+                                    <span>{{ v.anio }}</span>
+                                </div>
+                                <div class="spec-divider"></div>
+                                <div class="spec-item">
+                                    <i class="bi bi-palette-fill"></i>
+                                    <span>{{ v.color }}</span>
+                                </div>
+                            </div>
+
+                            <!-- Precio -->
+                            <div class="vehicle-footer mt-auto">
+                                <div class="price-section">
+                                    <span class="price-label">Precio</span>
+                                    <div class="price-wrapper">
+                                        <span class="currency">$</span>
+                                        <span class="price-amount">{{ v.precio | number:'1.0-0' }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

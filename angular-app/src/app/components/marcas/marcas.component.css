@@ -1,0 +1,247 @@
+/* ========================================
+   ANIMACIONES (Keyframes)
+======================================== */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* ========================================
+   VARIABLES GLOBALES
+======================================== */
+:root {
+    --primary-dark: #111a2e;
+    --text-muted: #6c757d;
+}
+
+/* ========================================
+   ENCABEZADO (Tu estilo personalizado)
+======================================== */
+.marcas-header {
+    margin-bottom: 3rem;
+    /* Animamos también el encabezado suavemente */
+    animation: fadeIn 0.8s ease-out;
+}
+
+.section-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--primary-dark);
+    letter-spacing: -0.5px;
+    margin-bottom: 0.5rem;
+}
+
+.section-subtitle {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+}
+
+/* Ajuste responsive para móviles */
+@media (max-width: 768px) {
+    .section-title {
+        font-size: 2rem;
+    }
+}
+
+/* ========================================
+   DISEÑO PREMIUM V2 - CAR PREMIER
+======================================== */
+
+.marca-card {
+    background: #ffffff;
+    border-radius: 20px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.03);
+    position: relative;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
+    /* AQUI AGREGAMOS LA ANIMACIÓN A LA TARJETA */
+    /* 'backwards' asegura que la tarjeta sea invisible antes de empezar la animación */
+    animation: fadeInUp 0.6s ease-out backwards;
+}
+
+/* Detalle de color superior (Barra de acento) */
+.marca-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, #0d6efd, #6610f2);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.marca-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 20px 40px -10px rgba(13, 110, 253, 0.15);
+    border-color: rgba(13, 110, 253, 0.1);
+}
+
+.marca-card:hover::before {
+    opacity: 1;
+}
+
+/* ========================================
+   AREA DEL LOGO (Efecto Spotlight)
+======================================== */
+.marca-logo-wrapper {
+    height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2.5rem;
+    background: radial-gradient(circle at center, #ffffff 0%, #f3f6f9 100%);
+    border-bottom: 1px dashed #e9ecef;
+    position: relative;
+}
+
+.marca-logo {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    filter: grayscale(100%);
+    opacity: 0.7;
+    transition: all 0.4s ease;
+    mix-blend-mode: multiply;
+}
+
+.marca-card:hover .marca-logo {
+    filter: grayscale(0%);
+    opacity: 1;
+    transform: scale(1.15);
+}
+
+/* ========================================
+   INFORMACIÓN
+======================================== */
+.marca-info {
+    padding: 1.5rem 1.5rem 1.8rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: white;
+}
+
+.marca-nombre {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: #1e293b;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.5px;
+}
+
+.marca-descripcion {
+    font-size: 0.95rem;
+    color: #64748b;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* ========================================
+   BOTÓN / ENLACE (Estilo Píldora)
+======================================== */
+.marca-action {
+    margin-top: auto;
+    text-align: left;
+}
+
+.ver-mas {
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.6rem 1.2rem;
+    background-color: #f0f7ff;
+    color: #0d6efd;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+.ver-mas i {
+    transition: transform 0.3s ease;
+}
+
+.marca-card:hover .ver-mas {
+    background-color: #0d6efd;
+    color: white;
+    box-shadow: 0 4px 15px rgba(13, 110, 253, 0.3);
+}
+
+.marca-card:hover .ver-mas i {
+    transform: translateX(5px);
+}
+
+/* ========================================
+   RETRASOS DE ANIMACIÓN (Efecto Cascada)
+   Esto hace que salgan una por una
+======================================== */
+.marca-card:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.marca-card:nth-child(2) {
+    animation-delay: 0.15s;
+}
+
+.marca-card:nth-child(3) {
+    animation-delay: 0.2s;
+}
+
+.marca-card:nth-child(4) {
+    animation-delay: 0.25s;
+}
+
+.marca-card:nth-child(5) {
+    animation-delay: 0.3s;
+}
+
+.marca-card:nth-child(6) {
+    animation-delay: 0.35s;
+}
+
+.marca-card:nth-child(7) {
+    animation-delay: 0.4s;
+}
+
+.marca-card:nth-child(8) {
+    animation-delay: 0.45s;
+}
+
+.marca-card:nth-child(9) {
+    animation-delay: 0.5s;
+}
+
+.marca-card:nth-child(10) {
+    animation-delay: 0.55s;
+}

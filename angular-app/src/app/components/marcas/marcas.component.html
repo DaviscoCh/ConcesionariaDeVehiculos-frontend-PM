@@ -1,0 +1,60 @@
+<div style="height: 95px;"></div>
+<div class="header-spacer"></div>
+<section class="marcas-section">
+    <div class="container">
+        <!-- Encabezado -->
+        <div class="marcas-header text-center mb-5">
+            <h2 class="section-title">Nuestras Marcas</h2>
+            <p class="section-subtitle">Explora nuestra selección premium de vehículos certificados</p>
+        </div>
+
+        <!-- Loading -->
+        <div *ngIf="cargando" class="loading-state">
+            <div class="spinner-grow text-primary"></div>
+            <p class="mt-3 text-muted">Cargando marcas...</p>
+        </div>
+
+        <!-- Error -->
+        <div *ngIf="error && !cargando" class="alert alert-danger text-center">
+            <i class="bi bi-exclamation-circle me-2"></i>{{ error }}
+        </div>
+
+        <!-- Sin marcas -->
+        <div *ngIf="!cargando && !error && marcas.length === 0" class="empty-state">
+            <div class="empty-icon-bg">
+                <i class="bi bi-building"></i>
+            </div>
+            <h3>No hay marcas disponibles</h3>
+            <p>En este momento no tenemos marcas registradas en el sistema</p>
+        </div>
+
+        <!-- Grid de marcas -->
+        <div *ngIf="!cargando && !error && marcas.length > 0">
+            <div class="results-info mb-4 text-center">
+            </div>
+
+            <div class="row g-4">
+                <div class="col-6 col-md-4 col-lg-3" *ngFor="let marca of marcas">
+                    <div class="marca-card" (click)="verDetalleMarca(marca)">
+                        <div class="marca-logo-wrapper">
+                            <img [src]="obtenerLogo(marca.nombre)" [alt]="marca.nombre" class="marca-logo"
+                                (error)="onImgError($event, marca.nombre)">
+                        </div>
+                        <div class="marca-info">
+                            <h5 class="marca-nombre">{{ marca.nombre }}</h5>
+                            <p class="marca-descripcion" *ngIf="marca.descripcion">
+                                {{ marca.descripcion }}
+                            </p>
+                            <div class="marca-action">
+                                <a [routerLink]="['/marca-detalle', marca.id_marca]" class="ver-mas">
+                                    Ver modelos
+                                    <i class="bi bi-arrow-right ms-2"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

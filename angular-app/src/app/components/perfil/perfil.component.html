@@ -1,82 +1,173 @@
 <div style="height: 75px;"></div>
 <section class="perfil-section py-5">
-    <div class="container">
+    <div class="container-fluid px-4">
         <div class="row justify-content-center">
-            <div class="col-lg-8">
+            <div class="col-12 col-xl-10">
 
-                <div class="card shadow-lg p-4 rounded-4">
-                    <h2 class="fw-bold mb-4 text-center">Mi Perfil</h2>
+                <!-- Header con info del usuario -->
+                <div class="perfil-header mb-4">
+                    <div class="d-flex align-items-center gap-4">
+                        <div class="avatar-wrapper">
+                            <div class="avatar">
+                                <i class="bi bi-person-circle"></i>
+                            </div>
+                        </div>
+                        <div class="flex-grow-1">
+                            <h2 class="fw-bold mb-1">{{ nombre }} {{ apellido }}</h2>
+                            <p class="text-muted mb-1">
+                                <i class="bi bi-envelope me-2"></i>{{ correo }}
+                            </p>
+                            <span class="badge bg-success-subtle text-success">
+                                <i class="bi bi-check-circle me-1"></i>{{ estado }}
+                            </span>
+                        </div>
+                        <div class="d-none d-md-block">
+                            <button routerLink="/editar-perfil" class="btn btn-primary px-4">
+                                <i class="bi bi-pencil me-2"></i>Editar Perfil
+                            </button>
+                        </div>
+                    </div>
+                </div>
 
-                    <!-- Alertas de error -->
-                    <ng-container *ngIf="!error; else errorBlock">
+                <!-- Alertas de error -->
+                <ng-container *ngIf="!error; else errorBlock">
 
-                        <!-- Pestañas -->
-                        <ul class="nav nav-tabs mb-4" id="perfilTabs" role="tablist">
+                    <!-- Pestañas Mejoradas -->
+                    <div class="tabs-wrapper mb-4">
+                        <ul class="nav nav-pills custom-tabs" id="perfilTabs" role="tablist">
                             <li class="nav-item" role="presentation">
                                 <button class="nav-link active" id="perfil-tab" data-bs-toggle="tab"
-                                    data-bs-target="#perfil" type="button" role="tab">Perfil</button>
+                                    data-bs-target="#perfil" type="button" role="tab">
+                                    <i class="bi bi-person-badge me-2"></i>
+                                    <span>Información Personal</span>
+                                </button>
                             </li>
                             <li class="nav-item" role="presentation">
                                 <button class="nav-link" id="historial-tab" data-bs-toggle="tab"
-                                    data-bs-target="#historial" type="button" role="tab">Historial</button>
+                                    data-bs-target="#historial" type="button" role="tab">
+                                    <i class="bi bi-clock-history me-2"></i>
+                                    <span>Historial de Citas</span>
+                                </button>
                             </li>
                             <li class="nav-item" role="presentation">
                                 <button class="nav-link" id="tarjetas-tab" data-bs-toggle="tab"
-                                    data-bs-target="#tarjetas" type="button" role="tab">Tarjetas</button>
+                                    data-bs-target="#tarjetas" type="button" role="tab">
+                                    <i class="bi bi-credit-card me-2"></i>
+                                    <span>Mis Tarjetas</span>
+                                </button>
                             </li>
                             <li class="nav-item" role="presentation">
                                 <button class="nav-link position-relative" id="notificaciones-tab" data-bs-toggle="tab"
                                     data-bs-target="#notificaciones" type="button" role="tab">
-                                    Notificaciones
-                                    <span
-                                        class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
-                                        *ngIf="contadorNotificaciones > 0" style="font-size: 0.7rem;">
+                                    <i class="bi bi-bell me-2"></i>
+                                    <span>Notificaciones</span>
+                                    <span class="notification-badge" *ngIf="contadorNotificaciones > 0">
                                         {{ contadorNotificaciones }}
                                     </span>
                                 </button>
                             </li>
                         </ul>
+                    </div>
 
-                        <!-- Contenido de pestañas -->
-                        <div class="tab-content" id="perfilTabsContent">
+                    <!-- Contenido de pestañas -->
+                    <div class="tab-content" id="perfilTabsContent">
 
-                            <!-- PERFIL -->
-                            <div class="tab-pane fade show active" id="perfil" role="tabpanel">
-                                <div class="mb-3">
-                                    <h4>Bienvenido, {{ nombre }} {{ apellido }}</h4>
-                                    <p><strong>Correo:</strong> {{ correo }}</p>
-                                    <p><strong>Estado:</strong> {{ estado }}</p>
+                        <!-- PERFIL -->
+                        <div class="tab-pane fade show active" id="perfil" role="tabpanel">
+                            <div class="content-card">
+                                <h4 class="section-title mb-4">
+                                    <i class="bi bi-person-lines-fill me-2"></i>
+                                    Información Personal
+                                </h4>
+
+                                <div class="row g-4">
+                                    <div class="col-md-6">
+                                        <div class="info-item">
+                                            <label class="info-label">Nombre Completo</label>
+                                            <p class="info-value">{{ nombre }} {{ apellido }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="info-item">
+                                            <label class="info-label">Correo Electrónico</label>
+                                            <p class="info-value">{{ correo }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="info-item">
+                                            <label class="info-label">Estado de Cuenta</label>
+                                            <p class="info-value">
+                                                <span class="badge bg-success">{{ estado }}</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="info-item">
+                                            <label class="info-label">Miembro desde</label>
+                                            <p class="info-value">Enero 2024</p>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="d-flex gap-2">
-                                    <button routerLink="/editar-perfil" class="btn btn-outline-primary">Editar
-                                        perfil</button>
+
+                                <div class="d-flex gap-2 mt-4 d-md-none">
+                                    <button routerLink="/editar-perfil" class="btn btn-primary w-100">
+                                        <i class="bi bi-pencil me-2"></i>Editar Perfil
+                                    </button>
                                 </div>
                             </div>
-
-                            <!-- HISTORIAL -->
-                            <div class="tab-pane fade" id="historial" role="tabpanel">
-                                <app-historial-citas></app-historial-citas>
-                            </div>
-
-                            <!-- TARJETAS -->
-                            <div class="tab-pane fade" id="tarjetas" role="tabpanel">
-                                <app-tarjetas></app-tarjetas>
-                            </div>
-
-                            <!-- NOTIFICACIONES -->
-                            <div class="tab-pane fade" id="notificaciones" role="tabpanel">
-                                <app-notificaciones></app-notificaciones>
-                            </div>
-
                         </div>
 
-                    </ng-container>
+                        <!-- HISTORIAL -->
+                        <div class="tab-pane fade" id="historial" role="tabpanel">
+                            <div class="content-card">
+                                <h4 class="section-title mb-4">
+                                    <i class="bi bi-clock-history me-2"></i>
+                                    Historial de Citas
+                                </h4>
+                                <app-historial-citas></app-historial-citas>
+                            </div>
+                        </div>
 
-                    <!-- ERROR -->
-                    <ng-template #errorBlock>
-                        <div class="alert alert-danger">{{ error }}</div>
-                    </ng-template>
-                </div>
+                        <!-- TARJETAS -->
+                        <div class="tab-pane fade" id="tarjetas" role="tabpanel">
+                            <div class="content-card">
+                                <h4 class="section-title mb-4">
+                                    <i class="bi bi-credit-card me-2"></i>
+                                    Métodos de Pago
+                                </h4>
+                                <app-tarjetas></app-tarjetas>
+                            </div>
+                        </div>
+
+                        <!-- NOTIFICACIONES -->
+                        <div class="tab-pane fade" id="notificaciones" role="tabpanel">
+                            <div class="content-card">
+                                <div class="d-flex justify-content-between align-items-center mb-4">
+                                    <h4 class="section-title mb-0">
+                                        <i class="bi bi-bell me-2"></i>
+                                        Notificaciones
+                                    </h4>
+                                    <span class="badge bg-primary-subtle text-primary"
+                                        *ngIf="contadorNotificaciones > 0">
+                                        {{ contadorNotificaciones }} nuevas
+                                    </span>
+                                </div>
+                                <app-notificaciones></app-notificaciones>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </ng-container>
+
+                <!-- ERROR -->
+                <ng-template #errorBlock>
+                    <div class="alert alert-danger d-flex align-items-center">
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                        {{ error }}
+                    </div>
+                </ng-template>
+
             </div>
         </div>
     </div>

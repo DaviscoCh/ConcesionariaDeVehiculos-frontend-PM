@@ -1,0 +1,136 @@
+<div class="header-spacer"></div>
+
+<section class="concesionarios-section">
+    <div class="container">
+        <!-- Encabezado -->
+        <div class="concesionarios-header text-center mb-5">
+            <h2 class="section-title">Nuestras Oficinas</h2>
+            <p class="section-subtitle">Selecciona una provincia para ver nuestra ubicación y datos de contacto</p>
+        </div>
+
+        <!-- Selector de Provincias -->
+        <div class="provincias-selector mb-4">
+            <button class="provincia-btn" [class.active]="!provinciaSeleccionada" (click)="verTodasLasProvincias()">
+                <i class="bi bi-map me-2"></i>
+                Todas las Provincias
+            </button>
+            <button class="provincia-btn" *ngFor="let prov of provincias"
+                [class.active]="provinciaSeleccionada?.nombre === prov.nombre" [style.--provincia-color]="prov.color"
+                (click)="seleccionarProvincia(prov)">
+                <i class="bi bi-geo-alt-fill me-2"></i>
+                {{ prov.nombre }}
+            </button>
+        </div>
+
+        <!-- Mapa de Ecuador (iframe de Google Maps) -->
+        <div class="mapa-container mb-5">
+            <div class="mapa-wrapper">
+                <iframe [src]="mapaUrl | safe: 'resourceUrl'" allowfullscreen="" loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
+            <div class="mapa-overlay" *ngIf="!provinciaSeleccionada">
+                <h4>🇪🇨 Servicio a Nivel Nacional</h4>
+                <p>Selecciona una provincia para ver la ubicación específica</p>
+            </div>
+            <div class="mapa-overlay-provincia" *ngIf="provinciaSeleccionada">
+                <h4>📍 {{ provinciaSeleccionada.ciudad }}, {{ provinciaSeleccionada.nombre }}</h4>
+                <p>{{ provinciaSeleccionada.direccion }}</p>
+            </div>
+        </div>
+
+        <!-- Información de contacto DINÁMICA -->
+        <div class="row g-4 mb-5">
+            <div class="col-md-6">
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="bi bi-telephone-fill"></i>
+                    </div>
+                    <div class="contact-info">
+                        <h5>Teléfono</h5>
+                        <p>{{ contactoActual.telefono }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="contact-card clickable" (click)="contactarWhatsApp()">
+                    <div class="contact-icon whatsapp">
+                        <i class="bi bi-whatsapp"></i>
+                    </div>
+                    <div class="contact-info">
+                        <h5>WhatsApp</h5>
+                        <p>{{ contactoActual.telefono }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="bi bi-envelope-fill"></i>
+                    </div>
+                    <div class="contact-info">
+                        <h5>Correo Electrónico</h5>
+                        <p>{{ contactoActual.email }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="bi bi-geo-alt-fill"></i>
+                    </div>
+                    <div class="contact-info">
+                        <h5>{{ provinciaSeleccionada ? 'Dirección' : 'Cobertura' }}</h5>
+                        <p>{{ contactoActual.direccion }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Horario (común para todas) -->
+        <div class="horario-section mb-5">
+            <div class="horario-card">
+                <i class="bi bi-clock-fill"></i>
+                <div>
+                    <h5>Horario de Atención</h5>
+                    <p>Lunes a Viernes: 8:00 AM - 6:00 PM<br>Sábados: 9:00 AM - 2:00 PM</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Servicios destacados -->
+        <div class="servicios-section">
+            <h3 class="text-center mb-5">¿Por qué elegirnos?</h3>
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-3" *ngFor="let servicio of servicios">
+                    <div class="servicio-card">
+                        <div class="servicio-icon">
+                            <i class="bi" [ngClass]="servicio.icon"></i>
+                        </div>
+                        <h5>{{ servicio.titulo }}</h5>
+                        <p>{{ servicio.descripcion }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CTA Final -->
+        <div class="cta-section text-center mt-5">
+            <div class="cta-card">
+                <h3>¿Listo para encontrar tu próximo vehículo?</h3>
+                <p>Agenda una cita con nosotros y descubre nuestro catálogo premium</p>
+                <div class="cta-buttons">
+                    <button class="btn btn-primary btn-lg" (click)="agendarCita()">
+                        <i class="bi bi-calendar-check me-2"></i>Agendar Cita
+                    </button>
+                    <button class="btn btn-success btn-lg" (click)="contactarWhatsApp()">
+                        <i class="bi bi-whatsapp me-2"></i>Contactar por WhatsApp
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

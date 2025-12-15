@@ -19,7 +19,15 @@ export class PerfilComponent implements OnInit, AfterViewInit {
   estado: string = '';
   error: string = '';
   tarjetas: any[] = [];
+  nombreUsuario: string = '';
+  apellidoUsuario: string = '';
   contadorNotificaciones: number = 0;
+  // 🔹 Para mostrar arriba (header)
+  nombreCorto: string = '';
+
+  // 🔹 Para mostrar abajo (info personal)
+  nombreCompleto: string = '';
+
 
   private tabAActivar: string | null = null; // ✅ Para guardar la pestaña a activar
 
@@ -31,27 +39,38 @@ export class PerfilComponent implements OnInit, AfterViewInit {
   ) { }
 
   ngOnInit(): void {
-    // ✅ Detectar si viene el parámetro 'tab' en la URL
+
+    // 🔹 1. Cargar nombre desde localStorage (igual que AppComponent)
+    this.nombreUsuario = localStorage.getItem('nombre') || '';
+    console.log('👤 Nombre desde localStorage:', this.nombreUsuario);
+
+    // 🔹 Detectar pestaña
     this.route.queryParams.subscribe(params => {
       if (params['tab']) {
         this.tabAActivar = params['tab'];
-        console.log('📑 Pestaña a activar:', this.tabAActivar);
       }
     });
 
+    // 🔹 2. Cargar perfil desde backend
     this.usuarioService.getPerfil().subscribe({
       next: (data) => {
-        this.nombre = data.nombres;
-        this.apellido = data.apellidos;
+
+        // 🔹 Si el backend trae nombre, sobrescribe
+        this.nombre = data.nombres || this.nombreUsuario;
+        this.apellido = data.apellidos || '';
         this.correo = data.correo;
         this.estado = data.estado;
+
+        // 🔹 Actualiza también el nombreUsuario
+        this.nombreUsuario = this.nombre;
+        this.apellidoUsuario = this.apellido;
 
         this.cargarTarjetas();
         this.cargarContadorNotificaciones();
       },
       error: (err) => {
         console.error('❌ Error al cargar perfil:', err);
-        this.error = 'No se pudo cargar el perfil. Verifica tu sesión.';
+        this.error = 'No se pudo cargar el perfil.';
       }
     });
 

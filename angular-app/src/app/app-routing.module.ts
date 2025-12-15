@@ -14,6 +14,15 @@ import { NotificacionesComponent } from './components/notificaciones/notificacio
 import { ToastComponent } from './components/toast/toast.component';
 import { FavoritosComponent } from './components/favoritos/favoritos.component';
 import { FacturasComponent } from './components/facturas/facturas.component';
+import { RepuestosComponent } from './components/repuestos/repuestos.component';
+import { CheckoutRepuestosComponent } from './components/checkout-repuestos/checkout-repuestos.component';
+import { HistorialComprasComponent } from './components/historial-compras/historial-compras.component';
+import { FacturaRepuestoComponent } from './components/factura-repuesto/factura-repuesto.component';
+import { MarcasComponent } from './components/marcas/marcas.component';
+import { MarcaDetalleComponent } from './components/marca-detalle/marca-detalle.component';
+import { ConcesionariosComponent } from './components/concesionarios/concesionarios.component';
+import { OfertasComponent } from './components/ofertas/ofertas.component';
+import { FinanciacionComponent } from './components/financiacion/financiacion.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -29,6 +38,15 @@ const routes: Routes = [
   { path: 'toast', component: ToastComponent, canActivate: [AuthGuard] },
   { path: 'favoritos', component: FavoritosComponent, canActivate: [AuthGuard] },
   { path: 'facturas', component: FacturasComponent, canActivate: [AuthGuard] },
+  { path: 'repuestos', component: RepuestosComponent, canActivate: [AuthGuard] },
+  { path: 'checkout-repuestos', component: CheckoutRepuestosComponent, canActivate: [AuthGuard] },
+  { path: 'historial-compras', component: HistorialComprasComponent, canActivate: [AuthGuard] },
+  { path: 'factura-repuesto/:id', component: FacturaRepuestoComponent, canActivate: [AuthGuard] },
+  { path: 'marcas', component: MarcasComponent },
+  { path: 'marca-detalle/:id', component: MarcaDetalleComponent },
+  { path: 'concesionarios', component: ConcesionariosComponent },
+  { path: 'ofertas', component: OfertasComponent },
+  { path: 'financiacion', component: FinanciacionComponent },
   { path: '**', redirectTo: 'home' }
 ];
 

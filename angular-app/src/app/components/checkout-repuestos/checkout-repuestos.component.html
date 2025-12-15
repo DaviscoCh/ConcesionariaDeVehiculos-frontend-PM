@@ -1,0 +1,135 @@
+<div class="header-spacer"></div>
+
+<section class="checkout-section">
+    <div class="container">
+        <!-- Encabezado -->
+        <div class="checkout-header text-center mb-5">
+            <div class="header-icon">
+                <i class="bi bi-credit-card-fill"></i>
+            </div>
+            <h2 class="section-title">💳 Finalizar Compra</h2>
+            <p class="section-subtitle">Revisa tu pedido y selecciona tu método de pago</p>
+        </div>
+
+        <div class="row g-4">
+            <!-- Columna izquierda: Resumen del pedido -->
+            <div class="col-lg-7">
+                <div class="card checkout-card">
+                    <div class="card-header">
+                        <h5><i class="bi bi-bag-check me-2"></i>Resumen del Pedido</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="pedido-item" *ngFor="let item of carrito">
+                            <img [src]="item.imagen_url" [alt]="item.nombre" class="pedido-img">
+                            <div class="pedido-info">
+                                <h6>{{ item.nombre }}</h6>
+                                <p class="text-muted mb-0">{{ item.categoria }}</p>
+                                <p class="precio-unitario">
+                                    ${{ item.precio | number:'1.2-2' }} × {{ item.cantidad }}
+                                </p>
+                            </div>
+                            <div class="pedido-total">
+                                ${{ (item.precio * item.cantidad) | number:'1.2-2' }}
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <div class="totales-checkout">
+                            <div class="total-row">
+                                <span>Subtotal:</span>
+                                <strong>${{ obtenerSubtotal() | number:'1.2-2' }}</strong>
+                            </div>
+                            <div class="total-row">
+                                <span>IVA (15%):</span>
+                                <strong>${{ obtenerIVA() | number:'1.2-2' }}</strong>
+                            </div>
+                            <hr>
+                            <div class="total-row total-final">
+                                <span>Total a Pagar:</span>
+                                <strong>${{ obtenerTotal() | number:'1.2-2' }}</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Columna derecha: Método de pago -->
+            <div class="col-lg-5">
+                <div class="card checkout-card">
+                    <div class="card-header">
+                        <h5><i class="bi bi-credit-card me-2"></i>Método de Pago</h5>
+                    </div>
+                    <div class="card-body">
+                        <!-- Sin tarjetas -->
+                        <div *ngIf="tarjetas.length === 0" class="alert alert-warning">
+                            <i class="bi bi-exclamation-triangle me-2"></i>
+                            No tienes tarjetas registradas.
+                            <a routerLink="/tarjetas" class="alert-link">Agregar tarjeta</a>
+                        </div>
+
+                        <!-- Selección de tarjeta -->
+                        <div *ngIf="tarjetas.length > 0">
+                            <p class="text-muted mb-3">Selecciona la tarjeta con la que deseas pagar:</p>
+
+                            <div class="tarjeta-option" *ngFor="let tarjeta of tarjetas"
+                                [class.selected]="tarjetaSeleccionada === tarjeta.id_tarjeta"
+                                (click)="tarjetaSeleccionada = tarjeta.id_tarjeta">
+
+                                <div class="tarjeta-radio">
+                                    <input type="radio" [id]="'tarjeta-' + tarjeta.id_tarjeta"
+                                        [value]="tarjeta.id_tarjeta" [(ngModel)]="tarjetaSeleccionada">
+                                </div>
+
+                                <div class="tarjeta-info">
+                                    <div class="tarjeta-tipo">
+                                        <i class="bi"
+                                            [ngClass]="tarjeta.tipo === 'Crédito' ? 'bi-credit-card' : 'bi-wallet2'"></i>
+                                        {{ tarjeta.tipo }}
+                                    </div>
+                                    <div class="tarjeta-numero">{{ enmascaradoTarjeta(tarjeta.numero) }}</div>
+                                    <div class="tarjeta-nombre">{{ tarjeta.nombre }}</div>
+                                    <div class="tarjeta-saldo">
+                                        Saldo disponible:
+                                        <strong [class.text-danger]="convertirANumero(tarjeta.saldo) < obtenerTotal()">
+                                            ${{ tarjeta.saldo | number:'1.2-2' }}
+                                        </strong>
+                                    </div>
+                                </div>
+
+                                <div class="tarjeta-check" *ngIf="tarjetaSeleccionada === tarjeta.id_tarjeta">
+                                    <i class="bi bi-check-circle-fill"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Error -->
+                        <div *ngIf="error" class="alert alert-danger mt-3">
+                            <i class="bi bi-exclamation-circle me-2"></i>{{ error }}
+                        </div>
+
+                        <!-- Botones -->
+                        <div class="d-grid gap-2 mt-4">
+                            <button class="btn btn-primary btn-lg" (click)="procesarPago()"
+                                [disabled]="procesando || tarjetas.length === 0 || !tarjetaSeleccionada">
+                                <i class="bi" [ngClass]="procesando ? 'bi-hourglass-split' : 'bi-check-circle'"></i>
+                                {{ procesando ? 'Procesando...' : 'Confirmar Compra' }}
+                            </button>
+                            <button class="btn btn-outline-secondary" (click)="volver()" [disabled]="procesando">
+                                <i class="bi bi-arrow-left me-2"></i>Volver al Carrito
+                            </button>
+                        </div>
+
+                        <!-- Mensaje de seguridad -->
+                        <div class="seguridad-mensaje mt-4">
+                            <i class="bi bi-shield-check me-2"></i>
+                            <small class="text-muted">
+                                Tus datos están protegidos. Esta es una transacción segura.
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

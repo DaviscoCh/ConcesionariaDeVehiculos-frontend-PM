@@ -1,60 +1,84 @@
 .tarjetas-section {
     min-height: 90vh;
-    background: #f3f4f6;
+    background: linear-gradient(135deg, #0f172a, #1e293b);
     font-family: 'Poppins', sans-serif;
 }
 
 .tarjetas-card {
-    background-color: #ffffffcc;
+    background: rgba(255, 255, 255, 0.95);
     border: none;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.tarjetas-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+/* ===== TARJETA VISUAL ===== */
+.tarjeta-visual {
+    background: linear-gradient(135deg, #1e3a8a, #2563eb);
+    color: #fff;
+    border-radius: 1.2rem;
+    padding: 1.5rem;
+    height: 190px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25);
+    transition: transform 0.35s ease, box-shadow 0.35s ease;
 }
 
-/* Tarjetas individuales */
-.tarjeta-item {
-    border-radius: 0.75rem;
-    background: linear-gradient(135deg, #e0f2fe, #bae6fd);
-    padding: 1rem;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+.tarjeta-visual:hover {
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
 }
 
-.tarjeta-item:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+.tarjeta-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-/* Inputs y select */
+.tarjeta-chip {
+    width: 40px;
+    height: 30px;
+    background: linear-gradient(135deg, #fde68a, #facc15);
+    border-radius: 6px;
+}
+
+.tarjeta-tipo {
+    font-size: 0.85rem;
+    opacity: 0.9;
+}
+
+.tarjeta-numero {
+    font-size: 1.25rem;
+    letter-spacing: 2px;
+    font-weight: 600;
+    margin: 1rem 0;
+}
+
+.tarjeta-footer {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+}
+
+.tarjeta-footer small {
+    display: block;
+    opacity: 0.8;
+}
+
+/* ===== FORM ===== */
 .form-control,
 .form-select {
-    border-radius: 0.5rem;
+    border-radius: 0.6rem;
+    padding: 0.6rem 0.75rem;
 }
 
-/* Botones */
+/* ===== BOTÓN ===== */
 .btn-primary {
-    background: linear-gradient(135deg, #0d6efd, #1e3a8a);
+    background: linear-gradient(135deg, #2563eb, #1e3a8a);
     border: none;
     font-weight: 600;
-    transition: all 0.3s ease;
+    transition: transform 0.3s ease;
 }
 
 .btn-primary:hover {
-    transform: translateY(-2px);
-    background: linear-gradient(135deg, #2563eb, #1d4ed8);
-}
-
-.btn-outline-success {
-    border-radius: 0.5rem;
-    font-weight: 500;
-    transition: all 0.3s ease;
-}
-
-.btn-outline-success:hover {
-    background-color: #22c55e;
-    color: white;
     transform: translateY(-2px);
 }

@@ -19,6 +19,16 @@ import { ToastComponent } from './components/toast/toast.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FavoritosComponent } from './components/favoritos/favoritos.component';
 import { FacturasComponent } from './components/facturas/facturas.component';
+import { RepuestosComponent } from './components/repuestos/repuestos.component';
+import { CheckoutRepuestosComponent } from './components/checkout-repuestos/checkout-repuestos.component';
+import { HistorialComprasComponent } from './components/historial-compras/historial-compras.component';
+import { FacturaRepuestoComponent } from './components/factura-repuesto/factura-repuesto.component';
+import { MarcasComponent } from './components/marcas/marcas.component';
+import { MarcaDetalleComponent } from './components/marca-detalle/marca-detalle.component';
+import { ConcesionariosComponent } from './components/concesionarios/concesionarios.component';
+import { SafePipe } from './components/pipes/safe.pipe';
+import { OfertasComponent } from './components/ofertas/ofertas.component';
+import { FinanciacionComponent } from './components/financiacion/financiacion.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +41,17 @@ import { FacturasComponent } from './components/facturas/facturas.component';
     TarjetasComponent,
     NotificacionesComponent,
     FavoritosComponent,
-    FacturasComponent
+    FacturasComponent,
+    RepuestosComponent,
+    CheckoutRepuestosComponent,
+    HistorialComprasComponent,
+    FacturaRepuestoComponent,
+    MarcasComponent,
+    MarcaDetalleComponent,
+    ConcesionariosComponent,
+    SafePipe,
+    OfertasComponent,
+    FinanciacionComponent
   ],
   imports: [
     BrowserModule,

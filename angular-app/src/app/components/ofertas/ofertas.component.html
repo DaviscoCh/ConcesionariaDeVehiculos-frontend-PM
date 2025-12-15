@@ -1,0 +1,95 @@
+<div class="header-spacer"></div>
+
+<section class="ofertas-section">
+    <div class="container">
+        <!-- Hero Banner -->
+        <div class="hero-ofertas mb-5">
+            <div class="hero-content">
+                <span class="hero-badge">🎉 Ofertas Especiales</span>
+                <h1 class="hero-title">Grandes Promociones</h1>
+                <p class="hero-subtitle">Descubre las mejores ofertas en vehículos premium</p>
+                <div class="hero-note">
+                    <i class="bi bi-info-circle me-2"></i>
+                    <span>Nuevas promociones muy pronto</span>
+                </div>
+            </div>
+            <div class="hero-overlay"></div>
+        </div>
+
+        <!-- Mensaje Próximamente -->
+        <div class="proximamente-banner mb-5">
+            <div class="proximamente-icon">
+                <i class="bi bi-hourglass-split"></i>
+            </div>
+            <div class="proximamente-content">
+                <h3>🚀 Próximamente</h3>
+                <p>Estamos preparando increíbles ofertas y promociones especiales para ti. ¡Mantente atento!</p>
+            </div>
+        </div>
+
+        <!-- Grid de Promociones -->
+        <div class="promociones-grid mb-5">
+            <div class="promocion-card" *ngFor="let promo of promociones">
+                <div class="promocion-badge" [style.background]="promo.color">
+                    {{ promo.badge }}
+                </div>
+
+                <div class="promocion-imagen">
+                    <img [src]="promo.imagen" [alt]="promo.titulo">
+                    <div class="promocion-overlay">
+                        <i class="bi" [ngClass]="promo.icono"></i>
+                    </div>
+                </div>
+
+                <div class="promocion-content">
+                    <h4>{{ promo.titulo }}</h4>
+                    <p>{{ promo.descripcion }}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Beneficios -->
+        <div class="beneficios-section mb-5">
+            <h3 class="text-center mb-4">¿Por qué esperar nuestras ofertas?</h3>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="beneficio-card">
+                        <i class="bi bi-shield-check"></i>
+                        <h5>Garantía Incluida</h5>
+                        <p>Todas nuestras ofertas incluyen garantía extendida sin costo adicional</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="beneficio-card">
+                        <i class="bi bi-cash-stack"></i>
+                        <h5>Mejores Precios</h5>
+                        <p>Descuentos exclusivos y precios competitivos del mercado</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="beneficio-card">
+                        <i class="bi bi-truck"></i>
+                        <h5>Entrega Inmediata</h5>
+                        <p>Vehículos disponibles para entrega el mismo día de la compra</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CTA Section -->
+        <div class="cta-ofertas">
+            <div class="cta-content">
+                <h3>¿No quieres esperar?</h3>
+                <p>Explora nuestro catálogo actual con vehículos premium disponibles ahora</p>
+                <div class="cta-buttons">
+                    <button class="btn btn-primary btn-lg" (click)="verVehiculos()">
+                        <i class="bi bi-car-front me-2"></i>Ver Vehículos Disponibles
+                    </button>
+                    <button class="btn btn-outline-light btn-lg" (click)="agendarCita()">
+                        <i class="bi bi-calendar-check me-2"></i>Agendar una Cita
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

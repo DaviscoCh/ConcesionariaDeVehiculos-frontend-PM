@@ -551,3 +551,205 @@
         margin: 0 0.25rem;
         /* Espacio entre links */
     }
+
+    /* Footer Premium Styles */
+    .footer-premium {
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .footer-premium::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, #0066ff, #00ccff);
+    }
+
+    .footer-brand h4 {
+        font-weight: 700;
+        color: #fff;
+    }
+
+    .footer-links li {
+        margin-bottom: 0.75rem;
+        transition: all 0.3s ease;
+    }
+
+    .footer-links a {
+        text-decoration: none;
+        transition: all 0.3s ease;
+        display: inline-block;
+    }
+
+    .footer-links a:hover {
+        color: #0066ff !important;
+        transform: translateX(5px);
+    }
+
+    .social-links .btn {
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+    }
+
+    .social-links .btn:hover {
+        background-color: #0066ff;
+        border-color: #0066ff;
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0, 102, 255, 0.4);
+    }
+
+    .chatbot-illustration {
+        animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+
+        0%,
+        100% {
+            transform: translateY(0px);
+        }
+
+        50% {
+            transform: translateY(-10px);
+        }
+    }
+
+    .footer-premium h6 {
+        font-weight: 600;
+        letter-spacing: 1px;
+        position: relative;
+        padding-bottom: 10px;
+    }
+
+    .footer-premium h6::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 40px;
+        height: 2px;
+        background: linear-gradient(90deg, #0066ff, transparent);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .footer-premium .col-md-6 {
+            margin-bottom: 2rem;
+        }
+
+        .social-links .btn {
+            width: 35px !important;
+            height: 35px !important;
+            font-size: 0.9rem;
+        }
+    }
+
+    .footer-premium {
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .footer-premium::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, #0066ff, #00ccff);
+    }
+
+    .footer-brand h4 {
+        font-weight: 700;
+        color: #fff;
+    }
+
+    .footer-links li {
+        margin-bottom: 0.75rem;
+        transition: all 0.3s ease;
+    }
+
+    .footer-links a {
+        text-decoration: none;
+        transition: all 0.3s ease;
+        display: inline-block;
+    }
+
+    .footer-links a:hover {
+        color: #00ccff !important;
+        transform: translateX(5px);
+    }
+
+    .social-links .btn {
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+    }
+
+    .social-links .btn:hover {
+        background-color: #0066ff;
+        border-color: #0066ff;
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0, 102, 255, 0.4);
+    }
+
+    .chatbot-illustration {
+        animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+
+        0%,
+        100% {
+            transform: translateY(0px);
+        }
+
+        50% {
+            transform: translateY(-10px);
+        }
+    }
+
+    .footer-premium h6 {
+        font-weight: 600;
+        letter-spacing: 1px;
+        position: relative;
+        padding-bottom: 10px;
+    }
+
+    .footer-premium h6::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 40px;
+        height: 2px;
+        background: linear-gradient(90deg, #0066ff, transparent);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .footer-premium .col-md-6 {
+            margin-bottom: 2rem;
+        }
+
+        .social-links .btn {
+            width: 35px !important;
+            height: 35px !important;
+            font-size: 0.9rem;
+        }
+    }
+
+    /* Clases de color personalizadas */
+    .text-light-gray {
+        color: #b8c1d8 !important;
+    }
