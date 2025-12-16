@@ -45,49 +45,78 @@ function VehiculosPage() {
         return modelo ? modelo.nombre : '';
     };
 
+    // ⭐ Agregar DESPUÉS del useEffect existente (después de línea 60)
     useEffect(() => {
-        fetchVehiculos();
-        fetchMarcas();
-        fetchModelos();
+        console.log('⚡ useEffect disparado - formData.marca_id cambió a:', formData.marca_id);
+    }, [formData.marca_id]);
+
+    useEffect(() => {
+        const abortController = new AbortController();
+
+        fetchVehiculos(abortController.signal);
+        fetchMarcas(abortController.signal);
+        fetchModelos(abortController.signal);
+
+        return () => {
+            abortController.abort(); // Cancelar al desmontar
+        };
     }, []);
 
-    const fetchVehiculos = async () => {
+    const fetchVehiculos = async (signal) => {
         try {
-            const res = await axios.get('http://localhost:3000/api/vehiculos', { timeout: 10000 }); // 10 segundos
+            const res = await axios.get('http://localhost:3000/api/vehiculos', {
+                signal,
+                timeout: 10000
+            });
             setVehiculos(res.data);
         } catch (err) {
-            if (err.code === 'ECONNABORTED') {
-            }
-            if (err.code !== 'ECONNABORTED') {
+            if (err.name !== 'CanceledError' && err.code !== 'ECONNABORTED') {
                 console.error('Error al obtener vehículos:', err.message);
             }
         }
     };
 
-    const fetchMarcas = async () => {
+    const fetchMarcas = async (signal) => {
         try {
-            const res = await axios.get('http://localhost:3000/api/marcas');
+            const res = await axios.get('http://localhost:3000/api/marcas', { signal });
+            console.log('✅ Marcas cargadas:', res.data.length);
             setMarcas(res.data);
         } catch (err) {
-            console.error('Error al obtener marcas:', err.message);
+            if (err.name !== 'CanceledError') {
+                console.error('Error al obtener marcas:', err.message);
+            }
         }
     };
 
-    const fetchModelos = async () => {
+    const fetchModelos = async (signal) => {
         try {
-            const res = await axios.get('http://localhost:3000/api/modelos');
-            console.log('Modelos:', res.data);
+            const res = await axios.get('http://localhost:3000/api/modelos', { signal });
+            console.log('✅ Modelos cargados:', res.data.length);
+            console.log('📦 Modelos:', res.data);
             setModelos(res.data);
         } catch (err) {
-            console.error('Error al obtener modelos:', err.message);
+            if (err.name !== 'CanceledError') {
+                console.error('Error al obtener modelos:', err.message);
+            }
         }
     };
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
+
+        console.log('🔄 handleChange ejecutado');
+        console.log('  name:', name);
+        console.log('  value:', value);
+
+        // ⭐ Usar callback para asegurar el estado más reciente
+        setFormData(prevFormData => {
+            const nuevoFormData = { ...prevFormData, [name]: value };
+            console.log('  formData actualizado:', nuevoFormData);
+            return nuevoFormData;
+        });
 
         if (name === 'marca_id') {
+            console.log('✅ Marca seleccionada:', value);
             setMarcaSeleccionada(value);
         }
     };
@@ -219,6 +248,12 @@ function VehiculosPage() {
     };
 
     const modelosFiltrados = modelos.filter((mod) => mod.id_marca === formData.marca_id);
+
+    console.log('🔍 Filtrando modelos: ');
+    console.log('  - formData.marca_id:', formData.marca_id);
+    console.log('  - Total modelos disponibles:', modelos.length);
+    console.log('  - Modelos filtrados:', modelosFiltrados.length);
+    console.log('  - Modelos:', modelosFiltrados);
 
     return (
         <div className="vehiculos-container">

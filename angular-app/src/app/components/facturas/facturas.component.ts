@@ -38,6 +38,8 @@ export class FacturasComponent implements OnInit {
     this.cargando = true;
     this.facturaService.obtenerHistorial().subscribe({
       next: (response: any) => {
+        console.log('📦 Facturas recibidas:', response.data);
+        console.log('📦 Primera factura:', response.data[0]);
         this.facturas = response.data;
         this.cargando = false;
       },
@@ -48,8 +50,27 @@ export class FacturasComponent implements OnInit {
     });
   }
 
-  verFactura(id_factura: string) {
+  verFactura(id_factura: string, id_cita?: string) {
     this.mostrandoFactura = true;
+
+    // ✅ Intentar primero con id_cita si existe
+    if (id_cita) {
+      this.facturaService.obtenerFacturaPorCita(id_cita).subscribe({
+        next: (response: any) => {
+          this.facturaSeleccionada = response.data;
+        },
+        error: err => {
+          console.error('Error al cargar factura por cita:', err);
+          // Si falla, intentar por id_factura
+          this.intentarPorIdFactura(id_factura);
+        }
+      });
+    } else {
+      this.intentarPorIdFactura(id_factura);
+    }
+  }
+
+  intentarPorIdFactura(id_factura: string) {
     this.facturaService.obtenerFacturaPorId(id_factura).subscribe({
       next: (response: any) => {
         this.facturaSeleccionada = response.data;

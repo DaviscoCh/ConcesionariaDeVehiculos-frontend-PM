@@ -1,0 +1,154 @@
+<div style="height: 95px;"></div>
+<div class="mis-ordenes-container">
+    <!-- Header -->
+    <div class="header">
+        <div class="header-content">
+            <h1>📋 Mis Órdenes de Servicio</h1>
+            <button class="btn-nueva-orden" (click)="irANuevaOrden()">
+                + Nueva Orden
+            </button>
+        </div>
+    </div>
+
+    <!-- Filtros -->
+    <div class="filtros-container">
+        <button *ngFor="let estado of estadosDisponibles" [class.active]="filtroEstado === estado"
+            (click)="filtrarPorEstado(estado)" class="btn-filtro">
+            {{ estado }}
+            <span class="badge" *ngIf="estado !== 'Todos'">
+            </span>
+        </button>
+    </div>
+
+    <!-- Loading -->
+    <div *ngIf="loading" class="loading">
+        <div class="spinner"></div>
+        <p>Cargando órdenes...</p>
+    </div>
+
+    <!-- Error -->
+    <div *ngIf="error" class="error-message">
+        {{ error }}
+    </div>
+
+    <!-- Sin Órdenes -->
+    <div *ngIf="!loading && !error && ordenesFiltradas.length === 0" class="sin-ordenes">
+        <div class="sin-ordenes-icon">🔧</div>
+        <h2>No tienes órdenes de servicio</h2>
+        <p>Solicita mantenimiento para tu vehículo y aparecerá aquí</p>
+        <button class="btn-primary" (click)="irANuevaOrden()">
+            Solicitar Servicio
+        </button>
+    </div>
+
+    <!-- Lista de Órdenes -->
+    <div *ngIf="!loading && !error && ordenesFiltradas.length > 0" class="ordenes-lista">
+        <div *ngFor="let orden of ordenesFiltradas" class="orden-card" [class]="getEstadoClase(orden.estado)">
+
+            <!-- Header de la Orden -->
+            <div class="orden-header">
+                <div class="orden-info-principal">
+                    <h3>
+                        {{ getEstadoIcono(orden.estado) }}
+                        Orden {{ orden.numero_orden }}
+                    </h3>
+                    <span class="fecha">{{ formatearFecha(orden.fecha_solicitud) }}</span>
+                </div>
+                <div class="orden-estado">
+                    <span class="badge-estado" [class]="getEstadoClase(orden.estado)">
+                        {{ orden.estado }}
+                    </span>
+                </div>
+            </div>
+
+            <!-- Vehículo -->
+            <div class="orden-vehiculo">
+                <div class="vehiculo-imagen">
+                    <img [src]="orden.vehiculo?.imagen_url || 'assets/default-car.jpg'"
+                        [alt]="orden.vehiculo?.modelo?.nombre">
+                </div>
+                <div class="vehiculo-info">
+                    <p class="vehiculo-nombre">
+                        {{ orden.vehiculo?.modelo?.marca?.nombre }}
+                        {{ orden.vehiculo?.modelo?.nombre }}
+                    </p>
+                    <p class="vehiculo-detalles">
+                        {{ orden.vehiculo?.anio }} • {{ orden.vehiculo?.color }}
+                    </p>
+                </div>
+            </div>
+
+            <!-- Descripción del Problema -->
+            <div *ngIf="orden.descripcion_problema" class="orden-descripcion">
+                <strong>Problema reportado:</strong>
+                <p>{{ orden.descripcion_problema }}</p>
+            </div>
+
+            <!-- Diagnóstico Técnico -->
+            <div *ngIf="orden.diagnostico_tecnico" class="orden-diagnostico">
+                <strong>Diagnóstico del técnico:</strong>
+                <p>{{ orden.diagnostico_tecnico }}</p>
+            </div>
+
+            <!-- Oficina -->
+            <div *ngIf="orden.oficina" class="orden-oficina">
+                <span class="icono">📍</span>
+                {{ orden.oficina.nombre }}
+            </div>
+
+            <!-- Información de Costos -->
+            <div class="orden-costos">
+                <div class="costo-row">
+                    <span>Mano de obra:</span>
+                    <span>${{ formatearPrecio(orden.subtotal_mano_obra) }}</span>
+                </div>
+                <div class="costo-row" *ngIf="orden.subtotal_repuestos > 0">
+                    <span>Repuestos:</span>
+                    <span>${{ formatearPrecio(orden.subtotal_repuestos) }}</span>
+                </div>
+                <div class="costo-row">
+                    <span>IVA:</span>
+                    <span>${{ formatearPrecio(orden. iva) }}</span>
+                </div>
+                <div class="costo-row total">
+                    <span>TOTAL:</span>
+                    <span>${{ formatearPrecio(orden.total) }}</span>
+                </div>
+            </div>
+
+            <!-- Estado de Pago -->
+            <div class="orden-pago">
+                <span class="pago-estado" [class.pagado]="orden.estado_pago === 'Pagado'">
+                    {{ orden.estado_pago === 'Pagado' ? '✓ Pagado' : '⏳ Pendiente de pago' }}
+                </span>
+                <span *ngIf="orden.metodo_pago">• {{ orden.metodo_pago }}</span>
+            </div>
+
+            <!-- Calificación -->
+            <div *ngIf="orden.calificacion" class="orden-calificacion">
+                <div class="estrellas">
+                    <span *ngFor="let star of [1,2,3,4,5]" [class.filled]="star <= orden.calificacion">
+                        ⭐
+                    </span>
+                </div>
+                <p *ngIf="orden.comentario_cliente" class="comentario">
+                    "{{ orden.comentario_cliente }}"
+                </p>
+            </div>
+
+            <!-- Acciones -->
+            <div class="orden-acciones">
+                <button class="btn-detalle" (click)="verDetalle(orden.id_orden)">
+                    Ver Detalle
+                </button>
+
+                <button *ngIf="orden.estado !== 'Completado' && 
+               orden.estado !== 'Cancelado' && 
+               orden.estado !== 'En Proceso' && 
+               orden.estado_pago !== 'Pagado'" class="btn-cancelar" (click)="cancelarOrden(orden)">
+                    Cancelar Orden
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

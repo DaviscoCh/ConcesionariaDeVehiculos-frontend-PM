@@ -42,4 +42,21 @@ export class FacturaService {
       { headers: this.getHeaders() }
     );
   }
+
+  // Obtener factura por ID de orden de servicio
+  obtenerFacturaPorOrden(id_orden: string): Observable<any> {
+    return this.http.get(
+      `${this.apiUrl}/orden/${id_orden}`,
+      { headers: this.getHeaders() }
+    );
+  }
+
+  // Generar factura desde orden de servicio
+  generarFacturaDesdeOrden(id_orden: string): Observable<any> {
+    return this.http.post(
+      `${this.apiUrl}/generar-orden`,
+      { id_orden },
+      { headers: this.getHeaders() }
+    );
+  }
 }

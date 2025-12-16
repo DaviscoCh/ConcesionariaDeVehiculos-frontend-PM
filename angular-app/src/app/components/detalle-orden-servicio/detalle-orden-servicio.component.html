@@ -1,0 +1,426 @@
+<div style="height: 75px;"></div>
+<div class="detalle-orden-container">
+    <!-- Loading -->
+    <div *ngIf="loading" class="loading">
+        <div class="spinner"></div>
+        <p>Cargando detalles...</p>
+    </div>
+
+    <!-- Error -->
+    <div *ngIf="error" class="error-message">
+        {{ error }}
+        <button class="btn-secondary" (click)="volver()">Volver</button>
+    </div>
+
+    <!-- Contenido -->
+    <div *ngIf="!loading && !error && orden" class="contenido">
+        <!-- Header -->
+        <div class="header">
+            <button class="btn-volver" (click)="volver()">
+                ← Volver
+            </button>
+            <div class="header-info">
+                <h1>
+                    {{ getEstadoIcono(orden.estado) }}
+                    Orden {{ orden.numero_orden }}
+                </h1>
+                <span class="badge-estado" [class]="getEstadoClase(orden.estado)">
+                    {{ orden.estado }}
+                </span>
+            </div>
+        </div>
+
+        <!-- Timeline de Estados -->
+        <div class="timeline">
+            <div class="timeline-item" [class.completed]="true">
+                <div class="timeline-icon">✓</div>
+                <div class="timeline-content">
+                    <h4>Orden Creada</h4>
+                    <p>{{ formatearFecha(orden.fecha_solicitud) }}</p>
+                </div>
+            </div>
+
+            <div class="timeline-item" [class.completed]="orden.estado !== 'Pendiente'">
+                <div class="timeline-icon">{{ orden.estado !== 'Pendiente' ? '✓' : '○' }}</div>
+                <div class="timeline-content">
+                    <h4>Aprobada y Pagada</h4>
+                </div>
+            </div>
+
+            <div class="timeline-item" [class.completed]="orden.fecha_inicio">
+                <div class="timeline-icon">{{ orden.fecha_inicio ? '✓' : '○' }}</div>
+                <div class="timeline-content">
+                    <h4>En Proceso</h4>
+                    <p *ngIf="orden.fecha_inicio">{{ formatearFecha(orden.fecha_inicio) }}</p>
+                    <p *ngIf="!orden.fecha_inicio" class="text-muted">No iniciado</p>
+                </div>
+            </div>
+
+            <div class="timeline-item" [class.completed]="orden.fecha_finalizacion">
+                <div class="timeline-icon">{{ orden.fecha_finalizacion ? '✓' : '○' }}</div>
+                <div class="timeline-content">
+                    <h4>Completado</h4>
+                    <p *ngIf="orden.fecha_finalizacion">{{ formatearFecha(orden.fecha_finalizacion) }}</p>
+                    <p *ngIf="!orden.fecha_finalizacion" class="text-muted">En proceso</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid-contenido">
+            <!-- Columna Principal -->
+            <div class="columna-principal">
+                <!-- Vehículo -->
+                <div class="seccion-card">
+                    <h3>🚗 Vehículo</h3>
+                    <div class="vehiculo-detalle">
+                        <img [src]="orden.vehiculo?.imagen_url || 'assets/default-car.jpg'"
+                            [alt]="orden.vehiculo?.modelo?.nombre" class="vehiculo-imagen-grande">
+                        <div class="vehiculo-info-detalle">
+                            <h2>
+                                {{ orden.vehiculo?.modelo?.marca?.nombre }}
+                                {{ orden.vehiculo?.modelo?.nombre }}
+                            </h2>
+                            <div class="vehiculo-specs">
+                                <span class="spec">📅 {{ orden.vehiculo?.anio }}</span>
+                                <span class="spec">🎨 {{ orden.vehiculo?.color }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Descripción del Problema -->
+                <div *ngIf="orden.descripcion_problema" class="seccion-card">
+                    <h3>📝 Problema Reportado</h3>
+                    <p class="descripcion-texto">{{ orden.descripcion_problema }}</p>
+                </div>
+
+                <!-- Diagnóstico Técnico -->
+                <div *ngIf="orden.diagnostico_tecnico" class="seccion-card diagnostico">
+                    <h3>🔍 Diagnóstico del Técnico</h3>
+                    <p class="descripcion-texto">{{ orden.diagnostico_tecnico }}</p>
+                </div>
+
+                <!-- Detalles del Servicio -->
+                <div *ngIf="orden.detalles && orden.detalles.length > 0" class="seccion-card">
+                    <h3>🔧 Servicios y Repuestos Aplicados</h3>
+                    <div class="detalles-lista">
+                        <div *ngFor="let detalle of orden.detalles" class="detalle-item"
+                            [class.servicio]="detalle.tipo_item === 'Servicio'"
+                            [class.repuesto]="detalle.tipo_item === 'Repuesto'">
+
+                            <div class="detalle-icon">
+                                {{ detalle.tipo_item === 'Servicio' ? '🔧' : '🔩' }}
+                            </div>
+
+                            <div class="detalle-info">
+                                <h4>{{ detalle.descripcion }}</h4>
+                                <p class="detalle-tipo">{{ detalle.tipo_item }}</p>
+                                <p *ngIf="detalle.servicio" class="detalle-categoria">
+                                    {{ detalle.servicio.categoria }}
+                                </p>
+                            </div>
+
+                            <div class="detalle-cantidad">
+                                x{{ detalle.cantidad }}
+                            </div>
+
+                            <div class="detalle-precio">
+                                ${{ formatearPrecio(detalle.subtotal) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Calificación Existente -->
+                <div *ngIf="orden.calificacion" class="seccion-card calificacion-existente">
+                    <h3>⭐ Tu Calificación</h3>
+                    <div class="estrellas-grandes">
+                        <span *ngFor="let star of [1,2,3,4,5]" [class.filled]="star <= orden.calificacion">
+                            ⭐
+                        </span>
+                    </div>
+                    <p class="comentario-calificacion">"{{ orden.comentario_cliente }}"</p>
+                </div>
+
+                <!-- Botón Calificar -->
+                <div *ngIf="orden.estado === 'Completado' && !orden.calificacion" class="seccion-card calificar-prompt">
+                    <h3>⭐ ¿Qué te pareció el servicio?</h3>
+                    <p>Ayúdanos a mejorar calificando tu experiencia</p>
+                    <button class="btn-calificar" (click)="abrirFormCalificacion()">
+                        Calificar Servicio
+                    </button>
+                </div>
+            </div>
+
+            <!-- Columna Lateral -->
+            <div class="columna-lateral">
+                <!-- Resumen de Costos -->
+                <!-- Resumen de Costos -->
+                <div class="seccion-card">
+                    <h3>💰 Resumen de Costos</h3>
+                    <div class="costos-detalle">
+                        <div class="costo-row">
+                            <span>Mano de obra:</span>
+                            <span>${{ formatearPrecio(orden.subtotal_mano_obra) }}</span>
+                        </div>
+                        <div class="costo-row" *ngIf="orden.subtotal_repuestos > 0">
+                            <span>Repuestos:</span>
+                            <span>${{ formatearPrecio(orden.subtotal_repuestos) }}</span>
+                        </div>
+                        <div class="costo-row">
+                            <span>Subtotal:</span>
+                            <span>${{ formatearPrecio(orden.subtotal) }}</span>
+                        </div>
+                        <div class="costo-row">
+                            <span>IVA (12%):</span>
+                            <span>${{ formatearPrecio(orden.iva) }}</span>
+                        </div>
+                        <div class="costo-row total">
+                            <span>TOTAL:</span>
+                            <span>${{ formatearPrecio(orden.total) }}</span>
+                        </div>
+                    </div>
+
+                    <div class="pago-info">
+                        <div class="pago-estado" [class.pagado]="orden.estado_pago === 'Pagado'">
+                            {{ orden.estado_pago === 'Pagado' ? '✓ Pagado' : '⏳ Pendiente' }}
+                        </div>
+                        <p *ngIf="orden.metodo_pago" class="metodo-pago">
+                            Método: {{ orden.metodo_pago }}
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Oficina -->
+                <div *ngIf="orden.oficina" class="seccion-card">
+                    <h3>📍 Oficina de Servicio</h3>
+                    <div class="oficina-info">
+                        <p class="oficina-nombre">{{ orden.oficina.nombre }}</p>
+                        <p class="oficina-direccion">{{ orden.oficina.direccion }}</p>
+                    </div>
+                </div>
+
+                <!-- Acciones -->
+                <!-- Acciones -->
+                <div class="seccion-card acciones">
+                    <!-- ✅ NUEVO BOTÓN -->
+                    <button *ngIf="orden. estado === 'Completado'" class="btn-accion btn-ver-factura"
+                        (click)="verFacturaOrden()" [disabled]="cargandoFactura">
+                        {{ cargandoFactura ? '⏳ Cargando.. .' : '📄 Ver Factura' }}
+                    </button>
+
+                    <button
+                        *ngIf="orden. estado !== 'Completado' && orden.estado !== 'Cancelado' && orden.estado !== 'En Proceso' && orden.estado_pago !== 'Pagado'"
+                        class="btn-accion btn-cancelar-orden" (click)="cancelarOrden()">
+                        ❌ Cancelar Orden
+                    </button>
+
+                    <button class="btn-accion btn-descargar" (click)="descargarComprobante()">
+                        📄 Descargar Comprobante
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Calificación -->
+    <div *ngIf="mostrarFormCalificacion" class="modal-overlay" (click)="cerrarFormCalificacion()">
+        <div class="modal-content" (click)="$event.stopPropagation()">
+            <div class="modal-header">
+                <h2>⭐ Califica tu experiencia</h2>
+                <button class="btn-cerrar" (click)="cerrarFormCalificacion()">×</button>
+            </div>
+
+            <div class="modal-body">
+                <div class="calificacion-selector">
+                    <p>¿Qué tan satisfecho estás con el servicio?</p>
+                    <div class="estrellas-selector">
+                        <span *ngFor="let star of [1,2,3,4,5]" class="estrella-clickable"
+                            [class.selected]="star <= calificacion" (click)="setCalificacion(star)"
+                            (mouseenter)="calificacion = star">
+                            ⭐
+                        </span>
+                    </div>
+                </div>
+
+                <div class="comentario-grupo">
+                    <label>Cuéntanos más sobre tu experiencia:</label>
+                    <textarea [(ngModel)]="comentario" placeholder="¿Qué te gustó? ¿Qué podríamos mejorar?"
+                        rows="4"></textarea>
+                </div>
+
+                <div class="modal-acciones">
+                    <button class="btn-secondary" (click)="cerrarFormCalificacion()">
+                        Cancelar
+                    </button>
+                    <button class="btn-primary" (click)="enviarCalificacion()"
+                        [disabled]="enviandoCalificacion || calificacion === 0">
+                        {{ enviandoCalificacion ? 'Enviando...' : 'Enviar Calificación' }}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ========================================
+     MODAL DE FACTURA DE MANTENIMIENTO
+======================================== -->
+    <div *ngIf="mostrandoFactura && facturaOrden" class="modal-overlay" (click)="cerrarFactura()">
+        <div class="modal-factura" (click)="$event.stopPropagation()">
+
+            <!-- Botones de acción -->
+            <div class="factura-actions mb-4 no-print">
+                <button class="btn-secondary" (click)="cerrarFactura()">
+                    ← Cerrar
+                </button>
+                <div class="btn-group">
+                    <button class="btn-primary" (click)="descargarFacturaPDF()" [disabled]="generandoPDF">
+                        {{ generandoPDF ? '⏳ Generando.. .' : '📥 Descargar PDF' }}
+                    </button>
+                    <button class="btn-secondary" (click)="imprimirFactura()">
+                        🖨️ Imprimir
+                    </button>
+                </div>
+            </div>
+
+            <!-- Documento de Factura -->
+            <div id="factura-mantenimiento-pdf" class="factura-documento">
+
+                <!-- Encabezado empresa -->
+                <div class="factura-empresa mb-4">
+                    <h1 class="empresa-nombre">🚗 CarPremier</h1>
+                    <p class="empresa-info mb-0">Concesionaria de Vehículos Premium</p>
+                    <p class="empresa-info mb-0">RUC: 0123456789001</p>
+                    <p class="empresa-info">Dir: Av. Principal 123, Quito, Ecuador</p>
+                </div>
+
+                <!-- Título -->
+                <div class="text-center mb-4">
+                    <h2 class="factura-titulo">FACTURA DE SERVICIO DE MANTENIMIENTO</h2>
+                    <h3 class="factura-numero-grande">{{ facturaOrden.numero_factura }}</h3>
+                    <p class="text-muted">Fecha de emisión: {{ formatearFecha(facturaOrden.fecha_emision) }}</p>
+                </div>
+
+                <!-- Datos del cliente y servicio -->
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <div class="info-box">
+                            <h5 class="info-titulo">Datos del Cliente</h5>
+                            <p class="mb-1"><strong>Nombre:</strong> {{ facturaOrden.nombres }} {{
+                                facturaOrden.apellidos }}</p>
+                            <p class="mb-1"><strong>Documento:</strong> {{ facturaOrden.documento }}</p>
+                            <p class="mb-1"><strong>Correo:</strong> {{ facturaOrden.correo }}</p>
+                            <p class="mb-1"><strong>Teléfono:</strong> {{ facturaOrden.telefono }}</p>
+                            <p class="mb-0"><strong>Dirección:</strong> {{ facturaOrden.direccion }}</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="info-box">
+                            <h5 class="info-titulo">Datos del Servicio</h5>
+                            <p class="mb-1"><strong>Orden: </strong> {{ facturaOrden. numero_orden }}</p>
+                            <p class="mb-1"><strong>Tipo: </strong> {{ facturaOrden. tipo_servicio }}</p>
+                            <p class="mb-1"><strong>Oficina:</strong> {{ facturaOrden.oficina_nombre }}</p>
+                            <p class="mb-1"><strong>Dirección:</strong> {{ facturaOrden.oficina_direccion }}</p>
+                            <p class="mb-0"><strong>Fecha:</strong> {{ formatearFecha(facturaOrden.fecha_finalizacion)
+                                }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Vehículo -->
+                <div class="info-box mb-4">
+                    <h5 class="info-titulo">Vehículo Atendido</h5>
+                    <p class="mb-0">
+                        <strong>{{ facturaOrden.marca_nombre }} {{ facturaOrden.modelo_nombre }}</strong>
+                        • Año: {{ facturaOrden.anio }}
+                        • Color: {{ facturaOrden.color }}
+                    </p>
+                </div>
+
+                <!-- Detalle de servicios y repuestos -->
+                <div class="table-responsive mb-4">
+                    <table class="table table-bordered">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Tipo</th>
+                                <th>Descripción</th>
+                                <th class="text-center">Cantidad</th>
+                                <th class="text-end">P. Unitario</th>
+                                <th class="text-end">Subtotal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let detalle of facturaOrden.detalles">
+                                <td>
+                                    <span
+                                        [class]="detalle.tipo_item === 'Servicio' ? 'badge bg-primary' : 'badge bg-success'">
+                                        {{ detalle.tipo_item }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <strong>{{ detalle.descripcion }}</strong>
+                                    <br>
+                                    <small class="text-muted" *ngIf="detalle. tipo_item === 'Servicio'">
+                                        {{ detalle.servicio_categoria }}
+                                    </small>
+                                    <small class="text-muted" *ngIf="detalle.tipo_item === 'Repuesto'">
+                                        {{ detalle.repuesto_categoria }}
+                                    </small>
+                                </td>
+                                <td class="text-center">{{ detalle.cantidad }}</td>
+                                <td class="text-end">${{ formatearPrecio(detalle. precio_unitario) }}</td>
+                                <td class="text-end"><strong>${{ formatearPrecio(detalle.subtotal) }}</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Diagnóstico -->
+                <div *ngIf="facturaOrden.diagnostico_tecnico" class="info-box mb-4">
+                    <h5 class="info-titulo">Diagnóstico Técnico</h5>
+                    <p class="mb-0">{{ facturaOrden.diagnostico_tecnico }}</p>
+                </div>
+
+                <!-- Totales -->
+                <div class="row">
+                    <div class="col-md-6 offset-md-6">
+                        <div class="totales-box">
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>Mano de Obra: </span>
+                                <strong>${{ formatearPrecio(facturaOrden.subtotal_mano_obra) }}</strong>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2"
+                                *ngIf="facturaOrden.subtotal_repuestos > 0">
+                                <span>Repuestos:</span>
+                                <strong>${{ formatearPrecio(facturaOrden.subtotal_repuestos) }}</strong>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>Subtotal:</span>
+                                <strong>${{ formatearPrecio(facturaOrden.subtotal) }}</strong>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>IVA (12%):</span>
+                                <strong>${{ formatearPrecio(facturaOrden.iva) }}</strong>
+                            </div>
+                            <hr>
+                            <div class="d-flex justify-content-between total-final">
+                                <strong>TOTAL:</strong>
+                                <strong>${{ formatearPrecio(facturaOrden.total) }}</strong>
+                            </div>
+                            <div class="d-flex justify-content-between mt-2">
+                                <small>Método de pago: </small>
+                                <small><strong>{{ facturaOrden. metodo_pago }}</strong></small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pie de página -->
+                <div class="factura-footer text-center mt-5">
+                    <p class="mb-1"><strong>¡Gracias por confiar en nosotros!</strong></p>
+                    <p class="text-muted mb-0">Esta factura fue generada automáticamente y es válida sin firma ni sello.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

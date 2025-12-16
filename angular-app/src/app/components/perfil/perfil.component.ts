@@ -4,7 +4,7 @@ import { UsuarioService } from '../../services/usuario.service';
 import { NotificacionService } from '../../services/notificacion.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-declare var bootstrap: any; // Para usar Bootstrap JS
+declare var bootstrap: any;
 
 @Component({
   selector: 'app-perfil',
@@ -19,17 +19,9 @@ export class PerfilComponent implements OnInit, AfterViewInit {
   estado: string = '';
   error: string = '';
   tarjetas: any[] = [];
-  nombreUsuario: string = '';
-  apellidoUsuario: string = '';
   contadorNotificaciones: number = 0;
-  // 🔹 Para mostrar arriba (header)
-  nombreCorto: string = '';
 
-  // 🔹 Para mostrar abajo (info personal)
-  nombreCompleto: string = '';
-
-
-  private tabAActivar: string | null = null; // ✅ Para guardar la pestaña a activar
+  private tabAActivar: string | null = null;
 
   constructor(
     private usuarioService: UsuarioService,
@@ -39,52 +31,106 @@ export class PerfilComponent implements OnInit, AfterViewInit {
   ) { }
 
   ngOnInit(): void {
+    console.log('🔄 Cargando perfil...');
 
-    // 🔹 1. Cargar nombre desde localStorage (igual que AppComponent)
-    this.nombreUsuario = localStorage.getItem('nombre') || '';
-    console.log('👤 Nombre desde localStorage:', this.nombreUsuario);
+    // ✅ 1. CARGAR DATOS DESDE LOCALSTORAGE (siempre disponibles)
+    this.cargarDesdeLocalStorage();
 
-    // 🔹 Detectar pestaña
+    // ✅ 2. Detectar pestaña a activar
     this.route.queryParams.subscribe(params => {
       if (params['tab']) {
         this.tabAActivar = params['tab'];
       }
     });
 
-    // 🔹 2. Cargar perfil desde backend
-    this.usuarioService.getPerfil().subscribe({
-      next: (data) => {
+    // ✅ 3. Intentar actualizar desde backend (opcional)
+    this.intentarActualizarDesdeBackend();
 
-        // 🔹 Si el backend trae nombre, sobrescribe
-        this.nombre = data.nombres || this.nombreUsuario;
-        this.apellido = data.apellidos || '';
-        this.correo = data.correo;
-        this.estado = data.estado;
+    // ✅ 4. Cargar tarjetas y notificaciones
+    this.cargarTarjetas();
+    this.cargarContadorNotificaciones();
 
-        // 🔹 Actualiza también el nombreUsuario
-        this.nombreUsuario = this.nombre;
-        this.apellidoUsuario = this.apellido;
-
-        this.cargarTarjetas();
-        this.cargarContadorNotificaciones();
-      },
-      error: (err) => {
-        console.error('❌ Error al cargar perfil:', err);
-        this.error = 'No se pudo cargar el perfil.';
-      }
-    });
-
+    // ✅ 5. Suscribirse al contador de notificaciones
     this.notificacionService.contador$.subscribe(total => {
       this.contadorNotificaciones = total;
     });
   }
 
   ngAfterViewInit(): void {
-    // ✅ Activar la pestaña después de que la vista esté lista
     if (this.tabAActivar) {
       setTimeout(() => {
         this.activarPestaña(this.tabAActivar!);
       }, 100);
+    }
+  }
+
+  // ========================================
+  // ✅ CARGAR DATOS DESDE LOCALSTORAGE
+  // ========================================
+  cargarDesdeLocalStorage(): void {
+    const usuarioGuardado = localStorage.getItem('usuario');
+
+    if (usuarioGuardado) {
+      try {
+        const usuario = JSON.parse(usuarioGuardado);
+        this.nombre = usuario.nombres || localStorage.getItem('nombre') || '';
+        this.apellido = usuario.apellidos || localStorage.getItem('apellido') || '';
+        this.correo = usuario.correo || localStorage.getItem('correo') || '';
+
+        console.log('📦 Datos cargados desde localStorage: ');
+        console.log('   Nombre:', this.nombre);
+        console.log('   Apellido:', this.apellido);
+        console.log('   Correo:', this.correo);
+      } catch (error) {
+        console.error('❌ Error al parsear usuario de localStorage:', error);
+        // Fallback:  cargar directamente de las keys individuales
+        this.nombre = localStorage.getItem('nombre') || '';
+        this.apellido = localStorage.getItem('apellido') || '';
+        this.correo = localStorage.getItem('correo') || '';
+      }
+    } else {
+      // Fallback: cargar directamente de las keys individuales
+      this.nombre = localStorage.getItem('nombre') || '';
+      this.apellido = localStorage.getItem('apellido') || '';
+      this.correo = localStorage.getItem('correo') || '';
+
+      console.log('📦 Datos cargados desde localStorage (keys individuales):');
+      console.log('   Nombre:', this.nombre);
+      console.log('   Apellido:', this.apellido);
+    }
+
+    // El estado siempre será "activo" si está logueado
+    this.estado = 'activo';
+  }
+
+  // ========================================
+  // ✅ INTENTAR ACTUALIZAR DESDE BACKEND
+  // ========================================
+  intentarActualizarDesdeBackend(): void {
+    // Verificar si el método getPerfil existe en el servicio
+    if (typeof this.usuarioService.getPerfil === 'function') {
+      console.log('🌐 Intentando actualizar datos desde backend...');
+
+      this.usuarioService.getPerfil().subscribe({
+        next: (data) => {
+          console.log('✅ Datos recibidos del backend:', data);
+
+          // Actualizar solo si hay datos válidos
+          if (data.nombres) this.nombre = data.nombres;
+          if (data.apellidos) this.apellido = data.apellidos;
+          if (data.correo) this.correo = data.correo;
+          if (data.estado) this.estado = data.estado;
+
+          console.log('👤 Datos actualizados desde backend');
+        },
+        error: (err) => {
+          console.warn('⚠️ No se pudo actualizar desde backend, usando datos de localStorage');
+          console.error('Error:', err);
+          // NO mostrar error al usuario, ya tenemos datos de localStorage
+        }
+      });
+    } else {
+      console.log('ℹ️ getPerfil() no disponible, usando solo localStorage');
     }
   }
 

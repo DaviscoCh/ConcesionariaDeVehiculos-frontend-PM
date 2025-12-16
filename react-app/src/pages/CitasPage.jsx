@@ -100,7 +100,7 @@ function CitasPage() {
 
         // Si la cita está Atendida o Cancelada, no mostrar botones
         if (estado === 'Atendida' || estado === 'Cancelada') {
-            return <span className="sin-acciones">Sin acciones disponibles</span>;
+            return <span className="sin-acciones"></span>;
         }
 
         // Si está Pendiente: mostrar Confirmar y Cancelar

@@ -1,0 +1,109 @@
+<div style="height: 75px;"></div>
+<div class="servicios-mantenimiento-container">
+    <!-- Header -->
+    <div class="header">
+        <h1>🔧 Servicios de Mantenimiento</h1>
+        <p>Selecciona los servicios que necesita tu vehículo</p>
+    </div>
+
+    <!-- Filtros por Categoría -->
+    <div class="categorias-filter">
+        <button *ngFor="let categoria of categorias" [class.active]="categoriaSeleccionada === categoria"
+            (click)="filtrarPorCategoria(categoria)" class="btn-categoria">
+            {{ categoria }}
+        </button>
+    </div>
+
+    <!-- Loading -->
+    <div *ngIf="loading" class="loading">
+        <div class="spinner"></div>
+        <p>Cargando servicios...</p>
+    </div>
+
+    <!-- Error -->
+    <div *ngIf="error" class="error-message">
+        {{ error }}
+    </div>
+
+    <!-- Grid de Servicios -->
+    <div *ngIf="!loading && !error" class="servicios-grid">
+        <div *ngFor="let servicio of serviciosFiltrados" class="servicio-card"
+            [class.selected]="isSeleccionado(servicio.id_servicio)">
+
+            <!-- Imagen -->
+            <div class="servicio-imagen">
+                <img [src]="servicio.imagen_url || 'assets/default-service.jpg'" [alt]="servicio.nombre">
+                <div class="categoria-badge">{{ servicio.categoria }}</div>
+            </div>
+
+            <!-- Info -->
+            <div class="servicio-info">
+                <h3>{{ servicio.nombre }}</h3>
+                <p class="descripcion">{{ servicio.descripcion }}</p>
+
+                <div class="servicio-detalles">
+                    <div class="detalle">
+                        <span class="icon">⏱️</span>
+                        <span>{{ servicio.tiempo_estimado }} min</span>
+                    </div>
+                    <div class="detalle">
+                        <span class="icon">🔧</span>
+                        <span>{{ servicio.requiere_repuestos ? 'Incluye repuestos' : 'Mano de obra' }}</span>
+                    </div>
+                </div>
+
+                <div class="servicio-precio">
+                    <span class="precio">${{ (+servicio.precio_mano_obra).toFixed(2) }}</span>
+                    <span class="precio-label">Mano de obra</span>
+                </div>
+
+                <!-- Selector de cantidad si está seleccionado -->
+                <div *ngIf="isSeleccionado(servicio.id_servicio)" class="cantidad-selector">
+                    <label>Cantidad:</label>
+                    <input type="number" min="1" [value]="getCantidad(servicio.id_servicio)"
+                        (change)="actualizarCantidad(servicio.id_servicio, +$any($event.target).value)">
+                </div>
+
+                <!-- Botón de selección -->
+                <button class="btn-seleccionar" [class.btn-selected]="isSeleccionado(servicio.id_servicio)"
+                    (click)="toggleSeleccion(servicio)">
+                    {{ isSeleccionado(servicio.id_servicio) ? '✓ Seleccionado' : 'Seleccionar' }}
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Panel de Resumen Flotante -->
+    <div *ngIf="serviciosSeleccionados.size > 0" class="resumen-flotante">
+        <div class="resumen-header">
+            <h3>📋 Resumen de Servicios</h3>
+            <button class="btn-limpiar" (click)="limpiarSeleccion()">Limpiar</button>
+        </div>
+
+        <div class="resumen-items">
+            <div *ngFor="let item of serviciosSeleccionados | keyvalue" class="resumen-item">
+                <span>{{ item.value.servicio.nombre }} (x{{ item.value.cantidad }})</span>
+                <span>${{ (+item.value.servicio.precio_mano_obra * item.value.cantidad).toFixed(2) }}</span>
+            </div>
+        </div>
+
+        <div class="resumen-totales">
+            <div class="total-row">
+                <span>Subtotal:</span>
+                <span>${{ calcularTotal().toFixed(2) }}</span>
+            </div>
+            <div class="total-row">
+                <span>IVA (12%):</span>
+                <span>${{ calcularIVA().toFixed(2) }}</span>
+            </div>
+            <div class="total-row total-final">
+                <span>TOTAL:</span>
+                <span>${{ calcularGrandTotal().toFixed(2) }}</span>
+            </div>
+        </div>
+
+        <button class="btn-continuar" (click)="continuar()">
+            Continuar con la Orden
+        </button>
+    </div>
+</div>

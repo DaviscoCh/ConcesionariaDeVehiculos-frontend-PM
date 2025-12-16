@@ -89,7 +89,8 @@
                             </div>
 
                             <!-- Botón ver factura -->
-                            <button class="btn btn-primary w-100" (click)="verFactura(factura.id_factura)">
+                            <button class="btn btn-primary w-100"
+                                (click)="verFactura(factura.id_factura, factura.id_cita)">
                                 <i class="bi bi-eye me-2"></i>Ver Factura Completa
                             </button>
                         </div>
@@ -153,12 +154,27 @@
                 </div>
                 <div class="col-md-6">
                     <div class="info-box">
-                        <h5 class="info-titulo">Datos de Atención</h5>
-                        <p class="mb-1"><strong>Oficina:</strong> {{ facturaSeleccionada.oficina_nombre }}</p>
-                        <p class="mb-1"><strong>Dirección:</strong> {{ facturaSeleccionada.oficina_direccion }}</p>
-                        <p class="mb-1"><strong>Fecha de cita:</strong> {{
-                            formatearFecha(facturaSeleccionada.fecha_cita) }}</p>
-                        <p class="mb-0"><strong>Hora:</strong> {{ formatearHora(facturaSeleccionada.hora_cita) }}</p>
+                        <!-- ✅ Si es factura de CITA -->
+                        <h5 class="info-titulo" *ngIf="facturaSeleccionada.fecha_cita">Datos de Atención</h5>
+                        <ng-container *ngIf="facturaSeleccionada.fecha_cita">
+                            <p class="mb-1"><strong>Oficina:</strong> {{ facturaSeleccionada.oficina_nombre }}</p>
+                            <p class="mb-1"><strong>Dirección:</strong> {{ facturaSeleccionada.oficina_direccion }}</p>
+                            <p class="mb-1"><strong>Fecha de cita:</strong> {{
+                                formatearFecha(facturaSeleccionada.fecha_cita) }}</p>
+                            <p class="mb-0"><strong>Hora: </strong> {{ formatearHora(facturaSeleccionada.hora_cita) }}
+                            </p>
+                        </ng-container>
+
+                        <!-- ✅ Si es factura de MANTENIMIENTO -->
+                        <h5 class="info-titulo" *ngIf="facturaSeleccionada.numero_orden">Datos del Servicio</h5>
+                        <ng-container *ngIf="facturaSeleccionada.numero_orden">
+                            <p class="mb-1"><strong>Orden:</strong> {{ facturaSeleccionada.numero_orden }}</p>
+                            <p class="mb-1"><strong>Tipo: </strong> {{ facturaSeleccionada.tipo_servicio }}</p>
+                            <p class="mb-1"><strong>Fecha: </strong> {{
+                                formatearFecha(facturaSeleccionada.fecha_finalizacion) }}</p>
+                            <p class="mb-0"><strong>Estado:</strong> <span class="badge bg-success">Completado</span>
+                            </p>
+                        </ng-container>
                     </div>
                 </div>
             </div>
@@ -182,9 +198,17 @@
                             <td>
                                 Año: {{ facturaSeleccionada.anio }}<br>
                                 Color: {{ facturaSeleccionada.color }}<br>
-                                Tipo: {{ facturaSeleccionada.tipo }}
+                                <ng-container *ngIf="facturaSeleccionada.tipo">
+                                    Tipo: {{ facturaSeleccionada.tipo }}
+                                </ng-container>
+
+                                <!-- ✅ Mostrar diagnóstico si es mantenimiento -->
+                                <ng-container *ngIf="facturaSeleccionada.diagnostico_tecnico">
+                                    <br><strong>Diagnóstico: </strong> {{ facturaSeleccionada.diagnostico_tecnico }}
+                                </ng-container>
                             </td>
-                            <td class="text-end">${{ facturaSeleccionada.precio | number:'1.2-2' }}</td>
+                            <td class="text-end">${{ facturaSeleccionada.precio_vehiculo || facturaSeleccionada.precio |
+                                number:'1.2-2' }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -194,12 +218,23 @@
             <div class="row">
                 <div class="col-md-6 offset-md-6">
                     <div class="totales-box">
+                        <!-- ✅ Si es mantenimiento, mostrar desglose -->
+                        <div *ngIf="facturaSeleccionada.subtotal_mano_obra" class="d-flex justify-content-between mb-2">
+                            <span>Mano de Obra: </span>
+                            <strong>${{ facturaSeleccionada.subtotal_mano_obra | number:'1.2-2' }}</strong>
+                        </div>
+                        <div *ngIf="facturaSeleccionada.subtotal_repuestos && facturaSeleccionada.subtotal_repuestos > 0"
+                            class="d-flex justify-content-between mb-2">
+                            <span>Repuestos:</span>
+                            <strong>${{ facturaSeleccionada. subtotal_repuestos | number:'1.2-2' }}</strong>
+                        </div>
+
                         <div class="d-flex justify-content-between mb-2">
                             <span>Subtotal:</span>
                             <strong>${{ facturaSeleccionada.subtotal | number:'1.2-2' }}</strong>
                         </div>
                         <div class="d-flex justify-content-between mb-2">
-                            <span>IVA (15%):</span>
+                            <span>IVA ({{ facturaSeleccionada.numero_orden ? '12%' : '15%' }}):</span>
                             <strong>${{ facturaSeleccionada.iva | number:'1.2-2' }}</strong>
                         </div>
                         <hr>
@@ -208,7 +243,7 @@
                             <strong>${{ facturaSeleccionada.total | number:'1.2-2' }}</strong>
                         </div>
                         <div class="d-flex justify-content-between mt-2">
-                            <small>Método de pago:</small>
+                            <small>Método de pago: </small>
                             <small><strong>{{ facturaSeleccionada.metodo_pago }}</strong></small>
                         </div>
                     </div>

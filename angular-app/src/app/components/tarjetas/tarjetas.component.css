@@ -82,3 +82,50 @@
 .btn-primary:hover {
     transform: translateY(-2px);
 }
+
+/* ========================================
+   SALDO EN TARJETA
+======================================== */
+.tarjeta-saldo {
+    background: rgba(255, 255, 255, 0.15);
+    padding: 8px;
+    border-radius: 6px;
+    text-align: center;
+}
+
+.tarjeta-saldo small {
+    font-size: 0.7rem;
+}
+
+.tarjeta-saldo strong {
+    font-size: 1.2rem;
+}
+
+/* ========================================
+   VALIDACIONES
+======================================== */
+small.text-danger {
+    color: #dc3545 !important;
+    display: block;
+    margin-top: 0.25rem;
+    font-size: 0.875rem;
+}
+
+small.text-warning {
+    color: #ffc107 !important;
+    display: block;
+    margin-top: 0.25rem;
+    font-size: 0.875rem;
+}
+
+small.text-success {
+    color: #28a745 ! important;
+    display: block;
+    margin-top: 0.25rem;
+    font-size: 0.875rem;
+}
+
+small.text-muted {
+    color: #6c757d ! important;
+    font-size: 0.8rem;
+}

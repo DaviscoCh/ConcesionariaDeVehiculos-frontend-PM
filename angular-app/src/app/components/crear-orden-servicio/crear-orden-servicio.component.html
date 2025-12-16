@@ -1,0 +1,191 @@
+<div style="height: 75px;"></div>
+<div class="crear-orden-container">
+    <!-- Header -->
+    <div class="header">
+        <h1>📝 Crear Orden de Servicio</h1>
+        <div class="pasos-indicador">
+            <div class="paso" [class.active]="paso >= 1" [class.completed]="paso > 1">
+                <div class="paso-numero">1</div>
+                <div class="paso-texto">Vehículo</div>
+            </div>
+            <div class="paso-linea" [class.active]="paso >= 2"></div>
+            <div class="paso" [class.active]="paso >= 2" [class.completed]="paso > 2">
+                <div class="paso-numero">2</div>
+                <div class="paso-texto">Detalles</div>
+            </div>
+            <div class="paso-linea" [class.active]="paso >= 3"></div>
+            <div class="paso" [class.active]="paso >= 3">
+                <div class="paso-numero">3</div>
+                <div class="paso-texto">Pago</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Error -->
+    <div *ngIf="error" class="error-message">
+        {{ error }}
+    </div>
+
+    <!-- Contenedor Principal -->
+    <div class="contenido">
+        <!-- Columna Izquierda - Formulario -->
+        <div class="formulario-columna">
+
+            <!-- PASO 1: Seleccionar Vehículo -->
+            <div *ngIf="paso === 1" class="paso-contenido">
+                <h2>🚗 Selecciona tu Vehículo</h2>
+                <p class="subtitulo">Elige el vehículo que necesita mantenimiento</p>
+
+                <div *ngIf="vehiculos.length === 0" class="sin-vehiculos">
+                    <p>No tienes vehículos registrados. Debes comprar un vehículo primero.</p>
+                    <button class="btn-secondary" routerLink="/vehiculos">Ver Vehículos Disponibles</button>
+                </div>
+
+                <div class="vehiculos-grid">
+                    <div *ngFor="let vehiculo of vehiculos" class="vehiculo-card"
+                        [class.selected]="vehiculoSeleccionado === vehiculo.id_vehiculo"
+                        (click)="vehiculoSeleccionado = vehiculo.id_vehiculo">
+
+                        <div class="vehiculo-imagen">
+                            <img [src]="vehiculo.imagen_url || 'assets/default-car.jpg'"
+                                [alt]="vehiculo.marca + ' ' + vehiculo.modelo">
+                        </div>
+
+                        <div class="vehiculo-info">
+                            <h3>{{ vehiculo.marca }} {{ vehiculo.modelo }}</h3>
+                            <p>{{ vehiculo.anio }} • {{ vehiculo.color }}</p>
+                        </div>
+
+                        <div class="check-icon" *ngIf="vehiculoSeleccionado === vehiculo.id_vehiculo">
+                            ✓
+                        </div>
+                    </div>
+                </div>
+
+                <div class="botones-accion">
+                    <button class="btn-secondary" (click)="cancelar()">Cancelar</button>
+                    <button class="btn-primary" (click)="siguientePaso()" [disabled]="!vehiculoSeleccionado">
+                        Continuar
+                    </button>
+                </div>
+            </div>
+
+            <!-- PASO 2: Detalles del Problema -->
+            <div *ngIf="paso === 2" class="paso-contenido">
+                <h2>📋 Describe el Problema</h2>
+                <p class="subtitulo">Cuéntanos qué necesita tu vehículo (opcional)</p>
+
+                <div class="form-group">
+                    <label>Oficina (opcional):</label>
+                    <select [(ngModel)]="oficinaSeleccionada" class="form-control">
+                        <option value="">Seleccionar oficina...</option>
+                        <option *ngFor="let oficina of oficinas" [value]="oficina.id_oficina">
+                            {{ oficina.nombre }} - {{ oficina.direccion }}
+                        </option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Descripción del problema o solicitud:</label>
+                    <textarea [(ngModel)]="descripcionProblema" class="form-control" rows="6"
+                        placeholder="Ej: El auto hace un ruido extraño al frenar, necesito revisión de frenos..."></textarea>
+                    <small>Si no describes nada, se aplicarán solo los servicios seleccionados</small>
+                </div>
+
+                <div class="botones-accion">
+                    <button class="btn-secondary" (click)="pasoAnterior()">Atrás</button>
+                    <button class="btn-primary" (click)="siguientePaso()">Continuar</button>
+                </div>
+            </div>
+
+            <!-- PASO 3: Método de Pago -->
+            <div *ngIf="paso === 3" class="paso-contenido">
+                <h2>💳 Método de Pago</h2>
+                <p class="subtitulo">Selecciona la tarjeta para procesar el pago</p>
+
+                <div *ngIf="tarjetas.length === 0" class="sin-tarjetas">
+                    <p>No tienes tarjetas registradas.</p>
+                    <button class="btn-secondary" routerLink="/tarjetas">Agregar Tarjeta</button>
+                </div>
+
+                <div class="tarjetas-grid">
+                    <div *ngFor="let tarjeta of tarjetas" class="tarjeta-card"
+                        [class.selected]="tarjetaSeleccionada === tarjeta.id_tarjeta"
+                        [class.insufficient]="tarjeta.saldo < total"
+                        (click)="tarjeta.saldo >= total ? tarjetaSeleccionada = tarjeta.id_tarjeta : null">
+
+                        <div class="tarjeta-tipo">{{ tarjeta.tipo }}</div>
+                        <div class="tarjeta-numero">{{ formatearNumeroTarjeta(tarjeta.numero) }}</div>
+                        <div class="tarjeta-nombre">{{ tarjeta.nombre }}</div>
+                        <div class="tarjeta-saldo">
+                            Saldo: ${{ tarjeta.saldo.toFixed(2) }}
+                            <span *ngIf="tarjeta.saldo < total" class="saldo-insuficiente">⚠️ Insuficiente</span>
+                        </div>
+
+                        <div class="check-icon" *ngIf="tarjetaSeleccionada === tarjeta.id_tarjeta">
+                            ✓
+                        </div>
+                    </div>
+                </div>
+
+                <div class="botones-accion">
+                    <button class="btn-secondary" (click)="pasoAnterior()">Atrás</button>
+                    <button class="btn-primary" (click)="crearOrden()" [disabled]="!tarjetaSeleccionada || loading">
+                        <span *ngIf="!loading">Confirmar y Pagar</span>
+                        <span *ngIf="loading">Procesando...</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Columna Derecha - Resumen -->
+        <div class="resumen-columna">
+            <div class="resumen-sticky">
+                <h3>📋 Resumen de la Orden</h3>
+
+                <!-- Vehículo -->
+                <div *ngIf="getVehiculoSeleccionado()" class="resumen-seccion">
+                    <h4>🚗 Vehículo</h4>
+                    <div class="resumen-vehiculo">
+                        <img [src]="getVehiculoSeleccionado()?.imagen_url" alt="Vehículo">
+                        <div>
+                            <p><strong>{{ getVehiculoSeleccionado()?.marca }} {{ getVehiculoSeleccionado()?.modelo
+                                    }}</strong></p>
+                            <p>{{ getVehiculoSeleccionado()?.anio }} • {{ getVehiculoSeleccionado()?.color }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Servicios -->
+                <div class="resumen-seccion">
+                    <h4>🔧 Servicios Seleccionados</h4>
+                    <div class="resumen-servicios">
+                        <div *ngFor="let servicio of serviciosSeleccionados" class="resumen-item">
+                            <div class="item-info">
+                                <span class="item-nombre">{{ servicio.nombre }}</span>
+                                <span class="item-cantidad">x{{ servicio.cantidad }}</span>
+                            </div>
+                            <span class="item-precio">${{ (servicio.precio * servicio.cantidad).toFixed(2) }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Totales -->
+                <div class="resumen-seccion resumen-totales">
+                    <div class="total-row">
+                        <span>Subtotal:</span>
+                        <span>${{ subtotal.toFixed(2) }}</span>
+                    </div>
+                    <div class="total-row">
+                        <span>IVA (12%):</span>
+                        <span>${{ iva.toFixed(2) }}</span>
+                    </div>
+                    <div class="total-row total-final">
+                        <span>TOTAL:</span>
+                        <span>${{ total.toFixed(2) }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

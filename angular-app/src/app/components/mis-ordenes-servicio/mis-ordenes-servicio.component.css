@@ -1,0 +1,513 @@
+.mis-ordenes-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+/* Header */
+.header {
+    margin-bottom: 2rem;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.header h1 {
+    font-size: 2.5rem;
+    color: #1a1a1a;
+    margin: 0;
+}
+
+.btn-nueva-orden {
+    padding: 0.8rem 1.5rem;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-nueva-orden:hover {
+    background: #0056b3;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+}
+
+/* Filtros */
+.filtros-container {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn-filtro {
+    padding: 0.6rem 1.2rem;
+    border: 2px solid #e0e0e0;
+    background: white;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn-filtro:hover {
+    border-color: #007bff;
+    color: #007bff;
+    transform: translateY(-2px);
+}
+
+.btn-filtro.active {
+    background: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
+.badge {
+    background: rgba(255, 255, 255, 0.3);
+    padding: 0.2rem 0.5rem;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.btn-filtro.active .badge {
+    background: rgba(255, 255, 255, 0.4);
+}
+
+/* Loading */
+.loading {
+    text-align: center;
+    padding: 4rem;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    margin: 0 auto 1rem;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #007bff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Error */
+.error-message {
+    background: #fee;
+    color: #c33;
+    padding: 1.5rem;
+    border-radius: 8px;
+    text-align: center;
+    margin: 2rem 0;
+}
+
+/* Sin Órdenes */
+.sin-ordenes {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.sin-ordenes-icon {
+    font-size: 5rem;
+    margin-bottom: 1rem;
+}
+
+.sin-ordenes h2 {
+    font-size: 1.8rem;
+    color: #1a1a1a;
+    margin-bottom: 0.5rem;
+}
+
+.sin-ordenes p {
+    font-size: 1.1rem;
+    color: #666;
+    margin-bottom: 2rem;
+}
+
+.btn-primary {
+    padding: 0.8rem 2rem;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background: #0056b3;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+}
+
+/* Lista de Órdenes */
+.ordenes-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* Card de Orden */
+.orden-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-left: 5px solid #e0e0e0;
+    transition: all 0.3s ease;
+}
+
+.orden-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.orden-card.estado-pendiente {
+    border-left-color: #ffc107;
+}
+
+.orden-card.estado-aprobado {
+    border-left-color: #28a745;
+}
+
+.orden-card.estado-proceso {
+    border-left-color: #007bff;
+}
+
+.orden-card.estado-completado {
+    border-left-color: #6f42c1;
+}
+
+.orden-card.estado-cancelado {
+    border-left-color: #dc3545;
+    opacity: 0.7;
+}
+
+/* Header de la Orden */
+.orden-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #f0f0f0;
+}
+
+.orden-info-principal h3 {
+    font-size: 1.3rem;
+    color: #1a1a1a;
+    margin: 0 0 0.3rem 0;
+}
+
+.fecha {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.badge-estado {
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.badge-estado.estado-pendiente {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.badge-estado.estado-aprobado {
+    background: #d4edda;
+    color: #155724;
+}
+
+.badge-estado.estado-proceso {
+    background: #d1ecf1;
+    color: #0c5460;
+}
+
+.badge-estado.estado-completado {
+    background: #e2d9f3;
+    color: #4a148c;
+}
+
+.badge-estado.estado-cancelado {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+/* Vehículo */
+.orden-vehiculo {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.vehiculo-imagen {
+    width: 100px;
+    height: 70px;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.vehiculo-imagen img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.vehiculo-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.vehiculo-nombre {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin: 0 0 0.3rem 0;
+}
+
+.vehiculo-detalles {
+    font-size: 0.9rem;
+    color: #666;
+    margin: 0;
+}
+
+/* Descripción y Diagnóstico */
+.orden-descripcion,
+.orden-diagnostico {
+    margin-bottom: 1rem;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border-left: 3px solid #007bff;
+}
+
+.orden-diagnostico {
+    border-left-color: #28a745;
+}
+
+.orden-descripcion strong,
+.orden-diagnostico strong {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #333;
+    font-size: 0.9rem;
+}
+
+.orden-descripcion p,
+.orden-diagnostico p {
+    margin: 0;
+    color: #555;
+    line-height: 1.5;
+}
+
+/* Oficina */
+.orden-oficina {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    color: #666;
+    font-size: 0.95rem;
+}
+
+.orden-oficina .icono {
+    font-size: 1.2rem;
+}
+
+/* Costos */
+.orden-costos {
+    margin-bottom: 1rem;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.costo-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.4rem 0;
+    font-size: 0.95rem;
+}
+
+.costo-row.total {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #007bff;
+    border-top: 2px solid #dee2e6;
+    margin-top: 0.5rem;
+    padding-top: 0.8rem;
+}
+
+/* Pago */
+.orden-pago {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.pago-estado {
+    padding: 0.3rem 0.8rem;
+    border-radius: 15px;
+    background: #fff3cd;
+    color: #856404;
+    font-weight: 600;
+}
+
+.pago-estado.pagado {
+    background: #d4edda;
+    color: #155724;
+}
+
+/* Calificación */
+.orden-calificacion {
+    margin-bottom: 1rem;
+    padding: 1rem;
+    background: #fff8e1;
+    border-radius: 8px;
+}
+
+.estrellas {
+    display: flex;
+    gap: 0.2rem;
+    margin-bottom: 0.5rem;
+}
+
+.estrellas span {
+    font-size: 1.3rem;
+    filter: grayscale(100%);
+}
+
+.estrellas span.filled {
+    filter: grayscale(0%);
+}
+
+.comentario {
+    font-style: italic;
+    color: #555;
+    margin: 0;
+    font-size: 0.95rem;
+}
+
+/* Acciones */
+.orden-acciones {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.btn-detalle,
+.btn-cancelar {
+    padding: 0.6rem 1.5rem;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+}
+
+.btn-detalle {
+    background: #007bff;
+    color: white;
+}
+
+.btn-detalle:hover {
+    background: #0056b3;
+    transform: translateY(-2px);
+}
+
+.btn-cancelar {
+    background: white;
+    color: #dc3545;
+    border: 2px solid #dc3545;
+}
+
+.btn-cancelar:hover {
+    background: #dc3545;
+    color: white;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .mis-ordenes-container {
+        padding: 1rem;
+    }
+
+    .header h1 {
+        font-size: 2rem;
+    }
+
+    .header-content {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .btn-nueva-orden {
+        width: 100%;
+    }
+
+    .orden-header {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .orden-vehiculo {
+        flex-direction: column;
+    }
+
+    .vehiculo-imagen {
+        width: 100%;
+        height: 150px;
+    }
+
+    .orden-acciones {
+        flex-direction: column;
+    }
+
+    .btn-detalle,
+    .btn-cancelar {
+        width: 100%;
+    }
+}

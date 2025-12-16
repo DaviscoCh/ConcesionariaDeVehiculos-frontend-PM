@@ -11,54 +11,105 @@
 
               <!-- Correo -->
               <div class="col-12">
-                <label for="correo" class="form-label">Correo electrónico</label>
+                <label for="correo" class="form-label">Correo electrónico <span class="text-danger">*</span></label>
                 <input id="correo" type="email" class="form-control" formControlName="correo"
                   [class.is-invalid]="personaForm.get('correo')?.invalid && personaForm.get('correo')?.touched">
-                <div class="invalid-feedback">Ingresa un correo válido.</div>
+                <div class="invalid-feedback" *ngIf="personaForm.get('correo')?.hasError('required')">
+                  El correo es requerido.
+                </div>
+                <div class="invalid-feedback" *ngIf="personaForm.get('correo')?.hasError('email')">
+                  Ingresa un correo válido.
+                </div>
               </div>
 
               <!-- Contraseña -->
               <div class="col-12">
-                <label for="password" class="form-label">Contraseña</label>
+                <label for="password" class="form-label">Contraseña <span class="text-danger">*</span></label>
                 <input id="password" type="password" class="form-control" formControlName="password"
                   [class.is-invalid]="personaForm.get('password')?.invalid && personaForm.get('password')?.touched">
-                <div class="invalid-feedback">La contraseña es requerida.</div>
+                <div class="invalid-feedback" *ngIf="personaForm.get('password')?.hasError('required')">
+                  La contraseña es requerida.
+                </div>
+                <div class="invalid-feedback" *ngIf="personaForm.get('password')?.hasError('minlength')">
+                  La contraseña debe tener al menos 6 caracteres.
+                </div>
               </div>
 
               <!-- Nombres y Apellidos -->
               <div class="col-md-6">
-                <label for="nombres" class="form-label">Nombres</label>
-                <input id="nombres" type="text" class="form-control" formControlName="nombres">
+                <label for="nombres" class="form-label">Nombres <span class="text-danger">*</span></label>
+                <input id="nombres" type="text" class="form-control" formControlName="nombres"
+                  [class.is-invalid]="personaForm.get('nombres')?.invalid && personaForm.get('nombres')?.touched">
+                <div class="invalid-feedback">Los nombres son requeridos.</div>
               </div>
               <div class="col-md-6">
-                <label for="apellidos" class="form-label">Apellidos</label>
-                <input id="apellidos" type="text" class="form-control" formControlName="apellidos">
+                <label for="apellidos" class="form-label">Apellidos <span class="text-danger">*</span></label>
+                <input id="apellidos" type="text" class="form-control" formControlName="apellidos"
+                  [class.is-invalid]="personaForm.get('apellidos')?.invalid && personaForm.get('apellidos')?.touched">
+                <div class="invalid-feedback">Los apellidos son requeridos.</div>
               </div>
 
-              <!-- Documento -->
+              <!-- Tipo de Documento (SELECT) -->
               <div class="col-md-6">
-                <label for="tipo_documento" class="form-label">Tipo de documento</label>
-                <input id="tipo_documento" type="text" class="form-control" formControlName="tipo_documento">
+                <label for="tipo_documento" class="form-label">Tipo de documento <span
+                    class="text-danger">*</span></label>
+                <select id="tipo_documento" class="form-select" formControlName="tipo_documento"
+                  [class.is-invalid]="personaForm.get('tipo_documento')?.invalid && personaForm.get('tipo_documento')?.touched">
+                  <option value="" disabled selected>Selecciona un tipo</option>
+                  <option value="Cédula">Cédula</option>
+                  <option value="Pasaporte">Pasaporte</option>
+                  <option value="RUC">RUC</option>
+                  <option value="Licencia">Licencia de conducir</option>
+                </select>
+                <div class="invalid-feedback">Selecciona un tipo de documento.</div>
               </div>
+
+              <!-- Número de Documento con validación de 10 dígitos -->
               <div class="col-md-6">
-                <label for="documento" class="form-label">Número de documento</label>
-                <input id="documento" type="text" class="form-control" formControlName="documento">
+                <label for="documento" class="form-label">Número de documento <span class="text-danger">*</span></label>
+                <input id="documento" type="text" class="form-control" formControlName="documento" maxlength="10"
+                  [class.is-invalid]="personaForm.get('documento')?.invalid && personaForm.get('documento')?.touched">
+                <div class="invalid-feedback" *ngIf="personaForm.get('documento')?.hasError('required')">
+                  El número de documento es requerido.
+                </div>
+                <div class="invalid-feedback" *ngIf="personaForm.get('documento')?.hasError('pattern')">
+                  Solo se permiten números.
+                </div>
+                <div class="invalid-feedback"
+                  *ngIf="personaForm.get('documento')?.hasError('minlength') || personaForm.get('documento')?.hasError('maxlength')">
+                  El documento debe tener exactamente 10 dígitos.
+                </div>
               </div>
 
               <!-- Dirección y Teléfono -->
               <div class="col-md-6">
-                <label for="direccion" class="form-label">Dirección</label>
-                <input id="direccion" type="text" class="form-control" formControlName="direccion">
+                <label for="direccion" class="form-label">Dirección <span class="text-danger">*</span></label>
+                <input id="direccion" type="text" class="form-control" formControlName="direccion"
+                  [class.is-invalid]="personaForm.get('direccion')?.invalid && personaForm.get('direccion')?.touched">
+                <div class="invalid-feedback">La dirección es requerida.</div>
               </div>
               <div class="col-md-6">
-                <label for="telefono" class="form-label">Teléfono</label>
-                <input id="telefono" type="text" class="form-control" formControlName="telefono">
+                <label for="telefono" class="form-label">Teléfono <span class="text-danger">*</span></label>
+                <input id="telefono" type="text" class="form-control" formControlName="telefono" maxlength="10"
+                  [class.is-invalid]="personaForm.get('telefono')?.invalid && personaForm.get('telefono')?.touched">
+                <div class="invalid-feedback" *ngIf="personaForm.get('telefono')?.hasError('required')">
+                  El teléfono es requerido.
+                </div>
+                <div class="invalid-feedback" *ngIf="personaForm.get('telefono')?.hasError('pattern')">
+                  Solo se permiten números.
+                </div>
+                <div class="invalid-feedback" *ngIf="personaForm.get('telefono')?.hasError('minlength')">
+                  El teléfono debe tener al menos 7 dígitos.
+                </div>
               </div>
 
               <!-- Fecha de nacimiento -->
               <div class="col-12">
-                <label for="fecha_nacimiento" class="form-label">Fecha de nacimiento</label>
-                <input id="fecha_nacimiento" type="date" class="form-control" formControlName="fecha_nacimiento">
+                <label for="fecha_nacimiento" class="form-label">Fecha de nacimiento <span
+                    class="text-danger">*</span></label>
+                <input id="fecha_nacimiento" type="date" class="form-control" formControlName="fecha_nacimiento"
+                  [class.is-invalid]="personaForm.get('fecha_nacimiento')?.invalid && personaForm.get('fecha_nacimiento')?.touched">
+                <div class="invalid-feedback">La fecha de nacimiento es requerida.</div>
               </div>
 
               <!-- Botón -->
@@ -71,12 +122,6 @@
 
             </div>
           </form>
-
-          <!-- Respuesta de prueba -->
-          <div *ngIf="respuesta" class="mt-4">
-            <h5>Respuesta:</h5>
-            <pre class="bg-light p-2 rounded">{{ respuesta | json }}</pre>
-          </div>
 
         </div>
       </div>

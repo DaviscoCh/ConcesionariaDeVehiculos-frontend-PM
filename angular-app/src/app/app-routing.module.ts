@@ -23,6 +23,10 @@ import { MarcaDetalleComponent } from './components/marca-detalle/marca-detalle.
 import { ConcesionariosComponent } from './components/concesionarios/concesionarios.component';
 import { OfertasComponent } from './components/ofertas/ofertas.component';
 import { FinanciacionComponent } from './components/financiacion/financiacion.component';
+import { ServiciosMantenimientoComponent } from './components/servicios-mantenimiento/servicios-mantenimiento.component';
+import { MisOrdenesServicioComponent } from './components/mis-ordenes-servicio/mis-ordenes-servicio.component';
+import { DetalleOrdenServicioComponent } from './components/detalle-orden-servicio/detalle-orden-servicio.component';
+import { CrearOrdenServicioComponent } from './components/crear-orden-servicio/crear-orden-servicio.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -47,6 +51,10 @@ const routes: Routes = [
   { path: 'concesionarios', component: ConcesionariosComponent },
   { path: 'ofertas', component: OfertasComponent },
   { path: 'financiacion', component: FinanciacionComponent },
+  { path: 'servicios-mantenimiento', component: ServiciosMantenimientoComponent, canActivate: [AuthGuard] },
+  { path: 'crear-orden-servicio', component: CrearOrdenServicioComponent, canActivate: [AuthGuard] },  // ← Cambié el nombre
+  { path: 'mis-ordenes-servicio', component: MisOrdenesServicioComponent, canActivate: [AuthGuard] },  // ← Cambié el nombre
+  { path: 'detalle-orden-servicio/:id', component: DetalleOrdenServicioComponent, canActivate: [AuthGuard] },  // ← Agregué /:id
   { path: '**', redirectTo: 'home' }
 ];
 

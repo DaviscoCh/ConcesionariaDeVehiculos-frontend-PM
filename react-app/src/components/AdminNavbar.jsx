@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import './AdminNavbar.css'; // ✅ crea este archivo para estilos
+import './AdminNavbar.css';
 
 function AdminNavbar() {
     const location = useLocation();
@@ -9,7 +9,9 @@ function AdminNavbar() {
         { path: '/admin/vehiculos', label: 'Vehículos', icon: '🚗' },
         { path: '/admin/marcas', label: 'Marcas', icon: '🏷️' },
         { path: '/admin/modelos', label: 'Modelos', icon: '📦' },
-        { path: '/admin/citas', label: 'Citas', icon: '📅' }
+        { path: '/admin/citas', label: 'Citas', icon: '📅' },
+        { path: '/admin/repuestos', label: 'Repuestos', icon: '🔧' }, // ⭐ NUEVO
+        { path: '/admin/servicios', label: 'Servicios', icon: '⚙️' }  // ⭐ NUEVO
     ];
 
     const handleLogout = () => {

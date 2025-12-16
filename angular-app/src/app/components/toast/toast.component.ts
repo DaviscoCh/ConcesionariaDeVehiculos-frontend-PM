@@ -30,6 +30,7 @@ export class ToastComponent implements OnInit {
 
   ngOnInit(): void {
     this.toastService.toasts$.subscribe(toasts => {
+      console.log('📬 [TOAST COMPONENT] Recibidos:', toasts.length, 'toasts'); // ⭐ AGREGAR SOLO ESTO
       this.toasts = toasts;
     });
   }

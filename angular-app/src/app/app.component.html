@@ -54,10 +54,17 @@
             <span>Servicios</span>
           </a>
           <ul class="dropdown-menu dropdown-menu-premium animate-dropdown" aria-labelledby="navbarDropdownServicios">
-            <li><a class="dropdown-item dropdown-item-modern" href="#"><i
-                  class="bi bi-wrench me-2"></i>Mantenimiento</a></li>
-            <li><a class="dropdown-item dropdown-item-modern" routerLink="/repuestos"><i
-                  class="bi bi-gear-fill me-2"></i>Repuestos</a>
+            <li>
+              <a class="dropdown-item dropdown-item-modern"
+                (click)="verificarAcceso('/servicios-mantenimiento', $event)" style="cursor: pointer;">
+                <i class="bi bi-wrench me-2"></i>Mantenimiento
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item dropdown-item-modern" (click)="verificarAcceso('/repuestos', $event)"
+                style="cursor: pointer;">
+                <i class="bi bi-gear-fill me-2"></i>Repuestos
+              </a>
             </li>
           </ul>
         </li>
@@ -153,6 +160,12 @@
                   <i class="bi bi-gear me-2"></i>Repuestos
                 </a>
               </li>
+              <li>
+                <a class="dropdown-item dropdown-item-user ordenes-servicio-item" routerLink="/mis-ordenes-servicio">
+                  <i class="bi bi-tools me-2"></i>Órdenes de Servicio
+                </a>
+              </li>
+
               <li>
                 <hr class="dropdown-divider">
               </li>

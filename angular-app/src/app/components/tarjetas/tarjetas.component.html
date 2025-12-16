@@ -25,7 +25,7 @@
                                     </div>
 
                                     <div class="tarjeta-numero">
-                                        **** **** **** {{ t.numero.slice(-4) }}
+                                        **** **** **** {{ t.numero. slice(-4) }}
                                     </div>
 
                                     <div class="tarjeta-footer">
@@ -38,6 +38,12 @@
                                             <strong>{{ t.vencimiento }}</strong>
                                         </div>
                                     </div>
+
+                                    <!-- ✅ SOLO BOTÓN ELIMINAR -->
+                                    <button class="btn btn-danger btn-sm w-100 mt-3"
+                                        (click)="eliminarTarjeta(t.id_tarjeta)">
+                                        <i class="bi bi-trash me-1"></i> Eliminar
+                                    </button>
 
                                 </div>
                             </div>
@@ -56,35 +62,64 @@
                     <h4 class="fw-semibold mb-3">➕ Agregar nueva tarjeta</h4>
 
                     <form (ngSubmit)="agregarTarjeta()" class="row g-3">
+                        <!-- Número con validación -->
                         <div class="col-md-6">
-                            <input type="text" class="form-control" placeholder="Número de tarjeta"
-                                [(ngModel)]="nuevaTarjeta.numero" name="numero" required>
+                            <input type="text" class="form-control" placeholder="Número de tarjeta (13-19 dígitos)"
+                                [(ngModel)]="nuevaTarjeta.numero" name="numero" (input)="validarNumero()" maxlength="19"
+                                required>
+                            <small *ngIf="errores.numero" [class.text-danger]="errores.numero.includes('❌')"
+                                [class.text-warning]="errores.numero. includes('⚠️')"
+                                [class.text-success]="errores.numero.includes('✅')">
+                                {{ errores.numero }}
+                            </small>
                         </div>
 
+                        <!-- Nombre con validación -->
                         <div class="col-md-6">
                             <input type="text" class="form-control" placeholder="Nombre en la tarjeta"
-                                [(ngModel)]="nuevaTarjeta.nombre" name="nombre" required>
+                                [(ngModel)]="nuevaTarjeta.nombre" name="nombre" (input)="validarNombre()" required>
+                            <small *ngIf="errores.nombre" [class.text-danger]="errores.nombre.includes('❌')"
+                                [class.text-warning]="errores.nombre. includes('⚠️')"
+                                [class.text-success]="errores.nombre.includes('✅')">
+                                {{ errores.nombre }}
+                            </small>
                         </div>
 
+                        <!-- Vencimiento con validación -->
                         <div class="col-md-4">
                             <input type="text" class="form-control" placeholder="MM/AA"
-                                [(ngModel)]="nuevaTarjeta.vencimiento" name="vencimiento" required>
+                                [(ngModel)]="nuevaTarjeta.vencimiento" name="vencimiento" (input)="validarVencimiento()"
+                                maxlength="5" required>
+                            <small *ngIf="errores. vencimiento" [class.text-danger]="errores.vencimiento.includes('❌')"
+                                [class.text-warning]="errores.vencimiento. includes('⚠️')"
+                                [class.text-success]="errores.vencimiento.includes('✅')">
+                                {{ errores. vencimiento }}
+                            </small>
                         </div>
 
+                        <!-- CVV con validación -->
                         <div class="col-md-4">
-                            <input type="password" class="form-control" placeholder="CVV" [(ngModel)]="nuevaTarjeta.cvv"
-                                name="cvv" required>
+                            <input type="password" class="form-control" placeholder="CVV (3-4 dígitos)"
+                                [(ngModel)]="nuevaTarjeta.cvv" name="cvv" (input)="validarCVV()" maxlength="4" required>
+                            <small *ngIf="errores. cvv" [class.text-danger]="errores.cvv.includes('❌')"
+                                [class.text-warning]="errores.cvv.includes('⚠️')"
+                                [class.text-success]="errores.cvv.includes('✅')">
+                                {{ errores.cvv }}
+                            </small>
                         </div>
 
+                        <!-- Tipo con indicación de saldo -->
                         <div class="col-md-4">
                             <select class="form-select" [(ngModel)]="nuevaTarjeta.tipo" name="tipo">
-                                <option value="prepago">Prepago</option>
-                                <option value="credito">Crédito</option>
+                                <option value="prepago">Prepago ($10,000)</option>
+                                <option value="credito">Crédito ($50,000)</option>
                             </select>
+                            <small class="text-muted d-block mt-1">Saldo limite de la tarjeta</small>
                         </div>
 
+                        <!-- Botón con validación -->
                         <div class="col-12 d-grid mt-3">
-                            <button type="submit" class="btn btn-primary btn-lg">
+                            <button type="submit" class="btn btn-primary btn-lg" [disabled]="!formularioValido()">
                                 Registrar tarjeta
                             </button>
                         </div>

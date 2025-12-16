@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { RepuestoService, ItemCarrito } from '../../services/repuesto.service';
 import { UsuarioService } from '../../services/usuario.service';
+import Swal from 'sweetalert2'; // ✅ IMPORTAR
 
 @Component({
   selector: 'app-checkout-repuestos',
@@ -51,9 +52,8 @@ export class CheckoutRepuestosComponent implements OnInit {
 
     this.http.get('http://localhost:3000/api/tarjetas', { headers }).subscribe({
       next: (response: any) => {
-        // El backend devuelve { tarjetas: [...] }
         this.tarjetas = response.tarjetas || [];
-        console.log('Tarjetas cargadas:', this.tarjetas); // Para verificar
+        console.log('Tarjetas cargadas:', this.tarjetas);
       },
       error: err => {
         console.error('Error al cargar tarjetas:', err);
@@ -65,7 +65,6 @@ export class CheckoutRepuestosComponent implements OnInit {
   convertirANumero(valor: any): number {
     return Number(valor);
   }
-
 
   obtenerSubtotal(): number {
     return this.carrito.reduce((total, item) => total + (item.precio * item.cantidad), 0);
@@ -80,46 +79,104 @@ export class CheckoutRepuestosComponent implements OnInit {
   }
 
   async procesarPago() {
+    // ✅ Validación 1: Tarjeta seleccionada
     if (!this.tarjetaSeleccionada) {
-      alert('Por favor selecciona una tarjeta');
+      Swal.fire({
+        icon: 'warning',
+        title: 'Tarjeta no seleccionada',
+        text: 'Por favor selecciona una tarjeta para continuar',
+        confirmButtonColor: '#3085d6'
+      });
       return;
     }
 
     const tarjeta = this.tarjetas.find(t => t.id_tarjeta === this.tarjetaSeleccionada);
+
+    // ✅ Validación 2: Tarjeta válida
     if (!tarjeta) {
-      alert('Tarjeta no válida');
+      Swal.fire({
+        icon: 'error',
+        title: 'Tarjeta no válida',
+        text: 'La tarjeta seleccionada no es válida',
+        confirmButtonColor: '#d33'
+      });
       return;
     }
 
-    // Verificar saldo
+    // ✅ Validación 3: Saldo suficiente
     if (parseFloat(tarjeta.saldo) < this.obtenerTotal()) {
-      alert('Saldo insuficiente en la tarjeta seleccionada');
+      Swal.fire({
+        icon: 'error',
+        title: 'Saldo insuficiente',
+        html: `
+          <p>No tienes saldo suficiente en esta tarjeta. </p>
+          <p class="mb-2"><strong>Saldo disponible:</strong> $${parseFloat(tarjeta.saldo).toFixed(2)}</p>
+          <p><strong>Total a pagar:</strong> $${this.obtenerTotal().toFixed(2)}</p>
+        `,
+        confirmButtonColor: '#d33'
+      });
       return;
     }
 
-    const confirmar = confirm(
-      `¿Confirmar compra por $${this.obtenerTotal().toFixed(2)}?\n\n` +
-      `Se cobrará de tu tarjeta **** ${tarjeta.numero.slice(-4)}`
-    );
+    // ✅ Confirmación de compra
+    const resultado = await Swal.fire({
+      title: '¿Confirmar compra?',
+      html: `
+        <div class="text-start">
+          <p class="mb-2"><strong>Total a pagar:</strong> <span class="text-primary fs-4">$${this.obtenerTotal().toFixed(2)}</span></p>
+          <p class="mb-0">Se cobrará de tu tarjeta: </p>
+          <p class="text-muted">**** **** **** ${tarjeta.numero.slice(-4)}</p>
+        </div>
+      `,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: '✅ Confirmar',
+      cancelButtonText: '❌ Cancelar',
+      confirmButtonColor: '#28a745',
+      cancelButtonColor: '#6c757d',
+      reverseButtons: true
+    });
 
-    if (!confirmar) return;
+    if (!resultado.isConfirmed) return;
 
+    // ✅ Procesar pago
     this.procesando = true;
     this.error = '';
 
-    // Procesar cada item del carrito
     try {
       for (const item of this.carrito) {
         await this.procesarCompraItem(item);
       }
 
-      // Éxito: limpiar carrito y redirigir
+      // ✅ Éxito
       this.repuestoService.vaciarCarrito();
-      alert('¡Compra realizada exitosamente!');
+
+      await Swal.fire({
+        icon: 'success',
+        title: '¡Compra realizada exitosamente!',
+        html: `
+          <p class="mb-2">Tu pedido ha sido procesado correctamente.</p>
+          <p class="text-muted">Total pagado: <strong>$${this.obtenerTotal().toFixed(2)}</strong></p>
+        `,
+        confirmButtonText: 'Ver Historial',
+        confirmButtonColor: '#3085d6',
+        timer: 3000,
+        timerProgressBar: true
+      });
+
       this.router.navigate(['/historial-compras']);
 
     } catch (error: any) {
       console.error('Error al procesar pago:', error);
+
+      // ✅ Error
+      Swal.fire({
+        icon: 'error',
+        title: 'Error al procesar el pago',
+        text: error.error?.error || 'Ocurrió un error inesperado.  Por favor intenta nuevamente.',
+        confirmButtonColor: '#d33'
+      });
+
       this.error = error.error?.error || 'Error al procesar el pago';
       this.procesando = false;
     }

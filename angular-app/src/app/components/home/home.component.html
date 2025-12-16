@@ -78,7 +78,7 @@
                             </div>
                             <div class="col-lg-6 d-none d-lg-block">
                                 <div class="hero-car" data-aos="fade-left" data-aos-delay="300">
-                                    <img src="assets/auto-oferta.png" alt="Auto en Oferta" class="img-fluid">
+                                    <img src="assets/auto-oferta.png" alt="" class="img-fluid">
                                 </div>
                             </div>
                         </div>
@@ -113,7 +113,7 @@
                             </div>
                             <div class="col-lg-6 d-none d-lg-block">
                                 <div class="hero-car" data-aos="fade-left" data-aos-delay="300">
-                                    <img src="assets/auto-servicio.png" alt="Servicio" class="img-fluid">
+                                    <img src="assets/auto-servicio.png" alt="" class="img-fluid">
                                 </div>
                             </div>
                         </div>
@@ -162,9 +162,6 @@
                                 <i class="bi bi-star-fill text-warning"></i> 4.8
                             </span>
                         </div>
-                        <a routerLink="/vehiculos/{{ auto.id }}" class="btn btn-outline-primary w-100">
-                            <i class="bi bi-eye me-2"></i> Ver Detalles
-                        </a>
                     </div>
                 </div>
             </div>
@@ -190,34 +187,45 @@
         </div>
 
         <div class="row g-4">
+            <!-- Toyota -->
             <div class="col-6 col-md-3" data-aos="zoom-in" data-aos-delay="100">
-                <div class="marca-card text-center">
+                <div class="marca-card text-center" routerLink="/marcas">
                     <div class="marca-logo">
-                        <i class="bi bi-car-front-fill fs-1 text-primary"></i>
+                        <img src="https://www.carlogos.org/car-logos/toyota-logo.png" alt="Toyota" class="img-fluid"
+                            onerror="this.src='https://via.placeholder.com/150x80?text=Toyota'">
                     </div>
                     <h6 class="mt-3 fw-bold">Toyota</h6>
                 </div>
             </div>
+
+            <!-- Honda -->
             <div class="col-6 col-md-3" data-aos="zoom-in" data-aos-delay="150">
-                <div class="marca-card text-center">
+                <div class="marca-card text-center" routerLink="/marcas">
                     <div class="marca-logo">
-                        <i class="bi bi-car-front-fill fs-1 text-primary"></i>
+                        <img src="https://www.carlogos.org/car-logos/honda-logo.png" alt="Honda" class="img-fluid"
+                            onerror="this. src='https://via.placeholder.com/150x80?text=Honda'">
                     </div>
                     <h6 class="mt-3 fw-bold">Honda</h6>
                 </div>
             </div>
+
+            <!-- Mazda -->
             <div class="col-6 col-md-3" data-aos="zoom-in" data-aos-delay="200">
-                <div class="marca-card text-center">
+                <div class="marca-card text-center" routerLink="/marcas">
                     <div class="marca-logo">
-                        <i class="bi bi-car-front-fill fs-1 text-primary"></i>
+                        <img src="https://www.carlogos.org/car-logos/mazda-logo.png" alt="Mazda" class="img-fluid"
+                            onerror="this. src='https://via.placeholder.com/150x80?text=Mazda'">
                     </div>
                     <h6 class="mt-3 fw-bold">Mazda</h6>
                 </div>
             </div>
+
+            <!-- Nissan -->
             <div class="col-6 col-md-3" data-aos="zoom-in" data-aos-delay="250">
-                <div class="marca-card text-center">
+                <div class="marca-card text-center" routerLink="/marcas">
                     <div class="marca-logo">
-                        <i class="bi bi-car-front-fill fs-1 text-primary"></i>
+                        <img src="https://www.carlogos.org/car-logos/nissan-logo.png" alt="Nissan" class="img-fluid"
+                            onerror="this.src='https://via.placeholder.com/150x80?text=Nissan'">
                     </div>
                     <h6 class="mt-3 fw-bold">Nissan</h6>
                 </div>
@@ -335,10 +343,23 @@
                     <i class="bi bi-geo-alt me-2"></i> Ver Ubicaciones
                 </a>
             </div>
+
+            <!-- ✅ MAPA INTERACTIVO -->
             <div class="col-lg-6" data-aos="fade-left">
-                <div class="concesionario-img">
-                    <img src="https://images.unsplash.com/photo-1562519819-016a2b5d2c2c?auto=format&fit=crop&w=800&q=80"
-                        alt="Concesionario" class="img-fluid rounded shadow">
+                <div class="mapa-container">
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d127407.89162282634!2d-78.56445623281253!3d-0.2298500000000001!2m3! 1f0!2f0! 3f0!3m2! 1i1024!2i768!4f13.1!3m3!1m2!1s0x91d59a4002427c9f%3A0x44b9b15c4e3e4e3a!2sMachala%2C%20Ecuador!5e0!3m2!1ses! 2sec!4v1640000000000!5m2!1ses!2sec"
+                        class="mapa-iframe" allowfullscreen="" loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+
+                    <!-- Overlay decorativo -->
+                    <div class="mapa-overlay">
+                        <div class="mapa-marker">
+                            <i class="bi bi-geo-alt-fill"></i>
+                            <span>Machala, Ecuador</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

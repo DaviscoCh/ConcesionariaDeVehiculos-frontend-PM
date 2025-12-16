@@ -150,6 +150,62 @@ export class AppComponent implements OnInit {
     }
   }
 
+  // ========================================
+  // ✅ VERIFICAR ACCESO A SERVICIOS (Mantenimiento y Repuestos)
+  // ========================================
+  verificarAcceso(ruta: string, event: Event): void {
+    event.preventDefault(); // Prevenir navegación por defecto
+
+    console.log('🔍 Verificando acceso a:', ruta);
+    console.log('👤 Usuario autenticado:', this.usuarioAutenticado);
+
+    // Si el usuario está autenticado, permitir acceso directo
+    if (this.usuarioAutenticado) {
+      console.log('✅ Acceso permitido, navegando.. .');
+      this.router.navigate([ruta]);
+      return;
+    }
+
+    // Si NO está autenticado, mostrar alerta estilo tu código
+    if (!isPlatformBrowser(this.platformId)) {
+      console.warn('⚠️ No se ejecuta en el navegador');
+      return;
+    }
+
+    // Validar token adicional (por si acaso)
+    const token = (localStorage.getItem('token') || '').trim();
+    const tokenValido = token && token !== 'null' && token !== 'undefined';
+
+    if (!tokenValido) {
+      const nombreServicio = ruta.includes('mantenimiento')
+        ? 'servicios de mantenimiento'
+        : 'la compra de repuestos';
+
+      Swal.fire({
+        icon: 'info',
+        title: 'Inicia sesión para continuar',
+        text: `Debes iniciar sesión con tu cuenta para poder acceder a ${nombreServicio}.`,
+        confirmButtonText: 'Ir al login',
+        showCancelButton: true,
+        cancelButtonText: 'Cancelar',
+        confirmButtonColor: '#0066cc',
+        cancelButtonColor: '#6c757d',
+        reverseButtons: true
+      }).then(resultado => {
+        if (resultado.isConfirmed) {
+          console.log('✅ Usuario confirmó, guardando ruta de destino...');
+          // Guardar ruta para redirigir después del login
+          localStorage.setItem('redirectAfterLogin', ruta);
+          this.router.navigate(['/login']);
+        }
+      });
+      return;
+    }
+
+    // Si llegamos aquí, hay token pero no está marcado como autenticado
+    console.log('✅ Token válido encontrado, navegando...');
+    this.router.navigate([ruta]);
+  }
 
   cerrarSesion(): void {
     Swal.fire({

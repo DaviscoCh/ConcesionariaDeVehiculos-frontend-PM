@@ -29,6 +29,10 @@ import { ConcesionariosComponent } from './components/concesionarios/concesionar
 import { SafePipe } from './components/pipes/safe.pipe';
 import { OfertasComponent } from './components/ofertas/ofertas.component';
 import { FinanciacionComponent } from './components/financiacion/financiacion.component';
+import { ServiciosMantenimientoComponent } from './components/servicios-mantenimiento/servicios-mantenimiento.component';
+import { CrearOrdenServicioComponent } from './components/crear-orden-servicio/crear-orden-servicio.component';
+import { MisOrdenesServicioComponent } from './components/mis-ordenes-servicio/mis-ordenes-servicio.component';
+import { DetalleOrdenServicioComponent } from './components/detalle-orden-servicio/detalle-orden-servicio.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +55,11 @@ import { FinanciacionComponent } from './components/financiacion/financiacion.co
     ConcesionariosComponent,
     SafePipe,
     OfertasComponent,
-    FinanciacionComponent
+    FinanciacionComponent,
+    ServiciosMantenimientoComponent,
+    CrearOrdenServicioComponent,
+    MisOrdenesServicioComponent,
+    DetalleOrdenServicioComponent
   ],
   imports: [
     BrowserModule,

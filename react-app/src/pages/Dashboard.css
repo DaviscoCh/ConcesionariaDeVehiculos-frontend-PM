@@ -384,3 +384,49 @@
         opacity: 1;
     }
 }
+
+/* Grid de tarjetas - ahora con 6 tarjetas */
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-top: 30px;
+}
+
+/* Estado de carga */
+.stats-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    color: #666;
+}
+
+/* Iconos en las tarjetas */
+.card-icon {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+.card-number {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin: 10px 0 0 0;
+}
+
+/* Colores para las nuevas tarjetas */
+.card.citas {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.card.repuestos {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    color: white;
+}
+
+.card.servicios {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    color: white;
+}
