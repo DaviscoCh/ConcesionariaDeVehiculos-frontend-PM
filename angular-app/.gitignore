@@ -8,7 +8,7 @@
 
 # Node
 /node_modules
-npm-debug.log
+npm-debug. log
 yarn-error.log
 
 # IDEs and editors
@@ -21,17 +21,17 @@ yarn-error.log
 *.sublime-workspace
 
 # Visual Studio Code
-.vscode/*
+. vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
+!. vscode/launch.json
+! .vscode/extensions.json
 .history/*
 
 # Miscellaneous
 /.angular/cache
-.sass-cache/
-/connect.lock
+. sass-cache/
+/connect. lock
 /coverage
 /libpeerconnection.log
 testem.log
@@ -40,3 +40,19 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+# ========================================
+# 🔒 ARCHIVOS DE ENTORNO (Credenciales)
+# ========================================
+# NO subir archivos con API keys reales
+**/environments/environment. ts
+**/environments/environment. prod.ts
+
+# Permitir el template (sin credenciales)
+!**/environments/environment.template.ts
+
+# Variables de entorno generales
+. env
+*.env
+. env.local
+.env.*. local
