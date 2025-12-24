@@ -45,78 +45,63 @@ function VehiculosPage() {
         return modelo ? modelo.nombre : '';
     };
 
-    // ⭐ Agregar DESPUÉS del useEffect existente (después de línea 60)
-    useEffect(() => {
-        console.log('⚡ useEffect disparado - formData.marca_id cambió a:', formData.marca_id);
-    }, [formData.marca_id]);
+    const formatearFecha = (fecha) => {
+        if (!fecha) return '—';
+
+        // Extraer solo la parte de la fecha (YYYY-MM-DD)
+        const fechaSolo = fecha.split('T')[0];
+
+        // Formatear a DD/MM/YYYY (opcional)
+        const [anio, mes, dia] = fechaSolo.split('-');
+        return `${dia}/${mes}/${anio}`;
+
+        // O si prefieres YYYY-MM-DD, simplemente retorna: 
+        // return fechaSolo;
+    };
 
     useEffect(() => {
-        const abortController = new AbortController();
-
-        fetchVehiculos(abortController.signal);
-        fetchMarcas(abortController.signal);
-        fetchModelos(abortController.signal);
-
-        return () => {
-            abortController.abort(); // Cancelar al desmontar
-        };
+        fetchVehiculos();
+        fetchMarcas();
+        fetchModelos();
     }, []);
 
-    const fetchVehiculos = async (signal) => {
+    const fetchVehiculos = async () => {
         try {
-            const res = await axios.get('http://localhost:3000/api/vehiculos', {
-                signal,
-                timeout: 10000
-            });
+            const res = await axios.get('http://localhost:3000/api/vehiculos', { timeout: 10000 }); // 10 segundos
             setVehiculos(res.data);
         } catch (err) {
-            if (err.name !== 'CanceledError' && err.code !== 'ECONNABORTED') {
+            if (err.code === 'ECONNABORTED') {
+            }
+            if (err.code !== 'ECONNABORTED') {
                 console.error('Error al obtener vehículos:', err.message);
             }
         }
     };
 
-    const fetchMarcas = async (signal) => {
+    const fetchMarcas = async () => {
         try {
-            const res = await axios.get('http://localhost:3000/api/marcas', { signal });
-            console.log('✅ Marcas cargadas:', res.data.length);
+            const res = await axios.get('http://localhost:3000/api/marcas');
             setMarcas(res.data);
         } catch (err) {
-            if (err.name !== 'CanceledError') {
-                console.error('Error al obtener marcas:', err.message);
-            }
+            console.error('Error al obtener marcas:', err.message);
         }
     };
 
-    const fetchModelos = async (signal) => {
+    const fetchModelos = async () => {
         try {
-            const res = await axios.get('http://localhost:3000/api/modelos', { signal });
-            console.log('✅ Modelos cargados:', res.data.length);
-            console.log('📦 Modelos:', res.data);
+            const res = await axios.get('http://localhost:3000/api/modelos');
+            console.log('Modelos:', res.data);
             setModelos(res.data);
         } catch (err) {
-            if (err.name !== 'CanceledError') {
-                console.error('Error al obtener modelos:', err.message);
-            }
+            console.error('Error al obtener modelos:', err.message);
         }
     };
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-
-        console.log('🔄 handleChange ejecutado');
-        console.log('  name:', name);
-        console.log('  value:', value);
-
-        // ⭐ Usar callback para asegurar el estado más reciente
-        setFormData(prevFormData => {
-            const nuevoFormData = { ...prevFormData, [name]: value };
-            console.log('  formData actualizado:', nuevoFormData);
-            return nuevoFormData;
-        });
+        setFormData({ ...formData, [name]: value });
 
         if (name === 'marca_id') {
-            console.log('✅ Marca seleccionada:', value);
             setMarcaSeleccionada(value);
         }
     };
@@ -249,12 +234,6 @@ function VehiculosPage() {
 
     const modelosFiltrados = modelos.filter((mod) => mod.id_marca === formData.marca_id);
 
-    console.log('🔍 Filtrando modelos: ');
-    console.log('  - formData.marca_id:', formData.marca_id);
-    console.log('  - Total modelos disponibles:', modelos.length);
-    console.log('  - Modelos filtrados:', modelosFiltrados.length);
-    console.log('  - Modelos:', modelosFiltrados);
-
     return (
         <div className="vehiculos-container">
             <h2>Gestión de Vehículos</h2>
@@ -298,8 +277,7 @@ function VehiculosPage() {
                             <td>{v.tipo}</td>
                             <td>{v.estado}</td>
                             <td>{v.descripcion}</td>
-                            <td>{v.fecha_ingreso}</td>
-                            <td><img src={v.imagen_url} alt={v.modelo} /></td>
+                            <td>{formatearFecha(v.fecha_ingreso)}</td>                            <td><img src={v.imagen_url} alt={v.modelo} /></td>
                             <td>
                                 <button onClick={() => handleEdit(v)}>Editar</button>
                                 <button onClick={() => handleDelete(v.id_vehiculo)}>Eliminar</button>
