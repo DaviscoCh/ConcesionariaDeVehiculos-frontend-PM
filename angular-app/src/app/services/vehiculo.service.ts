@@ -1,12 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from '../environments/environment';  // ← AGREGAR ESTO
 
 @Injectable({
   providedIn: 'root'
 })
 export class VehiculoService {
-  private apiUrl = 'http://localhost:3000/api/vehiculos';
+  private apiUrl = `${environment.apiUrl}/vehiculos`;  // ← CAMBIAR ESTO
 
   constructor(private http: HttpClient) { }
 
@@ -15,13 +16,12 @@ export class VehiculoService {
   }
 
   obtenerVehiculoPorId(id: string): Observable<any> {
-    return this.http.get(`http://localhost:3000/api/vehiculos/${id}`);
+    return this.http.get(`${this.apiUrl}/${id}`);  // ← CAMBIAR ESTO
   }
 
   getVehiculosFiltrados(filtros: any): Observable<any[]> {
     let params = new URLSearchParams();
 
-    // Solo agregar parámetros que tengan valor
     if (filtros.marca) params.append('marca', filtros.marca);
     if (filtros.modelo) params.append('modelo', filtros.modelo);
     if (filtros.anio) params.append('anio', filtros.anio.toString());
@@ -38,5 +38,4 @@ export class VehiculoService {
 
     return this.http.get<any[]>(url);
   }
-
 }
