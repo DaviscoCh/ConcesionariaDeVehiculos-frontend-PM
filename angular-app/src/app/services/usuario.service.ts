@@ -4,12 +4,13 @@ import { Observable, tap } from 'rxjs';
 import { BehaviorSubject } from 'rxjs';
 import { isPlatformBrowser } from '@angular/common';
 import { Inject, PLATFORM_ID } from '@angular/core';
+import { environment } from '../environments/environment';  // ← AGREGAR ESTO
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsuarioService {
-  private apiUrl = 'http://localhost:3000/api/usuario';
+  private apiUrl = `${environment.apiUrl}/usuario`;  // ← CAMBIAR ESTO
   private autenticado = new BehaviorSubject<boolean>(this.isAuthenticated());
   autenticado$ = this.autenticado.asObservable();
 
@@ -44,9 +45,15 @@ export class UsuarioService {
 
         this.autenticado.next(true);
 
-        // Redirección de admin
+        // ✅ Redirección de admin basada en el entorno
         if (response.rol === 'admin') {
-          window.location.href = 'http://localhost:3001/admin/dashboard';
+          if (environment.production) {
+            // En producción: redirigir a /admin (mismo dominio, diferente app)
+            window.location.href = '/admin/dashboard';
+          } else {
+            // En desarrollo: redirigir al puerto de React
+            window.location.href = 'http://localhost:3001/admin/dashboard';
+          }
         }
       })
     );
@@ -63,7 +70,7 @@ export class UsuarioService {
   }
 
   obtenerPorCorreo(correo: string): Observable<any> {
-    const url = `http://localhost:3000/api/personas/buscar?correo=${encodeURIComponent(correo)}`;
+    const url = `${environment.apiUrl}/personas/buscar?correo=${encodeURIComponent(correo)}`;  // ← CAMBIAR ESTO
     return this.http.get(url);
   }
 
