@@ -1,19 +1,19 @@
 {
-  "$schema":  "./node_modules/@angular/cli/lib/config/schema.json",
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
-  "newProjectRoot":  "projects",
-  "projects":  {
+  "newProjectRoot": "projects",
+  "projects": {
     "frontend-concesionaria": {
       "projectType": "application",
       "schematics": {
-        "@schematics/angular:component":  {
+        "@schematics/angular:component": {
           "standalone": false
         },
         "@schematics/angular:directive": {
           "standalone": false
         },
         "@schematics/angular: pipe": {
-          "standalone":  false
+          "standalone": false
         }
       },
       "root": "",
@@ -22,19 +22,19 @@
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:application",
-          "options":  {
+          "options": {
             "outputPath": "dist/frontend-concesionaria",
             "index": "src/index.html",
             "browser": "src/main.ts",
-            "polyfills":  [
+            "polyfills": [
               "zone.js"
             ],
             "tsConfig": "tsconfig.app.json",
             "assets": [
               {
                 "glob": "**/*",
-                "input":  "public",
-                "output":  "/"
+                "input": "public",
+                "output": "/"
               }
             ],
             "styles": [
@@ -46,7 +46,7 @@
               "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
             ]
           },
-          "configurations":  {
+          "configurations": {
             "production": {
               "budgets": [
                 {
@@ -72,15 +72,15 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
-          "configurations":  {
+          "configurations": {
             "production": {
               "buildTarget": "frontend-concesionaria:build:production"
             },
             "development": {
-              "buildTarget": "frontend-concesionaria: build:development"
+              "buildTarget": "frontend-concesionaria:build:development"
             }
           },
-          "defaultConfiguration":  "development"
+          "defaultConfiguration": "development"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n"
@@ -109,6 +109,6 @@
     }
   },
   "cli": {
-    "analytics":  false
+    "analytics": false
   }
 }
