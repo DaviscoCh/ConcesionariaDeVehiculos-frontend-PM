@@ -20,7 +20,7 @@ export interface ServicioMantenimiento {
   providedIn: 'root'
 })
 export class ServicioMantenimientoService {
-  private apiUrl = `${environment.apiUrl}/servicios-mantenimiento`;
+  private apiUrl = `http://localhost:3000/api/servicios-mantenimiento`;
 
   constructor(private http: HttpClient) { }
 

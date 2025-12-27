@@ -17,7 +17,7 @@ export interface Tarjeta {
   providedIn: 'root'
 })
 export class TarjetaService {
-  private apiUrl = `${environment.apiUrl}/tarjetas`;
+  private apiUrl = `http://localhost:3000/api/tarjetas`;
 
   constructor(private http: HttpClient) { }
 

@@ -45,7 +45,7 @@ export interface CrearOrdenData {
   providedIn: 'root'
 })
 export class OrdenServicioService {
-  private apiUrl = `${environment.apiUrl}/ordenes-servicio`;
+  private apiUrl = `http://localhost:3000/api/ordenes-servicio`;
 
   constructor(private http: HttpClient) { }
 
