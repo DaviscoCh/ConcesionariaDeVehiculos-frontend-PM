@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { environment } from '../environments/environment';  // ← AGREGAR ESTO
 
 export interface ItemCarrito {
   id_repuesto: string;
@@ -18,8 +19,8 @@ export interface ItemCarrito {
   providedIn: 'root'
 })
 export class RepuestoService {
-  private apiUrl = 'http://localhost:3000/api/repuestos';
-  private comprasUrl = 'http://localhost:3000/api/compras-repuestos';
+  private apiUrl = `${environment.apiUrl}/repuestos`;  // ← CAMBIAR ESTO
+  private comprasUrl = `${environment.apiUrl}/compras-repuestos`;  // ← CAMBIAR ESTO
 
   // Carrito de compras en memoria
   private carritoSubject = new BehaviorSubject<ItemCarrito[]>([]);

@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { environment } from '../environments/environment';  // ← AGREGAR ESTO
 
 @Injectable({
   providedIn: 'root'
 })
 export class FavoritoService {
-  private apiUrl = 'http://localhost:3000/api/favoritos';
+  private apiUrl = `${environment.apiUrl}/favoritos`;  // ← CAMBIAR ESTO
 
   // Subject para actualizar la lista de favoritos en tiempo real
   private favoritosSubject = new BehaviorSubject<any[]>([]);

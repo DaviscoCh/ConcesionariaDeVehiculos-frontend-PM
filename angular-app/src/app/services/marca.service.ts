@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../environments/environment';  // ← AGREGAR ESTO
 
 @Injectable({
   providedIn: 'root'
 })
 export class MarcaService {
-  private apiUrl = 'http://localhost:3000/api/marcas';
+  private apiUrl = `${environment.apiUrl}/marcas`;  // ← CAMBIAR ESTO
 
   constructor(private http: HttpClient) { }
 
@@ -22,6 +23,6 @@ export class MarcaService {
 
   // Obtener vehículos por marca
   obtenerVehiculosPorMarca(id_marca: string): Observable<any> {
-    return this.http.get(`http://localhost:3000/api/vehiculos/marca/${id_marca}`);
+    return this.http.get(`${environment.apiUrl}/vehiculos/marca/${id_marca}`);  // ← CAMBIAR ESTO
   }
 }

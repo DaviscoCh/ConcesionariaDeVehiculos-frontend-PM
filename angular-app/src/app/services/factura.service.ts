@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../environments/environment';  // ← AGREGAR ESTO
 
 @Injectable({
   providedIn: 'root'
 })
 export class FacturaService {
-  private apiUrl = 'http://localhost:3000/api/facturas';
+  private apiUrl = `${environment.apiUrl}/facturas`;  // ← CAMBIAR ESTO
 
   constructor(private http: HttpClient) { }
 

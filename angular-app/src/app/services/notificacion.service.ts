@@ -3,6 +3,7 @@ import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
 import { Observable, BehaviorSubject, interval } from 'rxjs';
 import { isPlatformBrowser } from '@angular/common';
 import { switchMap, startWith } from 'rxjs/operators';
+import { environment } from '../environments/environment';  // ← AGREGAR ESTO
 
 export interface Notificacion {
   id_notificacion: string;
@@ -22,7 +23,7 @@ export interface Notificacion {
   providedIn: 'root'
 })
 export class NotificacionService {
-  private apiUrl = 'http://localhost:3000/api/notificaciones';
+  private apiUrl = `${environment.apiUrl}/notificaciones`;  // ← CAMBIAR ESTO
   private contadorSubject = new BehaviorSubject<number>(0);
   public contador$ = this.contadorSubject.asObservable();
 

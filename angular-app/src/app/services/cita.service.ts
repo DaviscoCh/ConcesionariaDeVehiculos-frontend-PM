@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from '../environments/environment';  // ← AGREGAR ESTO
 
 // Interfaz para el mejor horario disponible
 interface MejorHorario {
@@ -15,7 +16,7 @@ interface MejorHorario {
   providedIn: 'root'
 })
 export class CitaService {
-  private apiUrl = 'http://localhost:3000/api/citas';
+  private apiUrl = `${environment.apiUrl}/citas`;  // ← CAMBIAR ESTO
 
   constructor(private http: HttpClient) { }
 
