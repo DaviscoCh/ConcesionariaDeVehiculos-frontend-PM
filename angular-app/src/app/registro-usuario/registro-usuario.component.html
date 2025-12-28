@@ -1,53 +1,87 @@
 <div style="height: 55px;"></div>
-<section class="login-section d-flex align-items-center justify-content-center">
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-md-5 col-lg-4">
-        <div class="card shadow-lg p-4 rounded-4">
-          <h2 class="text-center fw-bold mb-4">Iniciar sesión</h2>
+<!-- VISTA 1: LOGIN NORMAL -->
+<div class="login-container" *ngIf="!requiresTwoFactor">
+  <div class="login-card">
+    <div class="login-header">
+      <h1>🚗 CarPremier</h1>
+      <p>Inicia sesión en tu cuenta</p>
+    </div>
 
-          <form [formGroup]="loginForm" (ngSubmit)="login()">
-            <!-- Correo -->
-            <div class="mb-3">
-              <label for="correo" class="form-label">Correo electrónico</label>
-              <input id="correo" type="email" class="form-control" formControlName="correo"
-                [class.is-invalid]="loginForm.get('correo')?.invalid && loginForm.get('correo')?.touched">
-              <div class="invalid-feedback">
-                Por favor ingresa un correo válido.
-              </div>
-            </div>
-
-            <!-- Contraseña -->
-            <div class="mb-4">
-              <label for="password" class="form-label">Contraseña</label>
-              <input id="password" type="password" class="form-control" formControlName="password"
-                [class.is-invalid]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
-              <div class="invalid-feedback">
-                La contraseña es requerida.
-              </div>
-            </div>
-
-            <!-- Botón -->
-            <div class="d-grid">
-              <button type="submit" class="btn btn-primary btn-lg" [disabled]="loginForm.invalid || cargando">
-                <i *ngIf="cargando" class="spinner-border spinner-border-sm me-2"></i>
-                {{ cargando ? 'Ingresando...' : 'Iniciar sesión' }}
-              </button>
-            </div>
-          </form>
-
-          <!-- Respuesta de prueba -->
-          <div *ngIf="respuesta" class="mt-4">
-            <h5>Respuesta:</h5>
-            <pre class="bg-light p-2 rounded">{{ respuesta | json }}</pre>
-          </div>
-
-          <!-- Enlace de registro -->
-          <div class="text-center mt-3">
-            <small>¿No tienes cuenta? <a routerLink="/registro">Regístrate aquí</a></small>
-          </div>
-        </div>
+    <form [formGroup]="loginForm" (ngSubmit)="login()">
+      <div class="form-group">
+        <label for="correo">Correo Electrónico</label>
+        <input type="email" id="correo" formControlName="correo" placeholder="tucorreo@ejemplo.com" class="form-control"
+          [class.invalid]="loginForm.get('correo')?.invalid && loginForm.get('correo')?.touched" />
+        <small *ngIf="loginForm.get('correo')?.invalid && loginForm.get('correo')?.touched" class="error-text">
+          Ingresa un correo válido
+        </small>
       </div>
+
+      <div class="form-group">
+        <label for="password">Contraseña</label>
+        <input type="password" id="password" formControlName="password" placeholder="••••••••" class="form-control"
+          [class.invalid]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" />
+        <small *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="error-text">
+          La contraseña es requerida
+        </small>
+      </div>
+
+      <button type="submit" class="btn-primary" [disabled]="cargando || loginForm.invalid">
+        <span *ngIf="!cargando">Iniciar Sesión</span>
+        <span *ngIf="cargando">
+          <i class="spinner"></i> Validando...
+        </span>
+      </button>
+    </form>
+
+    <div class="login-footer">
+      <p>¿No tienes cuenta? <a routerLink="/registro-persona">Regístrate aquí</a></p>
     </div>
   </div>
-</section>
+</div>
+
+<!-- VISTA 2: VERIFICACIÓN 2FA -->
+<div class="login-container" *ngIf="requiresTwoFactor">
+  <div class="login-card verification-card">
+    <div class="login-header">
+      <div class="icon-2fa">🔐</div>
+      <h1>Verificación en Dos Pasos</h1>
+      <p>Hemos enviado un código de verificación a:</p>
+      <p class="email-highlight">{{ correoUsuario }}</p>
+    </div>
+
+    <form [formGroup]="codeForm" (ngSubmit)="verifyCode()">
+      <div class="form-group">
+        <label for="codigo">Código de Verificación</label>
+        <input type="text" id="codigo" formControlName="codigo" placeholder="000000" class="form-control code-input"
+          maxlength="6" autocomplete="off"
+          [class.invalid]="codeForm.get('codigo')?.invalid && codeForm.get('codigo')?.touched" />
+        <small class="help-text">Ingresa el código de 6 dígitos</small>
+        <small *ngIf="codeForm.get('codigo')?.invalid && codeForm.get('codigo')?.touched" class="error-text">
+          El código debe tener 6 dígitos
+        </small>
+      </div>
+
+      <button type="submit" class="btn-primary" [disabled]="cargando || codeForm.invalid">
+        <span *ngIf="!cargando">Verificar Código</span>
+        <span *ngIf="cargando">
+          <i class="spinner"></i> Verificando...
+        </span>
+      </button>
+    </form>
+
+    <div class="verification-actions">
+      <button type="button" class="btn-secondary" (click)="resendCode()" [disabled]="cargando">
+        🔄 Reenviar Código
+      </button>
+      <button type="button" class="btn-link" (click)="cancelVerification()">
+        ← Volver al login
+      </button>
+    </div>
+
+    <div class="info-box">
+      <p>⚠️ El código expira en 5 minutos</p>
+      <p>Si no recibiste el código, revisa tu carpeta de spam</p>
+    </div>
+  </div>
+</div>
