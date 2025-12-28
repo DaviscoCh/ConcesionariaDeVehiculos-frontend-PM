@@ -1,159 +1,291 @@
-/* === MarcasPage.css === */
-
-.marcas-container {
-    flex: 1;
-    padding: 40px;
+/* Layout principal */
+.marcas-page {
+    padding: 20px;
+    max-width: 1400px;
+    margin: 0 auto;
     background-color: #f9fafc;
     min-height: 100vh;
-    color: #111a2e;
 }
 
-.marcas-container h2 {
-    font-size: 1.8rem;
-    font-weight: 700;
-    margin-bottom: 25px;
-    color: #111a2e;
-}
-
-/* Mensaje de éxito */
-.marcas-container>div[style] {
-    background-color: #eafcf0;
-    color: #1e7c39 !important;
-    border: 1px solid #b7e4c7;
-    border-radius: 8px;
-    padding: 10px 15px;
-    width: fit-content;
+/* Header */
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 20px;
-    font-weight: 500;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #e0e0e0;
 }
 
-/* === Tabla === */
+.header-left {
+    flex: 1;
+}
+
+.page-title {
+    margin: 0;
+    color: #2c3e50;
+    font-size: 28px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 700;
+}
+
+.page-title .icon {
+    font-size: 32px;
+}
+
+.page-subtitle {
+    margin: 5px 0 0 0;
+    color: #7f8c8d;
+    font-size: 14px;
+}
+
+/* Alert de éxito */
+.alert {
+    padding: 15px 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    animation: slideDown 0.3s ease;
+}
+
+.alert-success {
+    background: #d4edda;
+    color: #155724;
+    border-left: 4px solid #28a745;
+}
+
+.alert-icon {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.alert-close {
+    background: transparent;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: #155724;
+    padding: 0 5px;
+}
+
+.alert-close:hover {
+    opacity: 0.7;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Tarjetas de stats */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.stat-card {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s;
+}
+
+.stat-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+}
+
+.stat-icon {
+    font-size: 40px;
+}
+
+.stat-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-label {
+    font-size: 12px;
+    color: #7f8c8d;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.stat-value {
+    font-size: 28px;
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+/* Tabla */
+.table-container {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(17, 26, 46, 0.1);
+    overflow: hidden;
+    margin-top: 20px;
+}
+
 .marcas-table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 25px;
-    background-color: #ffffff;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 4px 12px rgba(17, 26, 46, 0.1);
+}
+
+.marcas-table thead {
+    background-color: #111a2e;
 }
 
 .marcas-table th {
-    background-color: #111a2e;
     color: #ffffff;
     text-align: left;
-    padding: 12px 16px;
+    padding: 15px 16px;
     font-weight: 600;
-    font-size: 0.95rem;
+    font-size: 14px;
     letter-spacing: 0.5px;
 }
 
 .marcas-table td {
-    padding: 12px 16px;
+    padding: 15px 16px;
     border-bottom: 1px solid #e6e9ef;
-    font-size: 0.95rem;
+    font-size: 14px;
+    color: #2c3e50;
 }
 
-.marcas-table tr:nth-child(even) {
+.marcas-table tbody tr:hover {
     background-color: #f5f7fb;
 }
 
-/* === Botones === */
-.marcas-table button {
-    border: none;
-    outline: none;
-    padding: 8px 14px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: 600;
-    transition: all 0.2s ease;
-    margin-right: 8px;
+.marcas-table tbody tr:last-child td {
+    border-bottom: none;
 }
 
-.marcas-table button:first-of-type {
-    background-color: #007bff;
-    color: #fff;
+/* Empty state */
+.empty-state {
+    text-align: center;
+    padding: 60px 20px !important;
 }
 
-.marcas-table button:first-of-type:hover {
-    background-color: #0062cc;
-}
-
-.marcas-table button:last-of-type {
-    background-color: #dc3545;
-    color: #fff;
-}
-
-.marcas-table button:last-of-type:hover {
-    background-color: #b02a37;
-}
-
-/* === Formulario (MarcasForm) === */
-form {
-    background-color: #ffffff;
-    padding: 20px 25px;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(17, 26, 46, 0.1);
-    margin-bottom: 25px;
-    max-width: 600px;
-}
-
-form label {
-    display: block;
-    margin-bottom: 6px;
-    font-weight: 600;
-    color: #111a2e;
-}
-
-form input,
-form textarea {
-    width: 100%;
-    padding: 10px 12px;
-    border: 1px solid #ccd2e3;
-    border-radius: 8px;
+.empty-icon {
+    font-size: 64px;
     margin-bottom: 15px;
-    font-size: 0.95rem;
-    transition: border-color 0.2s ease;
 }
 
-form input:focus,
-form textarea:focus {
-    border-color: #007bff;
-    outline: none;
+.empty-state h3 {
+    color: #2c3e50;
+    margin-bottom: 10px;
+    font-size: 20px;
 }
 
-form button {
-    background-color: #28a745;
-    color: white;
+.empty-state p {
+    color: #7f8c8d;
+    margin: 0;
+}
+
+/* Botones de acción */
+.action-buttons {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-start;
+}
+
+.btn-action {
+    padding: 8px 12px;
     border: none;
-    padding: 10px 16px;
-    border-radius: 8px;
-    font-weight: 600;
+    border-radius: 6px;
     cursor: pointer;
-    transition: background-color 0.2s ease;
+    font-size: 16px;
+    transition: all 0.3s;
+    background: none;
 }
 
-form button:hover {
-    background-color: #218838;
+.btn-edit {
+    color: #007bff;
+    background: #e7f3ff;
 }
 
-/* === Responsividad === */
+.btn-edit:hover {
+    background: #007bff;
+    color: white;
+    transform: scale(1.1);
+}
+
+.btn-delete {
+    color: #dc3545;
+    background: #ffe5e8;
+}
+
+.btn-delete:hover {
+    background: #dc3545;
+    color: white;
+    transform: scale(1.1);
+}
+
+/* Responsive */
 @media (max-width: 768px) {
-    .marcas-container {
-        padding: 20px;
+    .marcas-page {
+        padding: 15px;
+    }
+
+    .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .page-title {
+        font-size: 24px;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
     }
 
     .marcas-table th,
     .marcas-table td {
-        font-size: 0.85rem;
-        padding: 10px;
+        font-size: 13px;
+        padding: 12px 10px;
     }
 
-    form {
-        padding: 15px;
+    .action-buttons {
+        flex-direction: column;
+        gap: 5px;
     }
 
-    form button {
+    .btn-action {
         width: 100%;
+    }
+}
+
+/* Animación suave al cargar */
+.marcas-page>* {
+    animation: fadeInUp 0.4s ease;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }

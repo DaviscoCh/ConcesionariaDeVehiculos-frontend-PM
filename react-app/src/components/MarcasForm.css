@@ -1,80 +1,184 @@
-/* === MarcasForm.css === */
-
-.marcas-form {
-    background-color: #ffffff;
-    padding: 24px 28px;
+/* Contenedor principal del formulario */
+.marcas-form-container {
+    background: white;
     border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(17, 26, 46, 0.1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+    overflow: hidden;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Header del formulario */
+.form-header {
+    background: linear-gradient(135deg, #2c2b72 0%, #060755 100%);
+    color: white;
+    padding: 25px 30px;
+}
+
+.form-header h3 {
+    margin: 0 0 8px 0;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.form-subtitle {
+    margin: 0;
+    font-size: 14px;
+    opacity: 0.95;
+}
+
+/* Formulario */
+.marcas-form {
+    padding: 30px;
     display: flex;
     flex-direction: column;
-    gap: 1rem;
-    max-width: 600px;
+    gap: 25px;
 }
 
-/* === Campos de texto === */
-.marcas-form input {
-    width: 95%;
-    padding: 10px 14px;
-    border: 1px solid #ccd2e3;
+/* Sección del formulario */
+.form-section {
+    border: 1px solid #e9ecef;
     border-radius: 8px;
-    font-size: 0.95rem;
-    transition: border-color 0.25s ease, box-shadow 0.25s ease;
+    padding: 20px;
+    background: #f8f9fa;
+    transition: all 0.3s ease;
 }
 
-.marcas-form input:focus {
-    border-color: #007bff;
-    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.15);
+.form-section:hover {
+    border-color: #05044e;
+    box-shadow: 0 2px 8px rgba(243, 156, 18, 0.1);
+}
+
+.section-title {
+    margin: 0 0 20px 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #2c3e50;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Campo individual */
+.form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 15px;
+}
+
+.form-field:last-child {
+    margin-bottom: 0;
+}
+
+.form-field label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #495057;
+    margin-bottom: 2px;
+}
+
+.marcas-form {
+    width: 93%;
+    max-width: 93%;
+}
+
+/* Inputs y textareas */
+.marcas-form input,
+.marcas-form textarea {
+    width: 100%;
+    padding: 11px 14px;
+    border: 2px solid #dee2e6;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: inherit;
+    transition: all 0.3s ease;
+    background: white;
+    box-sizing: border-box;
+}
+
+.marcas-form input:focus,
+.marcas-form textarea:focus {
     outline: none;
+    border-color: #07103a;
+    box-shadow: 0 0 0 3px rgba(243, 156, 18, 0.1);
 }
 
-/* === Botones === */
-.marcas-form button {
+.marcas-form textarea {
+    resize: vertical;
+    min-height: 100px;
+    line-height: 1.5;
+}
+
+/* Placeholder mejorado */
+.marcas-form input::placeholder,
+.marcas-form textarea::placeholder {
+    color: #adb5bd;
+    font-style: italic;
+}
+
+/* Botones de acción */
+.form-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-top: 10px;
+    padding-top: 20px;
+    border-top: 2px solid #e9ecef;
+}
+
+.btn-submit,
+.btn-cancel {
+    padding: 13px 24px;
     border: none;
-    outline: none;
-    padding: 10px 16px;
     border-radius: 8px;
+    font-size: 15px;
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.2s ease;
-    flex: 1;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
 }
 
-.marcas-form button[type="submit"] {
-    background-color: #28a745;
+.btn-submit {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    color: white;
+    box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+}
+
+.btn-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
+}
+
+.btn-submit:active {
+    transform: translateY(0);
+}
+
+.btn-cancel {
+    background: #6c757d;
     color: white;
 }
 
-.marcas-form button[type="submit"]:hover {
-    background-color: #218838;
+.btn-cancel:hover {
+    background: #5a6268;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3);
 }
 
-.marcas-form button[type="button"] {
-    background-color: #6c757d;
-    color: white;
+.btn-cancel:active {
+    transform: translateY(0);
 }
 
-.marcas-form button[type="button"]:hover {
-    background-color: #5a6268;
-}
-
-/* === Mensaje de éxito === */
-.mensaje-exito {
-    background-color: #eafcf0;
-    color: #1e7c39;
-    border: 1px solid #b7e4c7;
-    border-radius: 8px;
-    padding: 8px 12px;
-    font-weight: 500;
-    width: fit-content;
-    margin-top: 10px;
-    animation: fadeIn 0.4s ease;
-}
-
-/* Animación sutil de aparición */
+/* Animaciones */
 @keyframes fadeIn {
     from {
         opacity: 0;
-        transform: translateY(-5px);
+        transform: translateY(-10px);
     }
 
     to {
@@ -83,17 +187,39 @@
     }
 }
 
-/* === Responsividad === */
+.marcas-form-container {
+    animation: fadeIn 0.4s ease;
+}
+
+/* Estados hover mejorados */
+.marcas-form input:hover,
+.marcas-form textarea:hover {
+    border-color: #adb5bd;
+}
+
+/* Responsive */
 @media (max-width: 768px) {
+    .marcas-form-container {
+        margin: 0 10px 20px 10px;
+    }
+
+    .form-header {
+        padding: 20px;
+    }
+
+    .form-header h3 {
+        font-size: 20px;
+    }
+
     .marcas-form {
-        padding: 18px;
+        padding: 20px;
     }
 
-    .marcas-form div {
-        flex-direction: column;
+    .form-section {
+        padding: 15px;
     }
 
-    .marcas-form button {
-        width: 100%;
+    .form-actions {
+        grid-template-columns: 1fr;
     }
 }

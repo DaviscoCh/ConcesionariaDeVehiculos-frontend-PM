@@ -724,3 +724,471 @@
 .table-container::-webkit-scrollbar-thumb:hover {
     background: #555;
 }
+
+/* MICROSERVICIO DE FILTRO */
+
+/* Agrega estos estilos a tu ServiciosPage.css existente */
+
+/* Header Actions */
+.header-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.btn-filtros,
+.btn-estadisticas,
+.btn-mas-solicitados,
+.btn-rapidos {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.btn-filtros {
+    background: #3498db;
+    color: white;
+}
+
+.btn-filtros:hover {
+    background: #2980b9;
+}
+
+.btn-filtros.active {
+    background: #27ae60;
+}
+
+.btn-estadisticas {
+    background: #9b59b6;
+    color: white;
+}
+
+.btn-estadisticas:hover {
+    background: #8e44ad;
+}
+
+.btn-mas-solicitados {
+    background: #f39c12;
+    color: white;
+}
+
+.btn-mas-solicitados:hover {
+    background: #e67e22;
+}
+
+.btn-rapidos {
+    background: #1abc9c;
+    color: white;
+}
+
+.btn-rapidos:hover {
+    background: #16a085;
+}
+
+/* Panel de Filtros (reutiliza estilos de RepuestosPage) */
+.filtros-panel {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    border: 2px solid #3498db;
+}
+
+.filtros-panel h3 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: #2c3e50;
+    font-size: 20px;
+}
+
+.filtros-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.filtro-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.filtro-item label {
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: #2c3e50;
+    font-size: 14px;
+}
+
+.filtro-item input,
+.filtro-item select {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: border-color 0.3s;
+}
+
+.filtro-item input:focus,
+.filtro-item select:focus {
+    outline: none;
+    border-color: #3498db;
+}
+
+.filtros-acciones {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.btn-aplicar-filtros,
+.btn-limpiar-filtros {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+    transition: all 0.3s;
+}
+
+.btn-aplicar-filtros {
+    background: #27ae60;
+    color: white;
+}
+
+.btn-aplicar-filtros:hover {
+    background: #229954;
+}
+
+.btn-limpiar-filtros {
+    background: #e74c3c;
+    color: white;
+}
+
+.btn-limpiar-filtros:hover {
+    background: #c0392b;
+}
+
+.filtros-activos-badge {
+    display: inline-block;
+    background: #27ae60;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    margin-top: 10px;
+}
+
+/* Panel de Estadísticas */
+.estadisticas-panel {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    border: 2px solid #9b59b6;
+}
+
+.estadisticas-header,
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.estadisticas-header h3,
+.panel-header h3 {
+    margin: 0;
+    color: #2c3e50;
+}
+
+.btn-cerrar-stats {
+    background: #e74c3c;
+    color: white;
+    border: none;
+    padding: 5px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.btn-cerrar-stats:hover {
+    background: #c0392b;
+}
+
+.estadisticas-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.stat-card {
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+}
+
+.stat-card:hover {
+    transform: translateY(-3px);
+}
+
+.stat-card h4 {
+    margin: 0 0 10px 0;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.stat-number {
+    font-size: 28px;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.stat-card.total {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.stat-card.repuestos {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    color: white;
+}
+
+.stat-card.sin-repuestos {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    color: white;
+}
+
+.stat-card.precio-prom {
+    background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+    color: white;
+}
+
+.stat-card.precio-min {
+    background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+    color: white;
+}
+
+.stat-card.precio-max {
+    background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);
+    color: white;
+}
+
+.stat-card.tiempo {
+    background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+    color: #2c3e50;
+}
+
+/* Categorías Stats */
+.categorias-stats {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 2px solid #ecf0f1;
+}
+
+.categorias-stats h4 {
+    margin-bottom: 15px;
+    color: #2c3e50;
+}
+
+.categorias-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+}
+
+.categoria-card {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 6px;
+    border-left: 4px solid #3498db;
+}
+
+.categoria-card h5 {
+    margin: 0 0 8px 0;
+    color: #2c3e50;
+    font-size: 14px;
+}
+
+.categoria-card p {
+    margin: 4px 0;
+    font-size: 13px;
+    color: #7f8c8d;
+}
+
+/* Panel de Más Solicitados */
+.mas-solicitados-panel,
+.rapidos-panel {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    border: 2px solid #f39c12;
+}
+
+.rapidos-panel {
+    border-color: #1abc9c;
+}
+
+.no-results {
+    text-align: center;
+    padding: 30px;
+    color: #95a5a6;
+    font-size: 16px;
+}
+
+/* Lista de Servicios */
+.servicios-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.servicio-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 6px;
+    border-left: 4px solid #f39c12;
+    transition: all 0.3s;
+}
+
+.servicio-item:hover {
+    background: #ecf0f1;
+    transform: translateX(5px);
+}
+
+.servicio-item.rapido {
+    border-left-color: #1abc9c;
+}
+
+.item-rank {
+    font-size: 24px;
+    font-weight: bold;
+    color: #f39c12;
+    min-width: 50px;
+}
+
+.item-info {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    flex: 1;
+}
+
+.item-info strong {
+    color: #2c3e50;
+    font-size: 15px;
+}
+
+.item-categoria {
+    color: #7f8c8d;
+    font-size: 13px;
+}
+
+.item-stats {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.stat-badge {
+    padding: 5px 12px;
+    background: #3498db;
+    color: white;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.tiempo-badge {
+    padding: 5px 12px;
+    background: #1abc9c;
+    color: white;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.repuestos-badge {
+    padding: 5px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.repuestos-badge.con {
+    background: #e67e22;
+    color: white;
+}
+
+.repuestos-badge.sin {
+    background: #27ae60;
+    color: white;
+}
+
+.item-precio {
+    color: #27ae60;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.item-tiempo {
+    color: #7f8c8d;
+    font-size: 13px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .header-actions {
+        width: 100%;
+        flex-direction: column;
+    }
+
+    .header-actions button {
+        width: 100%;
+    }
+
+    .filtros-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .estadisticas-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .categorias-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .servicio-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .item-stats {
+        flex-wrap: wrap;
+        width: 100%;
+    }
+
+    .item-rank {
+        align-self: flex-start;
+    }
+}

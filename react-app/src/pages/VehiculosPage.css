@@ -16,7 +16,7 @@
 }
 
 /* === Mensaje de éxito === */
-.vehiculos-container > div[style] {
+.vehiculos-container>div[style] {
     background-color: #eafcf0;
     color: #1e7c39 !important;
     border: 1px solid #b7e4c7;
@@ -36,6 +36,28 @@
     border-radius: 12px;
     overflow: hidden;
     box-shadow: 0 4px 12px rgba(17, 26, 46, 0.1);
+}
+
+.btn-edit {
+    color: #007bff;
+    background: #e7f3ff;
+}
+
+.btn-edit:hover {
+    background: #007bff;
+    color: white;
+    transform: scale(1.1);
+}
+
+.btn-delete {
+    color: #dc3545;
+    background: #ffe5e8;
+}
+
+.btn-delete:hover {
+    background: #dc3545;
+    color: white;
+    transform: scale(1.1);
 }
 
 .vehiculos-table th {
@@ -81,24 +103,6 @@
     margin-right: 8px;
 }
 
-.vehiculos-table button:first-of-type {
-    background-color: #007bff;
-    color: #fff;
-}
-
-.vehiculos-table button:first-of-type:hover {
-    background-color: #0062cc;
-}
-
-.vehiculos-table button:last-of-type {
-    background-color: #dc3545;
-    color: #fff;
-}
-
-.vehiculos-table button:last-of-type:hover {
-    background-color: #b02a37;
-}
-
 /* === Responsividad === */
 @media (max-width: 1024px) {
     .vehiculos-table {
@@ -140,4 +144,601 @@
 
 .vehiculos-table tr:hover {
     background-color: #eef3fb;
+}
+
+/* === FILTRO DE VEHÍCULOS === */
+
+/* Agrega estos estilos a tu VehiculosPage.css existente */
+
+/* Layout principal */
+.vehiculos-page {
+    padding: 20px;
+    max-width: 1600px;
+    margin: 0 auto;
+}
+
+/* Header */
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #e0e0e0;
+}
+
+.header-left {
+    flex: 1;
+}
+
+.page-title {
+    margin: 0;
+    color: #2c3e50;
+    font-size: 28px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.page-title .icon {
+    font-size: 32px;
+}
+
+.page-subtitle {
+    margin: 5px 0 0 0;
+    color: #7f8c8d;
+    font-size: 14px;
+}
+
+.header-actions {
+    display: flex;
+    gap: 10px;
+}
+
+/* Botones del header */
+.btn-filtros,
+.btn-estadisticas {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.btn-filtros {
+    background: #3498db;
+    color: white;
+}
+
+.btn-filtros:hover {
+    background: #2980b9;
+}
+
+.btn-filtros.active {
+    background: #27ae60;
+}
+
+.btn-estadisticas {
+    background: #9b59b6;
+    color: white;
+}
+
+.btn-estadisticas:hover {
+    background: #8e44ad;
+}
+
+/* Alert de éxito */
+.alert {
+    padding: 15px 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    animation: slideDown 0.3s ease;
+}
+
+.alert-success {
+    background: #d4edda;
+    color: #155724;
+    border-left: 4px solid #28a745;
+}
+
+.alert-icon {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.alert-close {
+    background: transparent;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: #155724;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Panel de Filtros */
+.filtros-panel {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    border: 2px solid #3498db;
+}
+
+.filtros-panel h3 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: #2c3e50;
+    font-size: 20px;
+}
+
+.filtros-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.filtro-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.filtro-item label {
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: #2c3e50;
+    font-size: 14px;
+}
+
+.filtro-item input,
+.filtro-item select {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: border-color 0.3s;
+}
+
+.filtro-item input:focus,
+.filtro-item select:focus {
+    outline: none;
+    border-color: #3498db;
+}
+
+.filtros-acciones {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.btn-aplicar-filtros,
+.btn-limpiar-filtros {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+    transition: all 0.3s;
+}
+
+.btn-aplicar-filtros {
+    background: #27ae60;
+    color: white;
+}
+
+.btn-aplicar-filtros:hover {
+    background: #229954;
+}
+
+.btn-limpiar-filtros {
+    background: #e74c3c;
+    color: white;
+}
+
+.btn-limpiar-filtros:hover {
+    background: #c0392b;
+}
+
+.filtros-activos-badge {
+    display: inline-block;
+    background: #27ae60;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    margin-top: 10px;
+}
+
+/* Panel de Estadísticas */
+.estadisticas-panel {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    border: 2px solid #9b59b6;
+}
+
+.estadisticas-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.estadisticas-header h3 {
+    margin: 0;
+    color: #2c3e50;
+}
+
+.btn-cerrar-stats {
+    background: #e74c3c;
+    color: white;
+    border: none;
+    padding: 5px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.btn-cerrar-stats:hover {
+    background: #c0392b;
+}
+
+.estadisticas-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.stat-card {
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+}
+
+.stat-card:hover {
+    transform: translateY(-3px);
+}
+
+.stat-card h4 {
+    margin: 0 0 10px 0;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.stat-number {
+    font-size: 32px;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.stat-card.total {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.stat-card.disponibles {
+    background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+    color: white;
+}
+
+.stat-card.vendidos {
+    background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+    color: white;
+}
+
+.stat-card.precio-prom {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    color: white;
+}
+
+.stat-card.precio-min {
+    background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);
+    color: white;
+}
+
+.stat-card.precio-max {
+    background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+    color: #2c3e50;
+}
+
+/* Categorías Stats */
+.categorias-stats {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 2px solid #ecf0f1;
+}
+
+.categorias-stats h4 {
+    margin-bottom: 15px;
+    color: #2c3e50;
+}
+
+.categorias-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+}
+
+.categoria-card {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 6px;
+    border-left: 4px solid #3498db;
+    transition: all 0.3s;
+}
+
+.categoria-card:hover {
+    background: #ecf0f1;
+    transform: translateX(5px);
+}
+
+.categoria-card h5 {
+    margin: 0 0 8px 0;
+    color: #2c3e50;
+    font-size: 14px;
+}
+
+.categoria-card p {
+    margin: 4px 0;
+    font-size: 13px;
+    color: #7f8c8d;
+}
+
+/* Tarjetas de stats rápidas */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.stat-card.stat-primary,
+.stat-card.stat-success,
+.stat-card.stat-warning,
+.stat-card.stat-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s;
+}
+
+.stat-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.stat-icon {
+    font-size: 40px;
+}
+
+.stat-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-label {
+    font-size: 12px;
+    color: #7f8c8d;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.stat-value {
+    font-size: 28px;
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+/* Tabla de vehículos */
+.table-container {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow-x: auto;
+    margin-top: 20px;
+    max-width: 100%;
+    /* Añade esto */
+}
+
+.vehiculos-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 120px;
+}
+
+.vehiculos-table thead {
+    background: #34495e;
+    color: white;
+}
+
+.vehiculos-table th {
+    padding: 15px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.vehiculos-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #ecf0f1;
+}
+
+.vehiculos-table tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+.vehicle-image {
+    width: 80px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.price-cell {
+    font-weight: 600;
+    color: #27ae60;
+    font-size: 15px;
+}
+
+.descripcion-cell {
+    max-width: 110px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 13px;
+    color: #7f8c8d;
+}
+
+/* Badges */
+.badge {
+    padding: 5px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+    display: inline-block;
+}
+
+.badge-tipo {
+    background: #e8f4fd;
+    color: #2980b9;
+}
+
+.badge-estado {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.badge-estado.disponible {
+    background: #d4edda;
+    color: #155724;
+}
+
+.badge-estado.vendido {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.badge-estado.reservado {
+    background: #fff3cd;
+    color: #856404;
+}
+
+/* Empty state */
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.empty-icon {
+    font-size: 64px;
+    margin-bottom: 15px;
+}
+
+.empty-state h3 {
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+.empty-state p {
+    color: #7f8c8d;
+    margin-bottom: 20px;
+}
+
+/* Botones de acción */
+.action-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.btn-action {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .header-actions {
+        width: 100%;
+        flex-direction: column;
+    }
+
+    .header-actions button {
+        width: 100%;
+    }
+
+    .filtros-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .estadisticas-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .categorias-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .vehiculos-table {
+        font-size: 12px;
+    }
+
+    .vehiculos-table th,
+    .vehiculos-table td {
+        padding: 12px 10px;
+        /* Reduce el padding si es necesario */
+        border-bottom: 1px solid #ecf0f1;
+        white-space: nowrap;
+    }
+
+    .vehicle-image {
+        width: 60px;
+        /* Reduce el tamaño de la imagen */
+        height: 45px;
+        object-fit: cover;
+        border-radius: 4px;
+    }
 }
