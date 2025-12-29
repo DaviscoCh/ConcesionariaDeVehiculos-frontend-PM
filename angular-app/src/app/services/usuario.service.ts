@@ -24,9 +24,9 @@ export class UsuarioService {
 
   loginUsuario(datos: any): Observable<any> {
     // 🚫 Bloquear correos de administradores ANTES de enviar al backend
-    const correoAdmin = "admin@admin.com"; // AJÚSTALO AL QUE USAS
+    const correosAdmin = ["admin@admin.com", "acarpremier@gmail.com"];
 
-    if (datos.correo === correoAdmin) {
+    if (correosAdmin.includes(datos.correo) || datos.correo.endsWith('@carpremier.com')) {
       return new Observable((observer) => {
         observer.error({ mensaje: "No autorizado para iniciar sesión en esta sección." });
       });

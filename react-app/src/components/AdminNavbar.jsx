@@ -1,8 +1,10 @@
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { logout } from '../services/authService';
 import './AdminNavbar.css';
 
 function AdminNavbar() {
     const location = useLocation();
+    const navigate = useNavigate();
 
     const navItems = [
         { path: '/admin/dashboard', label: 'Dashboard', icon: '📊' },
@@ -10,20 +12,15 @@ function AdminNavbar() {
         { path: '/admin/marcas', label: 'Marcas', icon: '🏷️' },
         { path: '/admin/modelos', label: 'Modelos', icon: '📦' },
         { path: '/admin/citas', label: 'Citas', icon: '📅' },
-        { path: '/admin/repuestos', label: 'Repuestos', icon: '🔧' }, // ⭐ NUEVO
-        { path: '/admin/servicios', label: 'Servicios', icon: '⚙️' }  // ⭐ NUEVO
+        { path: '/admin/repuestos', label: 'Repuestos', icon: '🔧' },
+        { path: '/admin/servicios', label: 'Servicios', icon: '⚙️' }
     ];
 
     const handleLogout = () => {
-        localStorage.clear();
-        localStorage.removeItem("token");
-        localStorage.removeItem("rol");
-        localStorage.removeItem("usuario");
-        localStorage.removeItem("nombre");
-        localStorage.removeItem("apellido");
-        window.location.href = 'http://localhost:4200/home';
-        localStorage.clear();
-        sessionStorage.clear();
+        if (window.confirm('¿Estás seguro que deseas cerrar sesión?')) {
+            logout(); // Usa la función del servicio
+            navigate('/admin/login'); // Redirige al login de React
+        }
     };
 
     return (
@@ -38,9 +35,11 @@ function AdminNavbar() {
                         </Link>
                     </li>
                 ))}
-                <button className="logout-button" onClick={handleLogout}>
-                    🔓 Cerrar sesión
-                </button>
+                <li>
+                    <button className="logout-button" onClick={handleLogout}>
+                        🚪 Cerrar Sesión
+                    </button>
+                </li>
             </ul>
         </aside>
     );
