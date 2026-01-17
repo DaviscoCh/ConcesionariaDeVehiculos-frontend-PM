@@ -117,11 +117,11 @@
                         <div class="tarjeta-tipo">{{ tarjeta.tipo }}</div>
                         <div class="tarjeta-numero">{{ formatearNumeroTarjeta(tarjeta.numero) }}</div>
                         <div class="tarjeta-nombre">{{ tarjeta.nombre }}</div>
-                        <div class="tarjeta-saldo">
+                        <!-- <div class="tarjeta-saldo">
                             Saldo: ${{ tarjeta.saldo.toFixed(2) }}
                             <span *ngIf="tarjeta.saldo < total" class="saldo-insuficiente">⚠️ Insuficiente</span>
                         </div>
-
+-->
                         <div class="check-icon" *ngIf="tarjetaSeleccionada === tarjeta.id_tarjeta">
                             ✓
                         </div>

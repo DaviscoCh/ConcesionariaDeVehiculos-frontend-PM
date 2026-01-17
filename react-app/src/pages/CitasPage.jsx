@@ -404,13 +404,7 @@ function CitasPage() {
                                     </td>
                                     <td className="td-acciones">
                                         {renderizarBotones(cita)}
-                                        <button
-                                            className="btn-eliminar"
-                                            onClick={() => handleDelete(cita.id_cita)}
-                                            title="Eliminar cita"
-                                        >
-                                            🗑️
-                                        </button>
+
                                     </td>
                                 </tr>
                             ))

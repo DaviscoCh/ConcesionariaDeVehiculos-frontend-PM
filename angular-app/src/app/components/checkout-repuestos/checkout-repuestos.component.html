@@ -90,10 +90,11 @@
                                     <div class="tarjeta-numero">{{ enmascaradoTarjeta(tarjeta.numero) }}</div>
                                     <div class="tarjeta-nombre">{{ tarjeta.nombre }}</div>
                                     <div class="tarjeta-saldo">
-                                        Saldo disponible:
+                                        <!--Saldo disponible:
                                         <strong [class.text-danger]="convertirANumero(tarjeta.saldo) < obtenerTotal()">
                                             ${{ tarjeta.saldo | number:'1.2-2' }}
                                         </strong>
+                                        -->
                                     </div>
                                 </div>
 
